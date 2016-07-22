@@ -38,6 +38,5 @@ ln ~/devenv/runcoms/zshrc ~/.zprezto/runcoms/zshrc
 #cp ~/zsh-history-substring-search.zsh ~/devenv/zsh-history-substring-search.zsh
 #cp -R ~/.vim/after ~/devenv/.vim/after
 #cp -R ~/.vim/autoload ~/devenv/.vim/autoload
-#cp -R ~/.zprezto/runcom ~/devenv/runcoms
-#cp -R ~/.vim/after ~/devenv/runcoms
+#cp -R ~/.zprezto/runcom ~/devenv/runcom
 
