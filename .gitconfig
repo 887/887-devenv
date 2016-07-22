@@ -1,0 +1,9 @@
+[user]
+	email = 2300887@gmail.com
+	name = 887
+[mergetool "fugitive"]
+	cmd = vim -f -c \"Gdiff\" \"$MERGED\"
+[merge]
+    tool = meld
+[diff]
+    tool = meld

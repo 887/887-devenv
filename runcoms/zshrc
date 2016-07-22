@@ -1,0 +1,63 @@
+#
+# Executes commands at the start of an interactive session.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
+
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# Customize to your needs...
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=10000
+SAVEHIST=10000
+unsetopt beep
+bindkey -v
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '$HOME/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+
+source ~/zsh-history-substring-search.zsh
+
+# OPTION 1: for most systems
+zmodload zsh/terminfo
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+
+
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+
+export TERM=xterm-256color
+
+#this prevents switching to the menu
+#unsetopt automenu
+
+#this works but you have to use arrowkeys and press ctl+x 1
+##-*-shell-script-*-
+#autoload predict-on
+#autoload predict-off
+
+## you may also wish to bind it to some keys...
+#zle -N predict-on
+#zle -N predict-off
+#bindkey '^X1' predict-on
+#bindkey '^X2' predict-off
+
+
+#fish like autocompletion.. exactly what the doctor ordered :)
+#https://github.com/zsh-users/zsh-autosuggestions
+#https://asciinema.org/a/37390
+#git clone git://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+alias vim="nvim"
