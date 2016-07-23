@@ -1,5 +1,4 @@
-#check out this repo to ~/devenv (type git clone in ~)
-
+#check out this repo to ~/devenv (type git clone in ~) or rename later fot this to succeed
 cd ~/devenv
 
 mkdir ~/.vim
@@ -8,6 +7,11 @@ mkdir ~/.config/nvim
 ln -sfn ./vim/plugged ~/.config/nvim/
 
 #delete if these allready exist
+#(carefull with -Rm if symlinks allready exist, otherwise the orgiginalss get killed)
+#rm ~/.vim/after
+#rm ~/.vim/autoload
+#rm ~/.config/nvim/after
+#rm ~/.config/nvim/autoload
 ln -s ~/devenv/vim/after ~/.vim/
 ln -s ~/devenv/vim/autoload ~/.vim/
 ln -s ~/devenv/vim/after ~/.config/nvim/
@@ -19,7 +23,7 @@ ln ~/devenv/.gvimrc ~/.gvimrc
 ln ~/devenv/.tmux.conf ~/.tmux.conf
 ln ~/devenv/.gitconfig ~/.gitconfig
 ln ~/devenv/.ctags ~/.ctags
-ln ~/devenv/zsh-history-substring-search.zshm ~/zsh-history-substring-search.zshm
+ln ~/devenv/zsh-history-substring-search.zsh ~/zsh-history-substring-search.zsh
 
 #install zprezto before this
 ln ~/devenv/runcoms/zprofile ~/.zprezto/runcoms/zprofile
