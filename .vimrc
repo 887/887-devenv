@@ -114,6 +114,7 @@ Plug 'majutsushi/tagbar'
 Plug 'milkypostman/vim-togglelist'
 Plug 'cespare/vim-toml'
 Plug 'airblade/vim-rooter'
+Plug 'haya14busa/incsearch.vim'
 
 if has("nvim")
     Plug 'critiqjo/lldb.nvim'
