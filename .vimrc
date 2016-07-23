@@ -115,6 +115,7 @@ Plug 'milkypostman/vim-togglelist'
 Plug 'cespare/vim-toml'
 Plug 'airblade/vim-rooter'
 Plug 'haya14busa/incsearch.vim'
+"Plug 'haya14busa/incsearch-easymotion.vim'
 
 if has("nvim")
     Plug 'critiqjo/lldb.nvim'
@@ -753,3 +754,33 @@ imap <M-S-j> 	<C-n>
 imap <c-k> 		<C-p>
 imap <c-j> 		<C-n>
 imap <c-l> 		<C-n>
+
+"easier smart case easymotion
+let g:EasyMotion_smartcase = 1
+let g:EasyMotion_use_smartsign_us = 1 " US layout
+
+"incsearch!
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+
+"auto nohlseatch - do anything but searchling and it goes away 
+let g:incsearch#auto_nohlsearch = 1
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+map *  <Plug>(incsearch-nohl-*)
+map #  <Plug>(incsearch-nohl-#)
+map g* <Plug>(incsearch-nohl-g*)
+map g# <Plug>(incsearch-nohl-g#)
+
+"easymotion search.. press enter after search to jump to result - meh to much truble
+"map  / <Plug>(easymotion-sn)
+"omap / <Plug>(easymotion-tn)
+"map  n <Plug>(easymotion-next)
+"map  N <Plug>(easymotion-prev)
+
+"incsearch easymotion mappings
+map z/ <Plug>(incsearch-easymotion-/)
+map z? <Plug>(incsearch-easymotion-?)
+map zg/ <Plug>(incsearch-easymotion-stay)
+
