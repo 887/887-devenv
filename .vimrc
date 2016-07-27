@@ -116,6 +116,7 @@ Plug 'cespare/vim-toml'
 Plug 'airblade/vim-rooter'
 Plug 'haya14busa/incsearch.vim'
 "Plug 'haya14busa/incsearch-easymotion.vim'
+Plug 'djoshea/vim-autoread'
 
 if has("nvim")
     Plug 'critiqjo/lldb.nvim'
@@ -201,8 +202,11 @@ let g:ycm_rust_src_path = $RUST_SRC_PATH
 nnoremap    <F4>    :UndotreeToggle<cr>
 
 " check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change
-set autoread
-au CursorHold * checktime
+"set autoread
+"au CursorHold * checktime
+"let autoreadargs={'autoread':1} 
+"execute WatchForChanges("*",autoreadargs) 
+
 
 "nerd tree on open.. nope sucks
 "autocmd VimEnter * NERDTree
