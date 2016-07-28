@@ -202,8 +202,8 @@ let g:ycm_rust_src_path = $RUST_SRC_PATH
 nnoremap    <F4>    :UndotreeToggle<cr>
 
 " check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change
-"set autoread
-"au CursorHold * checktime
+set autoread
+au CursorHold * checktime
 "let autoreadargs={'autoread':1} 
 "execute WatchForChanges("*",autoreadargs) 
 
@@ -409,7 +409,7 @@ autocmd BufRead,BufNewFile *.conf setf dosini
 let g:EasyClipUsePasteToggleDefaults = 0
 nmap <c-p> <plug>EasyClipSwapPasteForward
 "cant mal c-s .. this is scroll lock aka terminal stop.. use c-q to quit it
-nmap <c-o> <plug>EasyClipSwapPasteBackwards
+nmap <c-i> <plug>EasyClipSwapPasteBackwards
 "make easyclip outformat its pastes.. very usefull for rust?
 let g:EasyClipAutoFormat = 1
 
