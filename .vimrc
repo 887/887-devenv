@@ -124,7 +124,7 @@ endif
 "only if tmuxline colorscheme doesn't match vim enable the following
 "and see .tmux.conf for more info on how to make them look similar again
 "colors
-"Bundle 'edkolev/tmuxline.vim'
+Plug 'edkolev/tmuxline.vim'
 
 " ============ vim -plug ===========
 " Add plugins to &runtimepath
@@ -163,6 +163,8 @@ let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>""
 
 let g:airline#extensions#tabline#enabled = 1
+
+let g:rustfmt_autosave = 1
 
 "autocmd StdinReadPre * let s:std_in=1
 "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
@@ -235,6 +237,10 @@ set mouse=a
 let g:airline#extensions#syntastic#enabled = 1
 
 let g:airline_powerline_fonts = 1
+"this needs to be set as the system/terminal font
+"gnome-terminal: edit -> profile preferences -> general -> text appearance -> custom font -> seach
+"for this: (but also leave it as a setting here)
+set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 11
 
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
@@ -246,10 +252,12 @@ endif
 "let g:airline_right_sep = ''
 "let g:airline_right_alt_sep = ''
 
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
+"let g:airline_left_sep = ''
+"let g:airline_left_alt_sep = ''
+"let g:airline_right_sep = ''
+"let g:airline_right_alt_sep = ''
+
+let g:airline#extensions#whitespace#trailing_format = 't[%s]'
 
 let g:airline_symbols.linenr = '␊'
 let g:airline_symbols.branch = '⎇'
@@ -259,8 +267,6 @@ let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
 "let g:airline_symbols.space = "\ua0"
 "airline symbols
-let g:airline_left_alt_sep = ''
-let g:airline_right_alt_sep = ''
 let g:airline_symbols.readonly = ''
 
 let g:ycm_collect_identifiers_from_tags_files = 1
