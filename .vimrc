@@ -296,8 +296,12 @@ set smartcase
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
 
-set swapfile
+"set swapfile
 set dir=~/tmp
+"having no swapfile means vim uses more memory because everything lands in memmory -> no problem
+"90% of the time i use vim to develop software and safe like every 30 seconds, same with configfiles
+"swapfiles are usefull under certain conditions.. but i can live without them so:
+set noswapfile
 
 "from https://github.com/SirVer/ultisnips/issues/376
 let g:UltiSnipsJumpForwardTrigger="<tab>"
