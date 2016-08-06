@@ -12,7 +12,7 @@
 "cd ~/.vim
 "ln -s ./bundle ./plugged
 
-"this .vimrc is now also nevoimcompatible and can be used in both, thanks to this -> if has("nvim)
+"this .vimrc is now also nevoim compatible and can be used in both, thanks to this -> if has("nvim)
 "do this to share it and also the vim-plug pluggins
 "cd .config/nvim
 "ln -s ~/.vimrc ./init.vim
@@ -206,8 +206,8 @@ nnoremap    <F4>    :UndotreeToggle<cr>
 " check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change
 set autoread
 au CursorHold * checktime
-"let autoreadargs={'autoread':1} 
-"execute WatchForChanges("*",autoreadargs) 
+"let autoreadargs={'autoread':1}
+"execute WatchForChanges("*",autoreadargs)
 
 
 "nerd tree on open.. nope sucks
@@ -322,7 +322,7 @@ set textwidth=100
 
 "Make the 100th column stand out
 "100v < 100th VISUAL line in editor
-highlight ColorColumn ctermbg=magenta
+highlight ColorColumn ctermbg=blue
 call matchadd('colorcolumn', '\%101v', 101)
 
 set hlsearch
@@ -420,7 +420,7 @@ let g:EasyClipUsePasteToggleDefaults = 0
 nmap <c-p> <plug>EasyClipSwapPasteForward
 "cant mal c-s .. this is scroll lock aka terminal stop.. use c-q to quit it
 nmap <c-i> <plug>EasyClipSwapPasteBackwards
-"make easyclip outformat its pastes.. very usefull for rust?
+"make easyclip auto formats its pastes.. Very useful for rust?
 let g:EasyClipAutoFormat = 1
 
 "easyclip: reenable some default vim bindings. i like my vim cuting, only paste can go into
@@ -437,7 +437,7 @@ nmap dd dd
 nmap D D
 "Delete the contents of line except the newline character (that is, make it blank) and do not change clipboard
 nmap dD dD
-"normalizing these SUCKSA
+"normalizing these SUCKS
 "nmap C C
 "these do not work because we have ConqueGDB print variable here!
 "<leader>p - Same as p except does not auto-format text. This is only relevant if the auto-format option is enabled
@@ -446,12 +446,12 @@ nmap dD dD
 "g<leader>P - Same as <leader>P but preserves the current cursor position
 "g<leader>p - Same as <leader>p but preserves the current cursor position
 
-"easyclip: also use ctrl-m for cuting. doesn't bite, works!
+"easyclip: also use ctrl-m for cuting. Doesn't bite, works!
 nmap <c-m> <Plug>MoveMotionPlug
 xmap <c-m> <Plug>MoveMotionXPlug
 nmap <c-m><c-m> <Plug>MoveMotionLinePlug
 
-"set clipbard to system clipboard.. its just easier https://github.com/svermeulen/vim-easyclip
+"set clipboard to system clipboard.. its just easier https://github.com/svermeulen/vim-easyclip
 "requires the 'xclip' package on arch otherwise easyclip complaints on start
 set clipboard=unnamedplus
 "https://github.com/neovim/neovim/issues/2642
@@ -717,7 +717,7 @@ else
     nnoremap g<F1> :ConqueGdb target/debug/
     "end:
     nnoremap <Leader><F1> :ConqueGdbCommand quit
-    "issue any command .. tui enable and the threaviews do NOT work in conque.. debug the assembly standalone if needed(ctrl-x crl-a, ctrl-x ctrl-1/2/3..)
+    "issue any command .. tui enable and the threaviews do NOT work in conque.. debug the assembly Standalone if needed(ctrl-x crl-a, ctrl-x ctrl-1/2/3..)
     "helpfull 'break foo' -> break on function foo();   break main.rs:6 -> break on line 6 in main.rs . ':Man gdb' or google are your firend!
     nnoremap <F12> :ConqueGdbCommand<Space>
 endif
@@ -748,7 +748,7 @@ set diffopt+=context:99999
 "au VimEnter * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
 "au VimLeave * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
 "This requires Linux with the xorg-xmodmap package installed.
-"BETTER: JUST SET IN CINNAMON AT KEYBOARD THE CAPS LOCK KEY BEHAVIOUR TO ALSO BE AN ESCAPE KEY
+"BETTER: JUST SET IN CINNAMON AT KEYBOARD THE CAPS LOCK KEY BEHAVIOR TO ALSO BE AN ESCAPE KEY
 "        .. since nobody uses it and to avoid situations like above
 
 "insert mode mappings.. these are considered ineffective but are really helpfull sometimes when
@@ -764,7 +764,7 @@ imap <M-S-l> 	<S-Right>
 imap <M-S-k> 	<C-p>
 imap <M-S-j> 	<C-n>
 "this remap is only meant to be used for c-n, but can also be done with shift-alt-h/l this
-"triggers autocompletion on existing wordmotions
+"triggers auto completion on existing word motions
 imap <c-k> 		<C-p>
 imap <c-j> 		<C-n>
 imap <c-l> 		<C-n>
@@ -778,7 +778,7 @@ map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
-"auto nohlseatch - do anything but searchling and it goes away 
+"auto nohlseatch - do anything but searching and it goes away
 let g:incsearch#auto_nohlsearch = 1
 map n  <Plug>(incsearch-nohl-n)
 map N  <Plug>(incsearch-nohl-N)
@@ -787,7 +787,7 @@ map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
 
-"easymotion search.. press enter after search to jump to result - meh to much truble
+"easymotion search.. Press enter after search to jump to result - meh to much trouble
 "map  / <Plug>(easymotion-sn)
 "omap / <Plug>(easymotion-tn)
 "map  n <Plug>(easymotion-next)
@@ -798,3 +798,28 @@ map z/ <Plug>(incsearch-easymotion-/)
 map z? <Plug>(incsearch-easymotion-?)
 map zg/ <Plug>(incsearch-easymotion-stay)
 
+"Vim build in spell checking
+set spell
+set spelllang=en_us
+"hi SpellBad guibg=#ff2929 ctermbg=224
+"hi SpellBad guibg=#0000ff ctermbg=blue
+hi SpellBad	cterm=underline gui=underline guibg=NONE ctermbg=NONE
+hi SpellCap	cterm=underline gui=underline guibg=NONE ctermbg=NONE
+hi SpellRare cterm=underline gui=underline guibg=NONE ctermbg=NONE
+hi SpellLocal cterm=underline gui=underline guibg=NONE ctermbg=NONE
+
+"]s — move to the next misspelled word
+"[s — move to the previous misspelled word
+"zg — add a word to the dictionary
+"zug — undo the addition of a word to the dictionary
+"z= — view spelling suggestions for a misspelled word
+
+"auto remove trailing spaces on save.. oh the lifetime i have spend
+"https://stackoverflow.com/questions/356126/how-can-you-automatically-remove-trailing-whitespace-in-vim#356130
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
