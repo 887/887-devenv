@@ -68,7 +68,21 @@ Plug 'rust-lang/rust.vim'
 "Plug 'xolox/vim-easytags'
 Plug 'tpope/vim-repeat'
 Plug 'svermeulen/vim-easyclip'
-Plug 'Valloric/YouCompleteMe'
+
+if has("nvim")
+    function! DoRemote(arg)
+        UpdateRemotePlugins
+    endfunction
+    Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+    Plug 'Shougo/neosnippet.vim'
+    Plug 'Shougo/neosnippet-snippets'
+    Plug 'Shougo/neoinclude.vim'
+else
+    Plug 'ervandew/supertab'
+    Plug 'Valloric/YouCompleteMe'
+    Plug 'sirver/UltiSnips'
+endif
+Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree'
 Plug 'tomtom/tcomment_vim'
 "Plug 'wellle/targets.vim'
@@ -86,17 +100,14 @@ Plug 'ctrlpvim/ctrlp.vim'
 "Plug 'shougo/unite.vim'
 Plug 'dan-t/rusty-tags'
 Plug 'Raimondi/delimitMate'
-Plug 'sirver/UltiSnips'
-Plug 'honza/vim-snippets'
 Plug 'timonv/vim-cargo'
-Plug 'Nonius/cargo.vim'
+"Plug 'Nonius/cargo.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'chaoren/vim-wordmotion'
 "Plug 'vim-scripts/EasyClipRing.vim'
 "Plug 'severin-lemaignan/vim-minimap'
 "Plug 'vim-scripts/YankRing.vim'
-Plug 'ervandew/supertab'
 Plug 'tpope/vim-surround'
 Plug 'airblade/vim-gitgutter'
 Plug 'easymotion/vim-easymotion'
@@ -115,7 +126,7 @@ Plug 'milkypostman/vim-togglelist'
 Plug 'cespare/vim-toml'
 Plug 'airblade/vim-rooter'
 Plug 'haya14busa/incsearch.vim'
-"Plug 'haya14busa/incsearch-easymotion.vim'
+Plug 'haya14busa/incsearch-easymotion.vim'
 Plug 'djoshea/vim-autoread'
 
 if has("nvim")
@@ -150,21 +161,10 @@ set laststatus=2
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
-" make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
-"this forces us to remap numbertoogletrigger though
-let g:NumberToggleTrigger = '<m-n>'
-"
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>""
 
 let g:airline#extensions#tabline#enabled = 1
 
-let g:rustfmt_autosave = 1
+"let g:rustfmt_autosave = 1
 
 "autocmd StdinReadPre * let s:std_in=1
 "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
@@ -303,27 +303,13 @@ set dir=~/tmp
 "swapfiles are usefull under certain conditions.. but i can live without them so:
 set noswapfile
 
-"from https://github.com/SirVer/ultisnips/issues/376
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
-let g:UltiSnipsExpandTrigger="<nop>"
-let g:ulti_expand_or_jump_res = 0
-function! <SID>ExpandSnippetOrReturn()
-    let snippet = UltiSnips#ExpandSnippetOrJump()
-    if g:ulti_expand_or_jump_res > 0
-        return snippet
-    else
-        return "\<C-Y>"
-    endif
-endfunction
-imap <expr> <CR> pumvisible() ? "<C-R>=<SID>ExpandSnippetOrReturn()<CR>" : "<Plug>delimitMateCR"
 
-set textwidth=100
+set textwidth=99
 
 "Make the 100th column stand out
 "100v < 100th VISUAL line in editor
 highlight ColorColumn ctermbg=blue
-call matchadd('colorcolumn', '\%101v', 101)
+call matchadd('colorcolumn', '\%100v', 100)
 
 set hlsearch
 " Press g,F8 to toggle highlighting on/off, and show current value.
@@ -538,6 +524,7 @@ nmap <silent> <F6> :TagbarToggle<CR>:echo<CR>
 map Y y$
 
 "save save save. its bad if this fails
+command E :e
 command W :w
 command Wa :wa
 command WA :wa
@@ -755,8 +742,6 @@ set diffopt+=context:99999
 "copying and pasting stuff.
 imap <M-h> 		<Left>
 imap <M-l> 		<Right>
-imap <M-k> 		<Up>
-imap <M-j> 		<Down>
 imap <M-S-h> 	<S-Left>
 imap <M-S-l> 	<S-Right>
 "shitty map that goes one screen up and down regularly.. nope. lets just go up and down the
@@ -774,9 +759,9 @@ let g:EasyMotion_smartcase = 1
 let g:EasyMotion_use_smartsign_us = 1 " US layout
 
 "incsearch!
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
+nmap /  <Plug>(incsearch-forward)
+nmap ?  <Plug>(incsearch-backward)
+nmap g/ <Plug>(incsearch-stay)
 
 "auto nohlseatch - do anything but searching and it goes away
 let g:incsearch#auto_nohlsearch = 1
@@ -823,3 +808,59 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+
+if has("nvim")
+    let g:deoplete#enable_at_startup = 1
+    let g:deoplete#enable_smart_case = 1
+    let g:deoplete#sources#syntax#min_keyword_length = 1
+
+    " SuperTab like snippets behavior.
+    imap <expr><TAB>
+                \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" :
+                \ pumvisible() ? "\<Space>" :
+                \ "\<TAB>"
+
+    imap <expr><M-k>
+                \ pumvisible() ? "\<C-p>" :
+                \ "\<Up>"
+    imap <expr><M-j>
+                \ pumvisible() ? "\<C-n>" :
+                \ "\<Down>"
+
+    "inoremap <expr><TAB>  pumvisible() ? "\<CR>" : "\<TAB>"
+
+    "imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    "smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    "xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+else
+    imap <M-k> 		<Up>
+    imap <M-j> 		<Down>
+
+    "from https://github.com/SirVer/ultisnips/issues/376
+    let g:UltiSnipsJumpForwardTrigger="<tab>"
+    let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
+    let g:UltiSnipsExpandTrigger="<nop>"
+    let g:ulti_expand_or_jump_res = 0
+    function! <SID>ExpandSnippetOrReturn()
+        let snippet = UltiSnips#ExpandSnippetOrJump()
+        if g:ulti_expand_or_jump_res > 0
+            return snippet
+        else
+            return "\<C-Y>"
+        endif
+    endfunction
+    imap <expr> <CR> pumvisible() ? "<C-R>=<SID>ExpandSnippetOrReturn()<CR>" : "<Plug>delimitMateCR"
+    " make YCM compatible with UltiSnips (using supertab)
+    let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+    let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+    let g:SuperTabDefaultCompletionType = '<C-n>'
+    "this forces us to remap numbertoogletrigger though
+    let g:NumberToggleTrigger = '<m-n>'
+    "
+    " better key bindings for UltiSnipsExpandTrigger
+    let g:UltiSnipsExpandTrigger = "<tab>"
+    let g:UltiSnipsJumpForwardTrigger = "<tab>"
+    let g:UltiSnipsJumpBackwardTrigger = "<s-tab>""
+endif
+
