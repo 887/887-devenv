@@ -818,7 +818,8 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 if has("nvim")
     "nvim autocomplete?
-    let g:acp_enableAtStartup = 0
+    "This is an option from an other plugin that does nothing if you don't have it http://www.vim.org/scripts/script.php?script_id=1879
+    "let g:acp_enableAtStartup = 0
 
     let g:deoplete#enable_at_startup = 1
     let g:deoplete#enable_smart_case = 1
@@ -852,7 +853,7 @@ if has("nvim")
     " deoplete.vim
     "set omnifunc=syntaxcomplete#Complete
     "set completeopt+=noinsert
-    let g:deoplete#enable_ignore_case = 'ignorecase'
+    "let g:deoplete#enable_ignore_case = 'ignorecase'
     "" https://github.com/Shougo/neocomplete.vim/blob/master/autoload/neocomplete/sources/omni.vim
     "let g:deoplete#omni_patterns = {}
     "let g:deoplete#omni_patterns.html = '<[^>]*'
@@ -871,7 +872,7 @@ if has("nvim")
     "let g:deoplete#omni_patterns.python3 = ['[^. *\t]\.\h\w*\','\h\w*::']
     "let g:deoplete#omni_patterns.rust = '[(\.)(::)]'
 
-    autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
+    "autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
 
 
 else
