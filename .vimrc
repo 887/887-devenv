@@ -81,6 +81,8 @@ if has("nvim")
     Plug 'Shougo/neosnippet.vim'
     Plug 'Shougo/neosnippet-snippets'
     Plug 'Shougo/neoinclude.vim'
+    "complete from tmux panes!
+    Plug 'wellle/tmux-complete.vim'
 else
     Plug 'ervandew/supertab'
     Plug 'Valloric/YouCompleteMe'
@@ -751,10 +753,6 @@ imap <M-h> 		<Left>
 imap <M-l> 		<Right>
 imap <M-S-h> 	<S-Left>
 imap <M-S-l> 	<S-Right>
-"shitty map that goes one screen up and down regularly.. nope. lets just go up and down the
-"completion
-imap <M-S-k> 	<C-p>
-imap <M-S-j> 	<C-n>
 "this remap is only meant to be used for c-n, but can also be done with shift-alt-h/l this
 "triggers auto completion on existing word motions
 imap <c-k> 		<C-p>
@@ -837,12 +835,13 @@ if has("nvim")
                 \ pumvisible() ? "\<Space>" :
                 \ "\<TAB>"
 
+    "don't leave line just go next and prev here
     imap <expr><M-k>
                 \ pumvisible() ? "\<C-p>" :
-                \ "\<Up>"
+                \ ""
     imap <expr><M-j>
                 \ pumvisible() ? "\<C-n>" :
-                \ "\<Down>"
+                \ ""
 
     "inoremap <expr><TAB>  pumvisible() ? "\<CR>" : "\<TAB>"
 
@@ -876,8 +875,13 @@ if has("nvim")
 
 
 else
-    imap <M-k> 		<Up>
-    imap <M-j> 		<Down>
+    "shitty map that goes one screen up and down regularly.. nope. lets just go up and down the
+    "completion
+    imap <M-S-k> 	<C-p>
+    imap <M-S-j> 	<C-n>
+    "don't leave line just go next and prev here
+    imap <M-k> 		<C-p>
+    imap <M-j> 		<C-n>
 
     "from https://github.com/SirVer/ultisnips/issues/376
     let g:UltiSnipsJumpForwardTrigger="<tab>"
