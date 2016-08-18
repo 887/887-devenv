@@ -30,6 +30,10 @@
 "cd ~/.vim/bundle/YouCompleteMe/
 "./install.py --racer-completer
 
+"experimental rust racer features:
+let g:racer_insert_paren = 1
+let g:racer_experimental_completer = 1
+
 syntax enable
 
 set noerrorbells visualbell t_vb=
@@ -69,10 +73,10 @@ Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-repeat'
 Plug 'svermeulen/vim-easyclip'
 
+function! DoRemote(arg)
+    UpdateRemotePlugins
+endfunction
 if has("nvim")
-    function! DoRemote(arg)
-        UpdateRemotePlugins
-    endfunction
     Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
     Plug 'Shougo/neosnippet.vim'
     Plug 'Shougo/neosnippet-snippets'
@@ -101,7 +105,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'dan-t/rusty-tags'
 Plug 'Raimondi/delimitMate'
 Plug 'timonv/vim-cargo'
-"Plug 'Nonius/cargo.vim'
+Plug 'Nonius/cargo.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'chaoren/vim-wordmotion'
@@ -129,9 +133,9 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-easymotion.vim'
 Plug 'djoshea/vim-autoread'
 
-if has("nvim")
-    Plug 'critiqjo/lldb.nvim'
-endif
+"if has("nvim")
+"    Plug 'critiqjo/lldb.nvim'
+"endif
 "only if tmuxline colorscheme doesn't match vim enable the following
 "and see .tmux.conf for more info on how to make them look similar again
 "colors
@@ -148,6 +152,9 @@ filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 " ============ /vundle ===========
+
+"http://vim.wikia.com/wiki/Omni_completion
+"set omnifunc=syntaxcomplete#Complete
 
 "this makes vim-airline allways visible. very usefull
 set laststatus=2
@@ -810,9 +817,18 @@ endfun
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 if has("nvim")
+    "nvim autocomplete?
+    let g:acp_enableAtStartup = 0
+
     let g:deoplete#enable_at_startup = 1
     let g:deoplete#enable_smart_case = 1
     let g:deoplete#sources#syntax#min_keyword_length = 1
+
+    "You probably need to increase the size limit on deoplete#tag#cache_limit_size. The default is 500000 which is ~500KiB. Add another zero to it to make it ~5MiB:
+    "default:                           500000
+    "my rusty-tags.vi size was          1459153
+    let deoplete#tag#cache_limit_size = 50000000
+
 
     " SuperTab like snippets behavior.
     imap <expr><TAB>
@@ -832,6 +848,31 @@ if has("nvim")
     "imap <C-k>     <Plug>(neosnippet_expand_or_jump)
     "smap <C-k>     <Plug>(neosnippet_expand_or_jump)
     "xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+    " deoplete.vim
+    "set omnifunc=syntaxcomplete#Complete
+    "set completeopt+=noinsert
+    let g:deoplete#enable_ignore_case = 'ignorecase'
+    "" https://github.com/Shougo/neocomplete.vim/blob/master/autoload/neocomplete/sources/omni.vim
+    "let g:deoplete#omni_patterns = {}
+    "let g:deoplete#omni_patterns.html = '<[^>]*'
+    "let g:deoplete#omni_patterns.xml  = '<[^>]*'
+    "let g:deoplete#omni_patterns.md   = '<[^>]*'
+    "let g:deoplete#omni_patterns.css   = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
+    "let g:deoplete#omni_patterns.scss   = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
+    "let g:deoplete#omni_patterns.sass   = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
+    "let g:deoplete#omni_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
+    "let g:deoplete#omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+    "let g:deoplete#omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+    "let g:deoplete#omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
+    "let g:deoplete#omni_patterns.ruby = ['[^. *\t]\.\w*', '\h\w*::']
+    "" let g:deoplete#omni_patterns.python = '[^. \t]\.\w*'
+    "let g:deoplete#omni_patterns.python = ['[^. *\t]\.\h\w*\','\h\w*::']
+    "let g:deoplete#omni_patterns.python3 = ['[^. *\t]\.\h\w*\','\h\w*::']
+    "let g:deoplete#omni_patterns.rust = '[(\.)(::)]'
+
+    autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
+
 
 else
     imap <M-k> 		<Up>
