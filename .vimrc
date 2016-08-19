@@ -78,16 +78,17 @@ function! DoRemote(arg)
 endfunction
 if has("nvim")
     Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
-    Plug 'Shougo/neosnippet.vim'
-    Plug 'Shougo/neosnippet-snippets'
-    Plug 'Shougo/neoinclude.vim'
     "complete from tmux panes!
-    Plug 'wellle/tmux-complete.vim'
 else
-    Plug 'ervandew/supertab'
-    Plug 'Valloric/YouCompleteMe'
-    Plug 'sirver/UltiSnips'
+    "Plug 'ervandew/supertab'
+    "Plug 'Valloric/YouCompleteMe'
+    "Plug 'sirver/UltiSnips'
+    Plug 'Shougo/neocomplete.vim'
 endif
+Plug 'wellle/tmux-complete.vim'
+Plug 'Shougo/neoinclude.vim'
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree'
 Plug 'tomtom/tcomment_vim'
@@ -814,11 +815,13 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
-if has("nvim")
-    "nvim autocomplete?
-    "This is an option from an other plugin that does nothing if you don't have it http://www.vim.org/scripts/script.php?script_id=1879
-    "let g:acp_enableAtStartup = 0
+"only root manually
+let g:rooter_manual_only = 1
 
+"vim autocomplete:
+"This is an option from an other plugin that does nothing if you don't have it http://www.vim.org/scripts/script.php?script_id=1879
+"let g:acp_enableAtStartup = 0
+if has("nvim")
     let g:deoplete#enable_at_startup = 1
     let g:deoplete#enable_smart_case = 1
     let g:deoplete#sources#syntax#min_keyword_length = 1
@@ -827,86 +830,94 @@ if has("nvim")
     "default:                           500000
     "my rusty-tags.vi size was          1459153
     let deoplete#tag#cache_limit_size = 50000000
-
-
-    " SuperTab like snippets behavior.
-    imap <expr><TAB>
-                \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" :
-                \ pumvisible() ? "\<Space>" :
-                \ "\<TAB>"
-
-    "don't leave line just go next and prev here
-    imap <expr><M-k>
-                \ pumvisible() ? "\<C-p>" :
-                \ ""
-    imap <expr><M-j>
-                \ pumvisible() ? "\<C-n>" :
-                \ ""
-
-    "inoremap <expr><TAB>  pumvisible() ? "\<CR>" : "\<TAB>"
-
-    "imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-    "smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-    "xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-    " deoplete.vim
-    "set omnifunc=syntaxcomplete#Complete
-    "set completeopt+=noinsert
-    "let g:deoplete#enable_ignore_case = 'ignorecase'
-    "" https://github.com/Shougo/neocomplete.vim/blob/master/autoload/neocomplete/sources/omni.vim
-    "let g:deoplete#omni_patterns = {}
-    "let g:deoplete#omni_patterns.html = '<[^>]*'
-    "let g:deoplete#omni_patterns.xml  = '<[^>]*'
-    "let g:deoplete#omni_patterns.md   = '<[^>]*'
-    "let g:deoplete#omni_patterns.css   = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
-    "let g:deoplete#omni_patterns.scss   = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
-    "let g:deoplete#omni_patterns.sass   = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
-    "let g:deoplete#omni_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
-    "let g:deoplete#omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-    "let g:deoplete#omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-    "let g:deoplete#omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
-    "let g:deoplete#omni_patterns.ruby = ['[^. *\t]\.\w*', '\h\w*::']
-    "" let g:deoplete#omni_patterns.python = '[^. \t]\.\w*'
-    "let g:deoplete#omni_patterns.python = ['[^. *\t]\.\h\w*\','\h\w*::']
-    "let g:deoplete#omni_patterns.python3 = ['[^. *\t]\.\h\w*\','\h\w*::']
-    "let g:deoplete#omni_patterns.rust = '[(\.)(::)]'
-
-    "autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
-
-
 else
-    "shitty map that goes one screen up and down regularly.. nope. lets just go up and down the
-    "completion
-    imap <M-S-k> 	<C-p>
-    imap <M-S-j> 	<C-n>
-    "don't leave line just go next and prev here
-    imap <M-k> 		<C-p>
-    imap <M-j> 		<C-n>
+    let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_smart_case = 1
+    let g:neocomplete#sources#syntax#min_keyword_length = 1
 
-    "from https://github.com/SirVer/ultisnips/issues/376
-    let g:UltiSnipsJumpForwardTrigger="<tab>"
-    let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
-    let g:UltiSnipsExpandTrigger="<nop>"
-    let g:ulti_expand_or_jump_res = 0
-    function! <SID>ExpandSnippetOrReturn()
-        let snippet = UltiSnips#ExpandSnippetOrJump()
-        if g:ulti_expand_or_jump_res > 0
-            return snippet
-        else
-            return "\<C-Y>"
-        endif
-    endfunction
-    imap <expr> <CR> pumvisible() ? "<C-R>=<SID>ExpandSnippetOrReturn()<CR>" : "<Plug>delimitMateCR"
-    " make YCM compatible with UltiSnips (using supertab)
-    let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-    let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-    let g:SuperTabDefaultCompletionType = '<C-n>'
-    "this forces us to remap numbertoogletrigger though
-    let g:NumberToggleTrigger = '<m-n>'
-    "
-    " better key bindings for UltiSnipsExpandTrigger
-    let g:UltiSnipsExpandTrigger = "<tab>"
-    let g:UltiSnipsJumpForwardTrigger = "<tab>"
-    let g:UltiSnipsJumpBackwardTrigger = "<s-tab>""
+    "You probably need to increase the size limit on deoplete#tag#cache_limit_size. The default is 500000 which is ~500KiB. Add another zero to it to make it ~5MiB:
+    "default:                              500000
+    "my rusty-tags.vi size was             1459153
+    let neocomplete#tag#cache_limit_size = 5000000
 endif
+
+
+
+"NeoSnippet:
+"inoremap <expr><TAB>  pumvisible() ? "\<CR>" : "\<TAB>"
+"imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+"smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+"xmap <C-k>     <Plug>(neosnippet_expand_target)
+" SuperTab like snippets behavior.
+imap <expr><TAB>
+            \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" :
+            \ pumvisible() ? "\<Space>" :
+            \ "\<TAB>"
+
+"don't leave line just go next and prev here
+imap <expr><M-k>
+            \ pumvisible() ? "\<C-p>" :
+            \ ""
+imap <expr><M-j>
+            \ pumvisible() ? "\<C-n>" :
+            \ ""
+
+"
+" deoplete.vim
+"set omnifunc=syntaxcomplete#Complete
+"set completeopt+=noinsert
+"let g:deoplete#enable_ignore_case = 'ignorecase'
+"" https://github.com/Shougo/neocomplete.vim/blob/master/autoload/neocomplete/sources/omni.vim
+"let g:deoplete#omni_patterns = {}
+"let g:deoplete#omni_patterns.html = '<[^>]*'
+"let g:deoplete#omni_patterns.xml  = '<[^>]*'
+"let g:deoplete#omni_patterns.md   = '<[^>]*'
+"let g:deoplete#omni_patterns.css   = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
+"let g:deoplete#omni_patterns.scss   = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
+"let g:deoplete#omni_patterns.sass   = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
+"let g:deoplete#omni_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
+"let g:deoplete#omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+"let g:deoplete#omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+"let g:deoplete#omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
+"let g:deoplete#omni_patterns.ruby = ['[^. *\t]\.\w*', '\h\w*::']
+"" let g:deoplete#omni_patterns.python = '[^. \t]\.\w*'
+"let g:deoplete#omni_patterns.python = ['[^. *\t]\.\h\w*\','\h\w*::']
+"let g:deoplete#omni_patterns.python3 = ['[^. *\t]\.\h\w*\','\h\w*::']
+"let g:deoplete#omni_patterns.rust = '[(\.)(::)]'
+
+"autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
+
+""shitty map that goes one screen up and down regularly.. nope. lets just go up and down the
+""completion
+"imap <M-S-k> 	<C-p>
+"imap <M-S-j> 	<C-n>
+""don't leave line just go next and prev here
+"imap <M-k> 		<C-p>
+"imap <M-j> 		<C-n>
+
+""from https://github.com/SirVer/ultisnips/issues/376
+"let g:UltiSnipsJumpForwardTrigger="<tab>"
+"let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
+"let g:UltiSnipsExpandTrigger="<nop>"
+"let g:ulti_expand_or_jump_res = 0
+"function! <SID>ExpandSnippetOrReturn()
+"let snippet = UltiSnips#ExpandSnippetOrJump()
+"if g:ulti_expand_or_jump_res > 0
+"return snippet
+"else
+"return "\<C-Y>"
+"endif
+"endfunction
+"imap <expr> <CR> pumvisible() ? "<C-R>=<SID>ExpandSnippetOrReturn()<CR>" : "<Plug>delimitMateCR"
+"" make YCM compatible with UltiSnips (using supertab)
+"let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+"let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+"let g:SuperTabDefaultCompletionType = '<C-n>'
+""this forces us to remap numbertoogletrigger though
+"let g:NumberToggleTrigger = '<m-n>'
+""
+"" better key bindings for UltiSnipsExpandTrigger
+"let g:UltiSnipsExpandTrigger = "<tab>"
+"let g:UltiSnipsJumpForwardTrigger = "<tab>"
+"let g:UltiSnipsJumpBackwardTrigger = "<s-tab>""
 
