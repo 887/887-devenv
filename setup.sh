@@ -1,4 +1,4 @@
-#check out this repo to ~/devenv (type git clone in ~) or rename later fot this to succeed
+#check out this repo to ~/devenv (type git clone in ~) or rename later for this to succeed
 cd ~/devenv
 
 mkdir ~/.vim
@@ -6,8 +6,8 @@ mkdir ~/.vim/plugged
 mkdir ~/.config/nvim
 ln -sfn ./vim/plugged ~/.config/nvim/
 
-#delete if these allready exist
-#(carefull with -Rm if symlinks allready exist, otherwise the orgiginalss get killed)
+#delete if these already exist
+#(careful with -Rf if symlinks already exist, otherwise the originals get killed)
 #rm ~/.vim/after
 #rm ~/.vim/autoload
 #rm ~/.config/nvim/after
