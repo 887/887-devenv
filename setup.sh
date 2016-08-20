@@ -19,6 +19,7 @@ ln -s ~/devenv/vim/autoload ~/.config/nvim/
 
 #map folder from here to local folders
 ln -s ~/devenv/.vimrc ~/.vimrc
+ln -s ~/devenv/.vimrc ./init.vim
 ln -s ~/devenv/.gvimrc ~/.gvimrc
 ln -s ~/devenv/.tmux.conf ~/.tmux.conf
 ln -s ~/devenv/.gitconfig ~/.gitconfig

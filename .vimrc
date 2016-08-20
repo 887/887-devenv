@@ -1,90 +1,44 @@
-"install it for vim and neovim
-"curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-"    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
-"    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"cd ~/.vim
-"vundle to vim-plug conversion
-"mv ~/.vim/bunde ~/.vim/plugged
-":PlugUpdate -> update and install plugins!
-":PlugUpgrade -> upgrade 'junegunn/vim-plug' itself
-":UpdateRemotePlugins -> for python 2/3 plugins like lldb!
-"cd ~/.vim
-"ln -s ./bundle ./plugged
-
-"this .vimrc is now also nevoim compatible and can be used in both, thanks to this -> if has("nvim)
-"do this to share it and also the vim-plug pluggins
-"cd .config/nvim
-"ln -s ~/.vimrc ./init.vim
-"ln -s ~/.vim/after ./after
-"also neovim needs python*-support to be installed seperatley -> :help nvim-python
+"This .vimrc is  nevoim compatible and can be used in both
+"neovim needs python*-support (installed seperatley) -> :help nvim-python
 "on arch its in the community repo ->
 "sudo pacman community/python-nvim
 "sudo pacman community/python2-nvim
 
-"on ctags support for any language:
-"as described here you need to put this in your ~/ctags file
+"ctags setup for any language:
+"put section from this Wiki in your ~/ctags file
 "https://github.com/majutsushi/tagbar/wiki#rust
 
-"installing/updating YouCompleteMe (it complaints that its server shut down when its needs this)
-"cd ~/.vim/bundle/YouCompleteMe/
-"./install.py --racer-completer
-
-"experimental rust racer features:
-let g:racer_insert_paren = 1
-let g:racer_experimental_completer = 1
-
-syntax enable
-
-set noerrorbells visualbell t_vb=
-autocmd GUIEnter * set visualbell t_vb=
-
+"Plugins:
 set shell=bash
-
-set nocompatible              " be iMproved, required
+if !has("nvim")
+    set nocompatible              " be iMproved, required
+endif
 filetype off                  " required
 
+":PlugUpdate -> update and install plugins!
+":PlugUpgrade -> upgrade 'junegunn/vim-plug' itself
+":UpdateRemotePlugins -> for python 2/3 plugins like lldb!
 " ============ vim-plug ===========
 call plug#begin('~/.vim/plugged')
 " ============ /vim-plug ===========
-" ============ vundle ===========
-"" set the runtime path to include Vundle and initialize
-"set rtp+=~/.vim/bundle/Vundle.vim
-"call vundle#begin()
-"" alternatively, pass a path where Vundle should install plugins
-""call vundle#begin('~/some/path/here')
 
-"" let Vundle manage Vundle, required
-"Plugin 'VundleVim/Vundle.vim'
-" ============ /vundle ===========
-
-"REMINDER: Vundle needs 'Plugin' <-> vim plug just needs 'Plug'
-"if has("nvim")
-"sticking with syntastic, works better.
 Plug 'scrooloose/syntastic'
-"else
-"Plug 'neomake/neomake'
-"endif
-"complaints about double used binding i have no idea why, and normal docs are good enough :man ftw
+"no need, neonvim has :man command build in, its enough
 "Plug 'powerman/vim-plugin-viewdoc'
 Plug 'rust-lang/rust.vim'
 "Plug 'xolox/vim-misc'
 "Plug 'xolox/vim-easytags'
 Plug 'tpope/vim-repeat'
 Plug 'svermeulen/vim-easyclip'
-
 function! DoRemote(arg)
     UpdateRemotePlugins
 endfunction
 if has("nvim")
     Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
-    "complete from tmux panes!
 else
-    "Plug 'ervandew/supertab'
-    "Plug 'Valloric/YouCompleteMe'
-    "Plug 'sirver/UltiSnips'
     Plug 'Shougo/neocomplete.vim'
 endif
+"complete from tmux panes
 Plug 'wellle/tmux-complete.vim'
 Plug 'Shougo/neoinclude.vim'
 Plug 'Shougo/neosnippet.vim'
@@ -92,7 +46,7 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree'
 Plug 'tomtom/tcomment_vim'
-"Plug 'wellle/targets.vim'
+Plug 'wellle/targets.vim'
 Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'christoomey/vim-sort-motion'
 "Plug 'michaeljsmith/vim-indent-object'
@@ -114,7 +68,6 @@ Plug 'jlanzarotta/bufexplorer'
 Plug 'chaoren/vim-wordmotion'
 "Plug 'vim-scripts/EasyClipRing.vim'
 "Plug 'severin-lemaignan/vim-minimap'
-"Plug 'vim-scripts/YankRing.vim'
 Plug 'tpope/vim-surround'
 Plug 'airblade/vim-gitgutter'
 Plug 'easymotion/vim-easymotion'
@@ -135,210 +88,251 @@ Plug 'airblade/vim-rooter'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-easymotion.vim'
 Plug 'djoshea/vim-autoread'
-
+"see description in .tmux.conf for colors before starting Vim
+Plug 'edkolev/tmuxline.vim'
+"lldb disabled for now, gdb works better
 "if has("nvim")
 "    Plug 'critiqjo/lldb.nvim'
 "endif
-"only if tmuxline colorscheme doesn't match vim enable the following
-"and see .tmux.conf for more info on how to make them look similar again
-"colors
-Plug 'edkolev/tmuxline.vim'
-
 " ============ vim -plug ===========
 " Add plugins to &runtimepath
 call plug#end()
 " ============ /vim -plug ===========
-" ============ vundle ===========
-" All of your Plugins must be added before the following line
-"call vundle#end()            " required
+
+filetype plugin on
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-" ============ /vundle ===========
 
-"http://vim.wikia.com/wiki/Omni_completion
-"set omnifunc=syntaxcomplete#Complete
-
-"this makes vim-airline allways visible. very usefull
-set laststatus=2
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-
-
-let g:airline#extensions#tabline#enabled = 1
-
+"PluginSettings:
+"experimental rust racer features:
+let g:racer_insert_paren = 1
+let g:racer_experimental_completer = 1
 "let g:rustfmt_autosave = 1
-
-"autocmd StdinReadPre * let s:std_in=1
-"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
-colorscheme badwolf
-
-set number
-set relativenumber
-
 "let g:ycm_rust_src_path = '/usr/src/rust/src'
 let g:ycm_rust_src_path = $RUST_SRC_PATH
-"inoremap <Up> 		<NOP>
-"inoremap <Down>	<NOP>
-"inoremap <Left>	<NOP>
-"inoremap <Right> 	<NOP>
-"vnoremap <Up> 		<NOP>
-"vnoremap <Down> 	<NOP>
-"vnoremap <Left> 	<NOP>
-"vnoremap <Right> 	<NOP>
-"nnoremap <Up> 		<NOP>
-"nnoremap <Down> 	<NOP>
-"nnoremap <Left> 	<NOP>
-"nnoremap <Right> 	<NOP>
-"inoremap <C-Up> 	<NOP>
-"inoremap <C-Down>	<NOP>
-"inoremap <C-Left>	<NOP>
-"inoremap <C-Right> <NOP>
-"vnoremap <C-Up> 	<NOP>
-"vnoremap <C-Down>  <NOP>
-"vnoremap <C-Left>  <NOP>
-"vnoremap <C-Right> <NOP>
-"nnoremap <C-Up> 	<NOP>
-"nnoremap <C-Down>  <NOP>
-"nnoremap <C-Left>  <NOP>
-"nnoremap <C-Right> <NOP>
+"tabar setup for rust:
+let g:tagbar_type_rust = {
+            \ 'ctagstype' : 'rust',
+            \ 'kinds' : [
+            \'T:types,type definitions',
+            \'f:functions,function definitions',
+            \'g:enum,enumeration names',
+            \'s:structure names',
+            \'m:modules,module names',
+            \'c:consts,static constants',
+            \'t:traits,traits',
+            \'i:impls,trait implementations',
+            \]
+            \}
+"ctrlp remapped to alt
+let g:ctrlp_map = '<m-p>'
+"auto remove trailing spaces on save.. oh the lifetime i have spend
+"https://stackoverflow.com/questions/356126/how-can-you-automatically-remove-trailing-whitespace-in-vim#356130
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+"only root manually
+let g:rooter_manual_only = 1
 
-nnoremap    <F4>    :UndotreeToggle<cr>
-
-" check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change
-set autoread
-au CursorHold * checktime
-"let autoreadargs={'autoread':1}
-"execute WatchForChanges("*",autoreadargs)
-
-
-"nerd tree on open.. nope sucks
-"autocmd VimEnter * NERDTree
-"autocmd BufEnter * NERDTreeMirror
-"CTRL-t to toggle tree view with CTRL-t
-nmap <silent> <F3> :NERDTreeToggle<CR>
-""Set F2 to put the cursor to the nerdtree
-nmap <silent> g<F3> :NERDTreeFind<CR>
-
+"Syntax Highlighting:
+syntax enable
+colorscheme badwolf
+"omni completion disabled (slows down vim), neocomplete/deoplete with ctags work better anyway
+"http://vim.wikia.com/wiki/Omni_completion
+"set omnifunc=syntaxcomplete#Complete
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
+"enable mouse support
+set mouse=a
+"line numbers!
+set number
+set relativenumber
+"do not display annoying "save file" before opening a new one (even though its in a new buffer)
+"(its because vim might crash when loading the new file)
 set hidden
-
+"display special chars for spaces and tabs to visualize them better
 set list
 set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
-
+"let vim do the indenting most of the time
 set autoindent
-"set noexpandtab
+"tabs to spaces
 set expandtab
 set tabstop=4
 set shiftwidth=4
+"incremeantal search and smart case search.. It's so much better
+set incsearch
+set ignorecase
+set smartcase
+" check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change
+set autoread
+au CursorHold * checktime
+set dir=~/tmp
+"having no swapfile means vim uses more memory because everything lands in memmory -> no problem
+"90% of the time i use vim to develop software and safe like every 30 seconds, same with configfiles
+"swapfiles are usefull under certain conditions.. But i can live without them so:
+set noswapfile
+set textwidth=99
+"Make the 100th column stand out (100v = 100th column)
+highlight ColorColumn ctermbg=blue
+call matchadd('colorcolumn', '\%100v', 100)
+set hlsearch
+"set clipboard to system clipboard: https://github.com/svermeulen/vim-easyclip
+"requires the 'xclip' package, otherwise easyclip complaints on start
+set clipboard=unnamedplus
+" ask instead of failing to save files:
+set confirm
+" Better command-line completion
+set wildmenu
+"Show partial commands in the last line of the screen (right side, annoying, off)
+"set showcmd
+"no timeouts for special characters: (certain combos insert unexpected chars otherwise)
+set ttimeout ttimeoutlen=1
+" Stop certain movements from always going to the first character of a line.
+" While this behaviour deviates from that of Vi, it does what most users
+" coming from other editors would expect.
+set nostartofline
+"Vim build in spell checking
+set spell
+set spelllang=en_us
+"hi SpellBad guibg=#ff2929 ctermbg=224
+"hi SpellBad guibg=#0000ff ctermbg=blue
+hi SpellBad	cterm=underline gui=underline guibg=NONE ctermbg=NONE
+hi SpellCap	cterm=underline gui=underline guibg=NONE ctermbg=NONE
+hi SpellRare cterm=underline gui=underline guibg=NONE ctermbg=NONE
+hi SpellLocal cterm=underline gui=underline guibg=NONE ctermbg=NONE
+"no folding!
+"https://stackoverflow.com/questions/5017009/confusion-about-vim-folding-how-to-disable#5017035
+let g:vim_markdown_folding_disabled=1
+set nofoldenable    " disable folding
+set diffopt+=context:99999
 
-"enable mouse support
-set mouse=a
+"Filetypes:
+filetype on
+au BufNewFile,BufRead *.asm set filetype=asmone
+au BufNewFile,BufRead *.s set filetype=asmone
+au BufNewFile,BufRead *.vcl set filetype=vcl
+au BufRead,BufNewFile *.kt  set filetype=kotlin
+au BufRead,BufNewFile *.jet set filetype=kotlin
+au BufRead,BufNewFile *.sls set filetype=yaml
+au BufRead,BufNewFile *.rs set filetype=rust
+au BufRead,BufNewFile *.toml set filetype=toml
+au BufRead,BufNewFile *.html set filetype=html
+au BufRead,BufNewFile *.js set filetype=javascript
+au BufRead,BufNewFile *.md set filetype=mkd
+au BufRead,BufNewFile *.conf setf dosini
 
-"sticking with syntastic instead of neomake works better
-""autocmd! BufWritePost * Neomake
-let g:airline#extensions#syntastic#enabled = 1
-
-let g:airline_powerline_fonts = 1
 "this needs to be set as the system/terminal font
 "gnome-terminal: edit -> profile preferences -> general -> text appearance -> custom font -> seach
 "for this: (but also leave it as a setting here)
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 11
 
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-"unicode symbols
-
-"let g:airline_left_sep = ''
-"let g:airline_left_alt_sep = ''
-"let g:airline_right_sep = ''
-"let g:airline_right_alt_sep = ''
-
-"let g:airline_left_sep = ''
-"let g:airline_left_alt_sep = ''
-"let g:airline_right_sep = ''
-"let g:airline_right_alt_sep = ''
-
-let g:airline#extensions#whitespace#trailing_format = 't[%s]'
-
-let g:airline_symbols.linenr = '␊'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.whitespace = 'Ξ'
-"let g:airline_symbols.space = "\ua0"
-"airline symbols
-let g:airline_symbols.readonly = ''
-
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_min_num_of_chars_for_completion = 1
-
-"fix vim colors for tmux as shown here: http://superuser.com/a/562423
-""-----
-"set -g default-terminal "screen-256color" >> .tmux.conf
-"export TERM=xterm-256color >> .zshrc
-
-"neovim complaints about this option
+"let vim use the correct term colors, nvim inherits this option and complaints when you override it
 if !has("nvim")
     set term=xterm-256color
+    "this is to suppress the empty space when searching with / . Only works in Vim, not Nvim
+    set t_ut=
+endif
+"http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
+"ALSO SET THIS IN TMUX: set -sg escape-time 0
+"neovim complaints about this option
+if !has("nvim")
+    let c='a'
+    while c <= 'z'
+        exec "set <A-".c.">=\e".c
+        exec "imap \e".c." <A-".c.">"
+        let c = nr2char(1+char2nr(c))
+    endw
 endif
 
-set t_ut=
-
-""-----
-
-"incremeantal search and smart case search.. its so much better
-set incsearch
-set ignorecase
-set smartcase
-
-"go up/down 3 lines instead of 1 when scrolling
-nnoremap <C-e> 3<C-e>
-nnoremap <C-y> 3<C-y>
-
-"set swapfile
-set dir=~/tmp
-"having no swapfile means vim uses more memory because everything lands in memmory -> no problem
-"90% of the time i use vim to develop software and safe like every 30 seconds, same with configfiles
-"swapfiles are usefull under certain conditions.. but i can live without them so:
-set noswapfile
-
-
-set textwidth=99
-
-"Make the 100th column stand out
-"100v < 100th VISUAL line in editor
-highlight ColorColumn ctermbg=blue
-call matchadd('colorcolumn', '\%100v', 100)
-
-set hlsearch
+"Function Commands:
+"(The rest is for GDB/LLDB further down)
+"" Disable Help key -> Set it to ESC
+inoremap <F1> <ESC>
+nnoremap <F1> <ESC>
+vnoremap <F1> <ESC>
+"ALSO: SET KEYBOARD CAPS LOCK KEY BEHAVIOR TO ALSO BE AN ESCAPE KEY
+"nerdtree:
+nmap <silent> <F3> :NERDTreeToggle<CR>
+nmap <silent> g<F3> :NERDTreeFind<CR>
+"undotree:
+nnoremap    <F4>    :UndotreeToggle<cr>
+"tabgar:
+nmap <silent> <F6> :TagbarToggle<CR>:echo<CR>
+"new cifforig command to diff current buffer to last safe! this is usefull for diffing .vimrc
+"changes etc.
+command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis | %foldopen!
+nmap <silent> <F7> :DiffOrig<CR>:echo<CR>
+"save with shift-f7
+nmap <silent> g<F7> :w<CR>
 " Press g,F8 to toggle highlighting on/off, and show current value.
 noremap <silent> g<F8> :set hlsearch! hlsearch?<CR>:echo<CR>
 "hit f8 to hide current search till next time
 "disabled in favour of ctrl-l
 nnoremap <silent> <F8> :nohlsearch<CR>:echo<CR>
-" Map <C-L> (redraw screen) to also turn off search highlighting until the
-" next search
-nnoremap <C-L> :nohl<CR><C-L>
+" Use <F11> to toggle between 'paste' and 'nopaste' -intendation
+set pastetoggle=<F9>
 
-" Buffers - explore/next/previous: Alt-F12, F12, Shift-F12.
-" 90% sure this is broken in neovim, try either mapping using leader or g key
-"nnoremap <silent> <m-F12> :BufExplorer<CR>
-"nnoremap <silent> <F12> :bn<CR>
-"nnoremap <silent> <s-F12> :bp<CR>
-"actually i want debugging on f9-f12 later
+"vim-airline:
+let g:airline#extensions#tabline#enabled = 1
+"this makes vim-airline allways visible. very usefull
+set laststatus=2
+"sticking with syntastic instead of neomake works better
+""autocmd! BufWritePost * Neomake
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#whitespace#trailing_format = 't[%s]'
+
+"Unicode airline symbols
+"if !exists('g:airline_symbols')
+"    let g:airline_symbols = {}
+"endif
+"let g:airline_left_sep = ''
+"let g:airline_left_alt_sep = ''
+"let g:airline_right_sep = ''
+"let g:airline_right_alt_sep = ''
+"let g:airline_left_sep = ''
+"let g:airline_left_alt_sep = ''
+"let g:airline_right_sep = ''
+"let g:airline_right_alt_sep = ''
+"let g:airline_symbols.linenr = '␊'
+"let g:airline_symbols.branch = '⎇'
+"let g:airline_symbols.paste = 'ρ'
+"let g:airline_symbols.paste = 'Þ'
+"let g:airline_symbols.paste = '∥'
+"let g:airline_symbols.whitespace = 'Ξ'
+"let g:airline_symbols.space = "\ua0"
+"airline symbols
+" let g:airline_symbols.readonly = ''
+
+"Commands:
+"(add some redundant uppercase commands for people with fat fingers like me)
+command E :e
+command W :w
+command Wa :wa
+command WA :wa
+command Q :q
+
+"Keybindings:
+" Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy:
+map Y y$
+"alt-y -> yank all lines in file
+nmap <m-y> :%y+<CR>
+" Reselect visual block after in/dedent so we can in/dedent more
+vnoremap < <gv
+vnoremap > >gv
+"bw: go s->type->and its placed everywhere though like with I
+"go up/down 3 lines instead of 1 when scrolling
+nnoremap <C-e> 3<C-e>
+nnoremap <C-y> 3<C-y>
+"C-L refreshes the screen and turns off search highlighting
+nnoremap <C-L> :nohl<CR><C-L>
 nnoremap <silent> gt :bn<CR>
 nnoremap <silent> gT :bp<CR>
+nnoremap gd :bd<CR>
+"these all point pressing gt with alt results in the buffexplorer window:
 nnoremap <silent> <m-g><m-t> :BufExplorer<CR>
 nnoremap <silent> g<m-t> :BufExplorer<CR>
 nnoremap <silent> <m-g>t :BufExplorer<CR>
@@ -354,22 +348,19 @@ nnoremap <silent> <c-g>6 :b 6<CR>
 nnoremap <silent> <c-g>7 :b 7<CR>
 nnoremap <silent> <c-g>8 :b 8<CR>
 nnoremap <silent> <c-g>9 :b 9<CR>
+"insert mode mappings.. these are considered ineffective but are really helpfull sometimes:
+imap <M-h> 		<Left>
+imap <M-l> 		<Right>
+imap <M-S-h> 	<S-Left>
+imap <M-S-l> 	<S-Right>
+"this remap is only meant to be used for c-n, but can also be done with shift-alt-h/l this
+"triggers auto completion on existing word motions
+imap <c-k> 		<C-p>
+imap <c-j> 		<C-n>
+imap <c-l> 		<C-n>
 
-"http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
-"ALSO SET THIS IN TMUX: set -sg escape-time 0
-"neovim complaints about this option
-if !has("nvim")
-    let c='a'
-    while c <= 'z'
-        exec "set <A-".c.">=\e".c
-        exec "imap \e".c." <A-".c.">"
-        let c = nr2char(1+char2nr(c))
-    endw
-endif
-set ttimeout ttimeoutlen=1
-
-"let g:wordmotion_prefix = '<F8>'
-"these go to words in CamelCase and snake_case words. awesome :)
+"Vim Wordmotion:
+"these target CamelCase and snake_case words:
 let g:wordmotion_mappings = {
             \ 'w' : '<M-w>',
             \ 'b' : '<M-b>',
@@ -379,49 +370,19 @@ let g:wordmotion_mappings = {
             \ 'iw' : 'i<M-w>'
             \ }
 
-
-":h yankring-tutorial
-"yeah noh. remapping the clippboard doesn't work universially so fuck it
-"vnoremap <M-y> "*y
-"vnoremap <M-p> "*p
-"nnoremap <M-p> "*p
-"inoremap <M-p> "*p
-"gnome tmux remap
-"vnoremap ^[y +y
-"vnoremap ^[p +p
-"nnoremap ^[p +p
-"inoremap ^[p +p
-
-
-autocmd BufRead,BufNewFile *.conf setf dosini
-
-"fix vim minimap issues in minimap.py change
-"vim.command("match " + highlight_group + " /\%>0v\%<{}v\%>{}l\%<{}l./".for mat(WIDTH + 1, top, bottom))
-"to:
-"vim.command("match " + highlight_group + " /%>0v%<{0}v%>{1}l%<{2}l./".for mat(WIDTH + 1, top, bottom))
-
-"minimap.. broken and not needed
-"let g:minimap_show='<leader>mm'
-"let g:minimap_update='<leader>mc'
-"let g:minimap_close='<leader>mc'
-"let g:minimap_toggle='<leader>mt'
-"let g:minimap_highlight='Statement'
-
+"Easyclip:
+"Type :Yanks to see the last yanks, paste 'em with "1/2/3p
 "https://github.com/svermeulen/vim-easyclip#black-hole-redirection
-"easyclip uses m for 'move' so we need to redirect set mark to gm.. or see my
-"solution below
-"nnoremap gm m
-"use ctrl-d/f for paste back/for
 let g:EasyClipUsePasteToggleDefaults = 0
 nmap <c-p> <plug>EasyClipSwapPasteForward
 "cant mal c-s .. this is scroll lock aka terminal stop.. use c-q to quit it
 nmap <c-i> <plug>EasyClipSwapPasteBackwards
-"make easyclip auto formats its pastes.. Very useful for rust?
+"make easyclip auto formats its pastes:
 let g:EasyClipAutoFormat = 1
-
-"easyclip: reenable some default vim bindings. i like my vim cuting, only paste can go into
-"black hole, thanks
+"reenable some default vim bindings. i like my x/d cuting, only v(isual)p(aste) goes into _
 let g:EasyClipUseCutDefaults = 0
+"this only redirects paste-over if we map the keys back like below
+let g:EasyClipEnableBlackHoleRedirect = 1
 "Delete single Character
 nmap x x
 xmap x x
@@ -433,7 +394,7 @@ nmap dd dd
 nmap D D
 "Delete the contents of line except the newline character (that is, make it blank) and do not change clipboard
 nmap dD dD
-"normalizing these SUCKS
+"leave this one alone:
 "nmap C C
 "these do not work because we have ConqueGDB print variable here!
 "<leader>p - Same as p except does not auto-format text. This is only relevant if the auto-format option is enabled
@@ -441,46 +402,32 @@ nmap dD dD
 "but these do:
 "g<leader>P - Same as <leader>P but preserves the current cursor position
 "g<leader>p - Same as <leader>p but preserves the current cursor position
-
-"easyclip: also use ctrl-m for cuting. Doesn't bite, works!
+"also use ctrl-m for cuting. Doesn't bite, works!
 nmap <c-m> <Plug>MoveMotionPlug
 xmap <c-m> <Plug>MoveMotionXPlug
 nmap <c-m><c-m> <Plug>MoveMotionLinePlug
-
-"set clipboard to system clipboard.. its just easier https://github.com/svermeulen/vim-easyclip
-"requires the 'xclip' package on arch otherwise easyclip complaints on start
-set clipboard=unnamedplus
-"https://github.com/neovim/neovim/issues/2642
-"this prevents the STRING STRING clipboard error
-let g:yankring_clipboard_monitor=0
-
-"share yanks between vim instances
+"share yanks between vim instances - disabled, we use the system clipboard instead
 "let g:EasyClipShareYanks = 1
 "let g:EasyClipShareYanksFile = ".easyclip"
 "let g:EasyClipShareYanksDirectory = "$HOME/tmp"
-"originally i disabled the blackhole redirect. but now i just remap the keys
-"this only redirects paste-over now
-let g:EasyClipEnableBlackHoleRedirect = 1
 
-"easyclip ring.. just type :Yanks, its better because this breaks a lot
-"imap    gcr  <Plug>(EasyClipRing)
-"imap    <C-l>   <Plug>(EasyClipRing)
-"n
+"Spellchecking:
+"]s — move to the next misspelled word
+"[s — move to the previous misspelled word
+"zg — add a word to the dictionary
+"zug — undo the addition of a word to the dictionary
+"z= — view spelling suggestions for a misspelled word
 "
-"the hardocre plugins:
+"Plugin Documentations:
 "http://vimawesome.com/plugin/vim-multiple-cursors
 "press ctrl-n (after initial ctrl-n, ctrl-x to skip, ctrl-p for previous) on anything, it gets highlighted/searched and
 "you puke rainbows when you go in visual/insert mode lol :)
 "
-"fuzzy finder:
-"http://vimawesome.com/plugin/unite-vim
-":Unite
-"
 "http://vimawesome.com/plugin/tabular
-"in visual mode! :Tab /zeichen nach dem am tab ausgerichtet werden soll -> magic
+"in visual mode! :Tab /CharForTabAlignment -> magic
 "
 "http://vimawesome.com/plugin/easymotion
-"<Leader><Leader>w
+"<Leader><Leader>w/b/e -> magic
 "
 "http://vimawesome.com/plugin/surround-vim
 "s = sorround key motion.. so ysiw = yank sorround in word ] = [word]
@@ -514,90 +461,7 @@ let g:EasyClipEnableBlackHoleRedirect = 1
 " ]=           Jump to next line having a marker of any type
 " [=           Jump to prev line having a marker of any type
 
-"set vim as mergetool!
-"git config --global mergetool.fugitive.cmd 'vim -f -c "Gdiff" "$MERGED"'
-"git config --global merge.tool fugitive
-
-"new cifforig command to diff current buffer to last safe! this is usefull for diffing .vimrc
-"changes etc.
-command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-            \ | wincmd p | diffthis | %foldopen!
-nmap <silent> <F7> :DiffOrig<CR>:echo<CR>
-"save with shift-f7
-nmap <silent> g<F7> :w<CR>
-
-"tabgar.. displays information to classes etc https://github.com/majutsushi/tagbar
-nmap <silent> <F6> :TagbarToggle<CR>:echo<CR>
-
-" Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
-" which is the default
-map Y y$
-
-"save save save. its bad if this fails
-command E :e
-command W :w
-command Wa :wa
-command WA :wa
-command Q :q
-
-""" Conserve sanity -> this makes it impossible to press W/Q in commandline so no thank yooooouuu
-"cmap W w
-"cmap Q q
-" Reselect visual block after in/dedent so we can in/dedent more
-vnoremap < <gv
-vnoremap > >gv
-"bw: go s->type->and its placed everywhere though like with I
-
-"" Disable Help key -> Set it to ESC
-inoremap <F1> <ESC>
-nnoremap <F1> <ESC>
-vnoremap <F1> <ESC>
-
-""" Filetypes
-filetype on
-au BufNewFile,BufRead *.asm set filetype=asmone
-au BufNewFile,BufRead *.s set filetype=asmone
-au BufNewFile,BufRead *.vcl set filetype=vcl
-au BufRead,BufNewFile *.kt  set filetype=kotlin
-au BufRead,BufNewFile *.jet set filetype=kotlin
-au BufRead,BufNewFile *.sls set filetype=yaml
-au BufRead,BufNewFile *.rs set filetype=rust
-au BufRead,BufNewFile *.toml set filetype=toml
-au BufRead,BufNewFile *.html set filetype=html
-au BufRead,BufNewFile *.js set filetype=javascript
-au BufRead,BufNewFile *.md set filetype=mkd
-
-"Set the command window height to 2 lines, to avoid many cases of having to
-"press <Enter> to continue" - this may work but i just cant get used to it.. fuck it
-"pressing enter is better then losing a line of my window
-"set cmdheight=2
-
-" Instead of failing a command because of unsaved changes, instead raise a
-" dialogue asking if you wish to save changed files.
-set confirm
-
-" Use <F11> to toggle between 'paste' and 'nopaste' -intendation
-set pastetoggle=<F9>
-
-" Better command-line completion
-set wildmenu
-
-" Show partial commands in the last line of the screen
-"set showcmd
-
-" Stop certain movements from always going to the first character of a line.
-" While this behaviour deviates from that of Vi, it does what most users
-" coming from other editors would expect.
-set nostartofline
-
-"http://stackoverflow.com/questions/7797068/copying-a-word-and-pasting-over-a-word#7797434
-"paste over a word without loosing the buffer!!!
-"xnoremap p pgvy <- deactivated using easyclip and remapping x & d back to usual works better
-
-"ctrlp remaped to alt
-let g:ctrlp_map = '<m-p>'
-
-"ag / gag commands:
+"Ag / g-Ag (the_silver_searcher) Commands:
 "e    to open file and close the quickfix window
 "o    to open (same as enter)
 "go   to preview file (open but maintain focus on ag.vim results)
@@ -615,10 +479,7 @@ let g:ctrlp_map = '<m-p>'
 "gag to search the selected text
 "
 
-"alt-y -> yank all lines in file
-nmap <m-y> :%y+<CR>
-
-
+"this is the lldb/gdb switch, both should roughly have the same keybindings:
 if has("faslefalsefalsefalse")
     "lldb has a bug with rust, its cool but for now i have to switch to conquegdb
     "https://github.com/rust-lang/rust/issues/33062
@@ -719,56 +580,14 @@ else
     nnoremap <F12> :ConqueGdbCommand<Space>
 endif
 
-"rust ctags
-let g:tagbar_type_rust = {
-            \ 'ctagstype' : 'rust',
-            \ 'kinds' : [
-            \'T:types,type definitions',
-            \'f:functions,function definitions',
-            \'g:enum,enumeration names',
-            \'s:structure names',
-            \'m:modules,module names',
-            \'c:consts,static constants',
-            \'t:traits,traits',
-            \'i:impls,trait implementations',
-            \]
-            \}
-
-"no folding! https://stackoverflow.com/questions/5017009/confusion-about-vim-folding-how-to-disable#5017035
-let g:vim_markdown_folding_disabled=1
-set nofoldenable    " disable folding
-set diffopt+=context:99999
-
-"SHITY SOLUTION:
-"capslock sanity that map capslock to escape while vim is open:
-"https://stackoverflow.com/questions/2176532/how-to-map-caps-lock-key-in-vim
-"au VimEnter * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
-"au VimLeave * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
-"This requires Linux with the xorg-xmodmap package installed.
-"BETTER: JUST SET IN CINNAMON AT KEYBOARD THE CAPS LOCK KEY BEHAVIOR TO ALSO BE AN ESCAPE KEY
-"        .. since nobody uses it and to avoid situations like above
-
-"insert mode mappings.. these are considered ineffective but are really helpfull sometimes when
-"copying and pasting stuff.
-imap <M-h> 		<Left>
-imap <M-l> 		<Right>
-imap <M-S-h> 	<S-Left>
-imap <M-S-l> 	<S-Right>
-"this remap is only meant to be used for c-n, but can also be done with shift-alt-h/l this
-"triggers auto completion on existing word motions
-imap <c-k> 		<C-p>
-imap <c-j> 		<C-n>
-imap <c-l> 		<C-n>
-
+"Easymotion:
 "easier smart case easymotion
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_use_smartsign_us = 1 " US layout
-
-"incsearch!
+"Incsearch:
 nmap /  <Plug>(incsearch-forward)
 nmap ?  <Plug>(incsearch-backward)
 nmap g/ <Plug>(incsearch-stay)
-
 "auto nohlseatch - do anything but searching and it goes away
 let g:incsearch#auto_nohlsearch = 1
 map n  <Plug>(incsearch-nohl-n)
@@ -777,46 +596,10 @@ map *  <Plug>(incsearch-nohl-*)
 map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
-
-"easymotion search.. Press enter after search to jump to result - meh to much trouble
-"map  / <Plug>(easymotion-sn)
-"omap / <Plug>(easymotion-tn)
-"map  n <Plug>(easymotion-next)
-"map  N <Plug>(easymotion-prev)
-
 "incsearch easymotion mappings
-map z/ <Plug>(incsearch-easymotion-/)
-map z? <Plug>(incsearch-easymotion-?)
-map zg/ <Plug>(incsearch-easymotion-stay)
-
-"Vim build in spell checking
-set spell
-set spelllang=en_us
-"hi SpellBad guibg=#ff2929 ctermbg=224
-"hi SpellBad guibg=#0000ff ctermbg=blue
-hi SpellBad	cterm=underline gui=underline guibg=NONE ctermbg=NONE
-hi SpellCap	cterm=underline gui=underline guibg=NONE ctermbg=NONE
-hi SpellRare cterm=underline gui=underline guibg=NONE ctermbg=NONE
-hi SpellLocal cterm=underline gui=underline guibg=NONE ctermbg=NONE
-
-"]s — move to the next misspelled word
-"[s — move to the previous misspelled word
-"zg — add a word to the dictionary
-"zug — undo the addition of a word to the dictionary
-"z= — view spelling suggestions for a misspelled word
-
-"auto remove trailing spaces on save.. oh the lifetime i have spend
-"https://stackoverflow.com/questions/356126/how-can-you-automatically-remove-trailing-whitespace-in-vim#356130
-fun! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-endfun
-autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
-
-"only root manually
-let g:rooter_manual_only = 1
+map <M-/> <Plug>(incsearch-easymotion-/)
+map <M-?> <Plug>(incsearch-easymotion-?)
+map g<M-/> <Plug>(incsearch-easymotion-stay)
 
 "vim autocomplete:
 "This is an option from an other plugin that does nothing if you don't have it http://www.vim.org/scripts/script.php?script_id=1879
@@ -825,7 +608,6 @@ if has("nvim")
     let g:deoplete#enable_at_startup = 1
     let g:deoplete#enable_smart_case = 1
     let g:deoplete#sources#syntax#min_keyword_length = 1
-
     "You probably need to increase the size limit on deoplete#tag#cache_limit_size. The default is 500000 which is ~500KiB. Add another zero to it to make it ~5MiB:
     "default:                           500000
     "my rusty-tags.vi size was          1459153
@@ -834,21 +616,14 @@ else
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
     let g:neocomplete#sources#syntax#min_keyword_length = 1
-
     "You probably need to increase the size limit on deoplete#tag#cache_limit_size. The default is 500000 which is ~500KiB. Add another zero to it to make it ~5MiB:
     "default:                              500000
     "my rusty-tags.vi size was             1459153
     let neocomplete#tag#cache_limit_size = 5000000
 endif
 
-
-
 "NeoSnippet:
-"inoremap <expr><TAB>  pumvisible() ? "\<CR>" : "\<TAB>"
-"imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-"smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-"xmap <C-k>     <Plug>(neosnippet_expand_target)
-" SuperTab like snippets behavior.
+"SuperTab like snippets behavior.
 imap <expr><TAB>
             \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" :
             \ pumvisible() ? "\<Space>" :
@@ -861,63 +636,4 @@ imap <expr><M-k>
 imap <expr><M-j>
             \ pumvisible() ? "\<C-n>" :
             \ ""
-
-"
-" deoplete.vim
-"set omnifunc=syntaxcomplete#Complete
-"set completeopt+=noinsert
-"let g:deoplete#enable_ignore_case = 'ignorecase'
-"" https://github.com/Shougo/neocomplete.vim/blob/master/autoload/neocomplete/sources/omni.vim
-"let g:deoplete#omni_patterns = {}
-"let g:deoplete#omni_patterns.html = '<[^>]*'
-"let g:deoplete#omni_patterns.xml  = '<[^>]*'
-"let g:deoplete#omni_patterns.md   = '<[^>]*'
-"let g:deoplete#omni_patterns.css   = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
-"let g:deoplete#omni_patterns.scss   = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
-"let g:deoplete#omni_patterns.sass   = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
-"let g:deoplete#omni_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
-"let g:deoplete#omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-"let g:deoplete#omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-"let g:deoplete#omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
-"let g:deoplete#omni_patterns.ruby = ['[^. *\t]\.\w*', '\h\w*::']
-"" let g:deoplete#omni_patterns.python = '[^. \t]\.\w*'
-"let g:deoplete#omni_patterns.python = ['[^. *\t]\.\h\w*\','\h\w*::']
-"let g:deoplete#omni_patterns.python3 = ['[^. *\t]\.\h\w*\','\h\w*::']
-"let g:deoplete#omni_patterns.rust = '[(\.)(::)]'
-
-"autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
-
-""shitty map that goes one screen up and down regularly.. nope. lets just go up and down the
-""completion
-"imap <M-S-k> 	<C-p>
-"imap <M-S-j> 	<C-n>
-""don't leave line just go next and prev here
-"imap <M-k> 		<C-p>
-"imap <M-j> 		<C-n>
-
-""from https://github.com/SirVer/ultisnips/issues/376
-"let g:UltiSnipsJumpForwardTrigger="<tab>"
-"let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
-"let g:UltiSnipsExpandTrigger="<nop>"
-"let g:ulti_expand_or_jump_res = 0
-"function! <SID>ExpandSnippetOrReturn()
-"let snippet = UltiSnips#ExpandSnippetOrJump()
-"if g:ulti_expand_or_jump_res > 0
-"return snippet
-"else
-"return "\<C-Y>"
-"endif
-"endfunction
-"imap <expr> <CR> pumvisible() ? "<C-R>=<SID>ExpandSnippetOrReturn()<CR>" : "<Plug>delimitMateCR"
-"" make YCM compatible with UltiSnips (using supertab)
-"let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-"let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-"let g:SuperTabDefaultCompletionType = '<C-n>'
-""this forces us to remap numbertoogletrigger though
-"let g:NumberToggleTrigger = '<m-n>'
-""
-"" better key bindings for UltiSnipsExpandTrigger
-"let g:UltiSnipsExpandTrigger = "<tab>"
-"let g:UltiSnipsJumpForwardTrigger = "<tab>"
-"let g:UltiSnipsJumpBackwardTrigger = "<s-tab>""
 
