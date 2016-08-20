@@ -1,1 +1,1 @@
-set guifont=Monospace\ 11
+set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 11
