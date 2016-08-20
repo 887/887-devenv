@@ -253,7 +253,7 @@ endif
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
-"ALSO: SET KEYBOARD CAPS LOCK KEY BEHAVIOR TO ALSO BE AN ESCAPE KEY
+"ALSO: SET KEYBOARD CAPS LOCK KEY BEHAVIOR TO ALSO BE AN ESCAPE KEY IN YOUR OS-WINDOW MANAGER
 "nerdtree:
 nmap <silent> <F3> :NERDTreeToggle<CR>
 nmap <silent> g<F3> :NERDTreeFind<CR>
