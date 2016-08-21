@@ -136,6 +136,8 @@ endfun
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 "only root manually
 let g:rooter_manual_only = 1
+let g:neosnippet#enable_snipmate_compatibility = 1
+let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
 
 "Syntax Highlighting:
 syntax enable
