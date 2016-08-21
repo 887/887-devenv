@@ -138,6 +138,10 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 let g:rooter_manual_only = 1
 let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
+" For conceal markers.
+if has('conceal')
+    set conceallevel=2 concealcursor=niv
+endif
 
 "Syntax Highlighting:
 syntax enable
@@ -396,6 +400,7 @@ nmap dd dd
 nmap D D
 "Delete the contents of line except the newline character (that is, make it blank) and do not change clipboard
 nmap dD dD
+nmap <TAB> <TAB>
 "leave this one alone:
 "nmap C C
 "these do not work because we have ConqueGDB print variable here!
