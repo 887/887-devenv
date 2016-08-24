@@ -337,7 +337,7 @@ nnoremap <C-y> 3<C-y>
 nnoremap <C-L> :nohl<CR><C-L>
 nnoremap <silent> gt :bn<CR>
 nnoremap <silent> gT :bp<CR>
-nnoremap gd :bd<CR>
+nnoremap gq :bd<CR>
 "these all point pressing gt with alt results in the buffexplorer window:
 nnoremap <silent> <m-g><m-t> :BufExplorer<CR>
 nnoremap <silent> g<m-t> :BufExplorer<CR>
