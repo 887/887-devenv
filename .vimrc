@@ -230,6 +230,12 @@ au BufRead,BufNewFile *.js set filetype=javascript
 au BufRead,BufNewFile *.md set filetype=mkd
 au BufRead,BufNewFile *.conf setf dosini
 
+" Delimitmate
+au FileType \* let b:delimitMate_autoclose = 1
+
+" If using html auto complete (complete closing tag)
+au FileType xml,html,xhtml let b:delimitMate_matchpairs = "(:),[:],{:}"
+au FileType rust,rs let b:delimitMate_matchpairs = "(:),[:],{:}"
 "this needs to be set as the system/terminal font
 "gnome-terminal: edit -> profile preferences -> general -> text appearance -> custom font -> seach
 "for this: (but also leave it as a setting here)
