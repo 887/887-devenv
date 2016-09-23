@@ -12,27 +12,27 @@ ln -sfn ./vim/plugged ~/.config/nvim/
 #rm ~/.vim/autoload
 #rm ~/.config/nvim/after
 #rm ~/.config/nvim/autoload
-ln -s ~/devenv/vim/after ~/.vim/
-ln -s ~/devenv/vim/autoload ~/.vim/
-ln -s ~/devenv/vim/after ~/.config/nvim/
-ln -s ~/devenv/vim/autoload ~/.config/nvim/
+ln -sf ~/devenv/vim/after ~/.vim/
+ln -sf ~/devenv/vim/autoload ~/.vim/
+ln -sf ~/devenv/vim/after ~/.config/nvim/
+ln -sf ~/devenv/vim/autoload ~/.config/nvim/
 
 #map folder from here to local folders
-ln -s ~/devenv/.vimrc ~/.vimrc
-ln -s ~/devenv/.vimrc ~/.config/nvim/init.vim
-ln -s ~/devenv/.gvimrc ~/.gvimrc
-ln -s ~/devenv/.tmux.conf ~/.tmux.conf
-ln -s ~/devenv/.gitconfig ~/.gitconfig
-ln -s ~/devenv/.ctags ~/.ctags
-ln -s ~/devenv/zsh-history-substring-search.zsh ~/zsh-history-substring-search.zsh
+ln -sf ~/devenv/.vimrc ~/.vimrc
+ln -sf ~/devenv/.vimrc ~/.config/nvim/init.vim
+ln -sf ~/devenv/.gvimrc ~/.gvimrc
+ln -sf ~/devenv/.tmux.conf ~/.tmux.conf
+ln -sf ~/devenv/.gitconfig ~/.gitconfig
+ln -sf ~/devenv/.ctags ~/.ctags
+ln -sf ~/devenv/zsh-history-substring-search.zsh ~/zsh-history-substring-search.zsh
 
 #install zprezto before this
-ln -s ~/devenv/runcoms/zprofile ~/.zprezto/runcoms/zprofile
-ln -s ~/devenv/runcoms/zlogin ~/.zprezto/runcoms/zlogin
-ln -s ~/devenv/runcoms/zlogout ~/.zprezto/runcoms/zlogout
-ln -s ~/devenv/runcoms/zpreztorc ~/.zprezto/runcoms/zpreztorc
-ln -s ~/devenv/runcoms/zshenv ~/.zprezto/runcoms/zshenv
-ln -s ~/devenv/runcoms/zshrc ~/.zprezto/runcoms/zshrc
+ln -sf ~/devenv/runcoms/zprofile ~/.zprezto/runcoms/zprofile
+ln -sf ~/devenv/runcoms/zlogin ~/.zprezto/runcoms/zlogin
+ln -sf ~/devenv/runcoms/zlogout ~/.zprezto/runcoms/zlogout
+ln -sf ~/devenv/runcoms/zpreztorc ~/.zprezto/runcoms/zpreztorc
+ln -sf ~/devenv/runcoms/zshenv ~/.zprezto/runcoms/zshenv
+ln -sf ~/devenv/runcoms/zshrc ~/.zprezto/runcoms/zshrc
 
 #map allready crated folders
 #cp ~/.vimrc ~/devenv/.vimrc
