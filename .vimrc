@@ -55,7 +55,6 @@ Plug 'sjl/badwolf'
 Plug 'racer-rust/vim-racer'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-scripts/Conque-GDB'
 Plug 'tpope/vim-fugitive'
 Plug 'ctrlpvim/ctrlp.vim'
 "Plug 'shougo/unite.vim'
@@ -91,9 +90,13 @@ Plug 'djoshea/vim-autoread'
 "see description in .tmux.conf for colors before starting Vim
 Plug 'edkolev/tmuxline.vim'
 "lldb disabled for now, gdb works better
-"if has("nvim")
-"    Plug 'critiqjo/lldb.nvim'
-"endif
+
+if has("lldbisablebybuggyvalueread887") && has("nvim")
+    Plug 'critiqjo/lldb.nvim'
+else
+    Plug 'vim-scripts/Conque-GDB'
+endif
+
 " ============ vim -plug ===========
 " Add plugins to &runtimepath
 call plug#end()
@@ -493,37 +496,36 @@ nmap <c-m><c-m> <Plug>MoveMotionLinePlug
 "
 
 "this is the lldb/gdb switch, both should roughly have the same keybindings:
-if has("faslefalsefalsefalse")
+if has("lldbisablebybuggyvalueread887") && has("nvim")
     "lldb has a bug with rust, its cool but for now i have to switch to conquegdb
     "https://github.com/rust-lang/rust/issues/33062
-    if has("nvim")
-        "i want f8 - f12 to be my debugging keys. cant live without them
-        "F11 is fullscreen though
-        "lldb neovim debugger - main reason for neovim
-        "go g->F1 to create a profile, then just y. if you did n then:
-        ":CargoBuild
-        ":LL run
-        "return to normal with F2
 
-        "there also is conque gdb that is the same thing just with gdb
-        "here is a complete keymap for both: http://lldb.llvm.org/lldb-gdb.html
-        "
-        nmap <M-b> <Plug>LLBreakSwitch
-        nmap <F9> <Plug>LLBreakSwitch
-        vmap <F12> <Plug>LLStdInSelected
-        nnoremap <F12> :LLstdin<CR>
-        "Do a source level single step(in) in the currently selected thread.
-        nnoremap g<F10> :LL step<CR>
-        "Do a source level single step over in the currently selected thread.
-        nnoremap <F10> :LL next<CR>
-        nnoremap g<F1> :LLsession new<CR>
-        nnoremap <F1> :LLmode debug<CR>
-        nnoremap <F2> :LLmode code<CR>
-        nnoremap <F5> :LL continue<CR>
-        nnoremap g<F10> :LL process interrupt<CR>
-        nnoremap gp :LL print <C-R>=expand('<cword>')<CR>
-        vnoremap g<F12> :<C-U>LL print <C-R>=lldb#util#get_selection()<CR><CR>
-    endif
+    "i want f8 - f12 to be my debugging keys. Cant live without them
+    "F11 is fullscreen though
+    "lldb neovim debugger - main reason for neovim
+    "go g->F1 to create a profile, then just y. If you did n then:
+    ":CargoBuild
+    ":LL run
+    "return to normal with F2
+
+    "there also is conque gdb that is the same thing just with gdb
+    "here is a complete keymap for both: http://lldb.llvm.org/lldb-gdb.html
+    "
+    nmap <M-b> <Plug>LLBreakSwitch
+    nmap <F9> <Plug>LLBreakSwitch
+    vmap <F12> <Plug>LLStdInSelected
+    nnoremap <F12> :LLstdin<CR>
+    "Do a source level single step(in) in the currently selected thread.
+    nnoremap g<F10> :LL step<CR>
+    "Do a source level single step over in the currently selected thread.
+    nnoremap <F10> :LL next<CR>
+    nnoremap g<F1> :LLsession new<CR>
+    nnoremap <F1> :LLmode debug<CR>
+    nnoremap <F2> :LLmode code<CR>
+    nnoremap <F5> :LL continue<CR>
+    nnoremap g<F10> :LL process interrupt<CR>
+    nnoremap gp :LL print <C-R>=expand('<cword>')<CR>
+    vnoremap g<F12> :<C-U>LL print <C-R>=lldb#util#get_selection()<CR><CR>
 else
     "Conque terminal -> Conque gdb
     "find help for it here
