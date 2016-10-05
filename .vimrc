@@ -61,7 +61,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'dan-t/rusty-tags'
 Plug 'Raimondi/delimitMate'
 Plug 'timonv/vim-cargo'
-Plug 'Nonius/cargo.vim'
+Plug '887/cargo.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'chaoren/vim-wordmotion'
@@ -288,7 +288,7 @@ noremap <silent> g<F8> :set hlsearch! hlsearch?<CR>:echo<CR>
 "disabled in favour of ctrl-l
 nnoremap <silent> <F8> :nohlsearch<CR>:echo<CR>
 " Use <F11> to toggle between 'paste' and 'nopaste' -intendation
-set pastetoggle=<F9>
+set pastetoggle=g<F9>
 
 "vim-airline:
 let g:airline#extensions#tabline#enabled = 1
