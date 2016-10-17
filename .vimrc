@@ -270,6 +270,8 @@ endif
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
+"toggle between absolute and relative line numbers
+let g:NumberToggleTrigger="g<F2>"
 "ALSO: SET KEYBOARD CAPS LOCK KEY BEHAVIOR TO ALSO BE AN ESCAPE KEY IN YOUR OS-WINDOW MANAGER
 "nerdtree:
 nmap <silent> <F3> :NERDTreeToggle<CR>
