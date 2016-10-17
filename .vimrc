@@ -175,9 +175,11 @@ set shiftwidth=4
 set incsearch
 set ignorecase
 set smartcase
-" check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change
+
+" check file change every 4(=checktime) seconds ('CursorHold') and reload the buffer upon detecting change
 set autoread
 au CursorHold * checktime
+
 set dir=~/tmp
 "having no swapfile means vim uses more memory because everything lands in memmory -> no problem
 "90% of the time i use vim to develop software and safe like every 30 seconds, same with configfiles
