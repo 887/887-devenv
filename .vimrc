@@ -1,3 +1,4 @@
+"sddas
 "This .vimrc is  nevoim compatible and can be used in both
 "neovim needs python*-support (installed seperatley) -> :help nvim-python
 "on arch its in the community repo ->
@@ -22,7 +23,7 @@ filetype off                  " required
 call plug#begin('~/.vim/plugged')
 " ============ /vim-plug ===========
 
-Plug 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic', { 'tag': '3.6.0' }
 "no need, neonvim has :man command build in, its enough
 "Plug 'powerman/vim-plugin-viewdoc'
 Plug 'rust-lang/rust.vim'
