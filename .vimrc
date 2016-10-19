@@ -40,6 +40,7 @@ else
     Plug 'Shougo/neocomplete.vim'
 endif
 "complete from tmux panes
+Plug 'qpkorr/vim-bufkill'
 Plug 'wellle/tmux-complete.vim'
 Plug 'Shougo/neoinclude.vim'
 Plug 'Shougo/neosnippet.vim'
@@ -336,6 +337,8 @@ command WA :wa
 command Q :q
 
 "Keybindings:
+"Disable ExMode
+map Q <nop>
 " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy:
 map Y y$
 "alt-y -> yank all lines in file
@@ -351,14 +354,15 @@ nnoremap <C-y> 3<C-y>
 nnoremap <C-L> :nohl<CR><C-L>
 nnoremap <silent> gt :bn<CR>
 nnoremap <silent> gT :bp<CR>
-nnoremap gq :bd<CR>
+"this uses vim-buffkill to keep windows intact: https://github.com/qpkorr/vim-bufkill
+nnoremap gq :BD<CR>
 "these all point pressing gt with alt results in the buffexplorer window:
 nnoremap <silent> <m-g><m-t> :BufExplorer<CR>
 nnoremap <silent> g<m-t> :BufExplorer<CR>
 nnoremap <silent> <m-g>t :BufExplorer<CR>
+"tabs aren't buffers but we should map these anyway
 nnoremap <silent> <c-g>t :tabnext<CR>
 nnoremap <silent> <c-g>T :tabprevious<CR>
-nnoremap <silent> <c-g>0 :b 0<CR>
 nnoremap <silent> <c-g>1 :b 1<CR>
 nnoremap <silent> <c-g>2 :b 2<CR>
 nnoremap <silent> <c-g>3 :b 3<CR>
