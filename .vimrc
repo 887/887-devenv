@@ -1,4 +1,3 @@
-"sddas
 "This .vimrc is  nevoim compatible and can be used in both
 "neovim needs python*-support (installed seperatley) -> :help nvim-python
 "on arch its in the community repo ->
@@ -23,10 +22,10 @@ filetype off                  " required
 call plug#begin('~/.vim/plugged')
 " ============ /vim-plug ===========
 
-Plug 'scrooloose/syntastic', { 'tag': '3.6.0' }
+Plug 'scrooloose/syntastic' ", { 'tag': '3.6.0' }
 "no need, neonvim has :man command build in, its enough
 "Plug 'powerman/vim-plugin-viewdoc'
-Plug 'rust-lang/rust.vim'
+Plug 'rust-lang/rust.vim', { 'commit': '2946a05c94c8ab8e047abdce3c775c48d734ee17' }
 "Plug 'xolox/vim-misc'
 "Plug 'xolox/vim-easytags'
 Plug 'tpope/vim-repeat'
@@ -111,6 +110,7 @@ filetype plugin indent on    " required
 "experimental rust racer features:
 let g:racer_insert_paren = 1
 let g:racer_experimental_completer = 1
+let g:rustfmt_fail_silently=1
 "let g:rustfmt_autosave = 1
 "let g:ycm_rust_src_path = '/usr/src/rust/src'
 let g:ycm_rust_src_path = $RUST_SRC_PATH
@@ -372,6 +372,15 @@ nnoremap <silent> <c-g>6 :b 6<CR>
 nnoremap <silent> <c-g>7 :b 7<CR>
 nnoremap <silent> <c-g>8 :b 8<CR>
 nnoremap <silent> <c-g>9 :b 9<CR>
+nnoremap <silent> g1 :b 1<CR>
+nnoremap <silent> g2 :b 2<CR>
+nnoremap <silent> g3 :b 3<CR>
+nnoremap <silent> g4 :b 4<CR>
+nnoremap <silent> g5 :b 5<CR>
+nnoremap <silent> g6 :b 6<CR>
+nnoremap <silent> g7 :b 7<CR>
+nnoremap <silent> g8 :b 8<CR>
+nnoremap <silent> g9 :b 9<CR>
 "insert mode mappings.. these are considered ineffective but are really helpfull sometimes:
 imap <M-h> 		<Left>
 imap <M-l> 		<Right>
@@ -461,6 +470,9 @@ nmap <c-m><c-m> <Plug>MoveMotionLinePlug
 "
 "http://vimawesome.com/plugin/vim-signature
 "vim mark sign jumping and viewing on the left
+"
+"https://github.com/kshenoy/vim-signature/issues/106
+"hide all markers bug
 "
 " mx           Toggle mark 'x' and display it in the leftmost column
 " dmx          Remove mark 'x' where x is a-zA-Z
@@ -660,4 +672,9 @@ imap <expr><M-k>
 imap <expr><M-j>
             \ pumvisible() ? "\<C-n>" :
             \ ""
+
+":h airline
+"show buffer number in tabline for easier switching
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+
 
