@@ -558,7 +558,7 @@ else
     "executable you can change the value of |g:ConqueGdb_GdbExe|. By default this
     "option is:
     "let g:ConqueGdb_GdbExe = ''
-    let g:ConqueGdb_GdbExe = '$HOME/.cargo/bin/rust-gdb'
+    let g:ConqueGdb_GdbExe = $HOME . '/.cargo/bin/rust-gdb'
 
     "When Conque GDB splits the GDB CLI window to open source files it will by
     "defaut split the window such that the source code will appear above the GDB
