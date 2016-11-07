@@ -16,8 +16,12 @@ HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
 unsetopt beep
+
+#https://dougblack.io/words/zsh-vi-mode.html
 # Vi mode
 bindkey -v
+export KEYTIMEOUT=1
+
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
 zstyle :compinstall filename '$HOME/.zshrc'
