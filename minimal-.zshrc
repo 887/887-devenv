@@ -10,6 +10,7 @@ bindkey '^N' down-history
 # kill the lag
 export KEYTIMEOUT=1
 
+export XDG_CONFIG_HOME=$HOME
 export HISTSIZE=2000
 export HISTFILE="$HOME/.history"
 export SAVEHIST=$HISTSIZE
