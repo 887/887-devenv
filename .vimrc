@@ -25,7 +25,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/syntastic' ", { 'tag': '3.6.0' }
 "no need, neonvim has :man command build in, its enough
 "Plug 'powerman/vim-plugin-viewdoc'
-Plug 'rust-lang/rust.vim', { 'commit': '2946a05c94c8ab8e047abdce3c775c48d734ee17' }
+"Plug 'rust-lang/rust.vim', { 'commit': '2946a05c94c8ab8e047abdce3c775c48d734ee17' }
+Plug 'rust-lang/rust.vim'
 "Plug 'xolox/vim-misc'
 "Plug 'xolox/vim-easytags'
 Plug 'tpope/vim-repeat'
