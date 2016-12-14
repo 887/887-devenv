@@ -232,6 +232,7 @@ au BufRead,BufNewFile *.kt  set filetype=kotlin
 au BufRead,BufNewFile *.jet set filetype=kotlin
 au BufRead,BufNewFile *.sls set filetype=yaml
 au BufRead,BufNewFile *.rs set filetype=rust
+au BufRead,BufNewFile *.rust set filetype=rust
 au BufRead,BufNewFile *.toml set filetype=toml
 au BufRead,BufNewFile *.html set filetype=html
 au BufRead,BufNewFile *.js set filetype=javascript
