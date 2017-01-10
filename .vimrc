@@ -384,6 +384,13 @@ nnoremap <silent> g6 :b 6<CR>
 nnoremap <silent> g7 :b 7<CR>
 nnoremap <silent> g8 :b 8<CR>
 nnoremap <silent> g9 :b 9<CR>
+
+"Rust Mappings for vim-racer
+au FileType rust nmap gd <Plug>(rust-def)
+au FileType rust nmap gs <Plug>(rust-def-split)
+au FileType rust nmap gx <Plug>(rust-def-vertical)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
+
 "insert mode mappings.. these are considered ineffective but are really helpfull sometimes:
 imap <M-h> 		<Left>
 imap <M-l> 		<Right>
