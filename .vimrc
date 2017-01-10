@@ -92,6 +92,7 @@ Plug 'djoshea/vim-autoread'
 "see description in .tmux.conf for colors before starting Vim
 Plug 'edkolev/tmuxline.vim'
 "lldb disabled for now, gdb works better
+Plug 'terryma/vim-expand-region'
 
 if has("lldbisablebybuggyvalueread887") && has("nvim")
     Plug 'critiqjo/lldb.nvim'
