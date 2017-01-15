@@ -80,7 +80,8 @@ Plug 'mbbill/undotree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'mileszs/ack.vim'
 "packer -S the_silver_searcher for ag plugin
-Plug 'rking/ag.vim'
+"Plug 'rking/ag.vim'
+Plug 'mhinz/vim-grepper'
 Plug 'Chun-Yang/vim-action-ag'
 Plug 'majutsushi/tagbar'
 Plug 'milkypostman/vim-togglelist'
@@ -524,7 +525,34 @@ nmap <c-m><c-m> <Plug>MoveMotionLinePlug
 "gagi' to search the words inside single quotes.
 "Visual Mode
 "gag to search the selected text
-"
+
+"replace grep with ripgrep in vim!
+if executable('rg')
+    set grepprg=rg\ --no-heading\ --vimgrep
+    set grepformat=%f:%l:%c:%m
+endif
+"vim-grepper replaces ag for the momment
+"https://github.com/mhinz/vim-grepper/wiki/example-configurations-and-mappings
+nnoremap <leader>gr :Grepper -tool rg<cr>
+nnoremap <leader>rg :Grepper -tool rg<cr>
+let g:grepper = {}
+let g:grepper.tools = ['rg']
+let g:grepper.next_tool = '<tab>'
+let g:grepper.jump = 0
+let g:grepper.simple_prompt = 1
+let g:grepper.quickfix = 1
+let g:grepper.open = 1
+let g:grepper.switch = 1
+let g:grepper.highlight = 1
+"vimgrep uses the qucikfix window that and thus useses the "help quickfix" commands these are:
+":cc[!] [nr]
+":[count]cn[ext][!]
+":[count]cN[ext][!]
+":[count]cp[revious][!]
+"current window:
+":ll[!] [nr]
+":[count]lne[xt][!]	Same as ":cnext", except the location list for the
+
 
 "this is the lldb/gdb switch, both should roughly have the same keybindings:
 if has("lldbisablebybuggyvalueread887") && has("nvim")
