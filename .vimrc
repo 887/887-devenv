@@ -116,6 +116,7 @@ let g:racer_experimental_completer = 1
 let g:rustfmt_fail_silently=1
 "let g:rustfmt_autosave = 1
 "let g:ycm_rust_src_path = '/usr/src/rust/src'
+"vim has build in formating on the '=' key
 let g:ycm_rust_src_path = $RUST_SRC_PATH
 "tabar setup for rust:
 let g:tagbar_type_rust = {
