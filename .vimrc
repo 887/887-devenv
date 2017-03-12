@@ -95,7 +95,7 @@ Plug 'edkolev/tmuxline.vim'
 "lldb disabled for now, gdb works better
 Plug 'terryma/vim-expand-region'
 
-if has("lldbisablebybuggyvalueread887") && has("nvim")
+if executable("lldb") && has("nvim")
     Plug 'critiqjo/lldb.nvim'
 else
     Plug 'vim-scripts/Conque-GDB'
@@ -556,7 +556,7 @@ let g:grepper.highlight = 1
 
 
 "this is the lldb/gdb switch, both should roughly have the same keybindings:
-if has("lldbisablebybuggyvalueread887") && has("nvim")
+if executable("lldb") && has("nvim")
     "lldb has a bug with rust, its cool but for now i have to switch to conquegdb
     "https://github.com/rust-lang/rust/issues/33062
 
