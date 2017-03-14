@@ -554,6 +554,16 @@ let g:grepper.highlight = 1
 ":ll[!] [nr]
 ":[count]lne[xt][!]	Same as ":cnext", except the location list for the
 
+"cgdb shortcuts:
+"`F5'Send a run command to GDB.
+"`F6'Send a continue command to GDB.
+"`F7'Send a finish command to GDB.
+"`F8'Send a next command to GDB.
+"`F10'Send a step command to GDB.
+"`spacebar'Sets a breakpoint at the current line number.
+"`t'Sets a temporary breakpoint at the current line number.
+"`i'Puts the user into "GDB mode".
+"`I'Puts the user into "TTY mode".
 
 "this is the lldb/gdb switch, both should roughly have the same keybindings:
 if executable("lldb") && has("nvim")
