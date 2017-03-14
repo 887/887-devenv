@@ -576,7 +576,7 @@ if executable("lldb") && has("nvim")
     vmap <F12> <Plug>LLStdInSelected
     nnoremap <F12> :LLstdin<CR>
     "Do a source level single step(in) in the currently selected thread.
-    nnoremap g<F10> :LL step<CR>
+    nnoremap <F11> :LL step<CR>
     "Do a source level single step over in the currently selected thread.
     nnoremap <F10> :LL next<CR>
     nnoremap g<F1> :LLsession new<CR>
