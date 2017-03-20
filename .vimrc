@@ -173,6 +173,8 @@ set list
 set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
 "let vim do the indenting most of the time
 set autoindent
+"load filetype-specific indent files
+filetype indent on
 "tabs to spaces
 set expandtab
 set tabstop=4
@@ -201,8 +203,13 @@ set hlsearch
 set clipboard=unnamedplus
 " ask instead of failing to save files:
 set confirm
-" Better command-line completion
+" Better command-line completion (visual autocomplete for command menu)
 set wildmenu
+"redraw only when we need to
+set lazyredraw
+" highlight matching [{()}]
+set showmatch
+
 "Show partial commands in the last line of the screen (right side, annoying, off)
 "set showcmd
 "no timeouts for special characters: (certain combos insert unexpected chars otherwise)
