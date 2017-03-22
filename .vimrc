@@ -94,6 +94,7 @@ Plug 'djoshea/vim-autoread'
 Plug 'edkolev/tmuxline.vim'
 "lldb disabled for now, gdb works better
 Plug 'terryma/vim-expand-region'
+Plug 'tpope/vim-obsession'
 
 if executable("lldb") && has("nvim")
     Plug 'critiqjo/lldb.nvim'
@@ -364,8 +365,10 @@ nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
 "C-L refreshes the screen and turns off search highlighting
 nnoremap <C-L> :nohl<CR><C-L>
+"make gtgT switch buffers instead of tabs
 nnoremap <silent> gt :bn<CR>
 nnoremap <silent> gT :bp<CR>
+"no we need to rebind the tab buttons -> they are on ctrl-g + t/T http://vim.wikia.com/wiki/Using_tab_pages
 "this uses vim-buffkill to keep windows intact: https://github.com/qpkorr/vim-bufkill
 nnoremap gq :BD<CR>
 "these all point pressing gt with alt results in the buffexplorer window:
