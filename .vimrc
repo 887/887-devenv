@@ -39,8 +39,13 @@ if has("nvim")
 else
     Plug 'Shougo/neocomplete.vim'
 endif
-"complete from tmux panes
+
+"vim-ctrlspace is a big addon that allows perfect buffer/tab management and is the basis for a
+"perfect running vim-airline pluing. In short: you can't live without it!!
+Plug 'vim-ctrlspace/vim-ctrlspace'
+
 Plug 'qpkorr/vim-bufkill'
+"complete from tmux panes
 Plug 'wellle/tmux-complete.vim'
 Plug 'Shougo/neoinclude.vim'
 Plug 'Shougo/neosnippet.vim'
@@ -311,6 +316,7 @@ set pastetoggle=g<F9>
 
 "vim-airline:
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#switch_buffers_and_tabs = 0
 "this makes vim-airline allways visible. very usefull
 set laststatus=2
 "sticking with syntastic instead of neomake works better
@@ -556,6 +562,7 @@ let g:grepper.open = 1
 let g:grepper.switch = 1
 let g:grepper.highlight = 1
 "vimgrep uses the qucikfix window that and thus useses the "help quickfix" commands these are:
+"You can use :.cc to jump to the error under the cursor.
 ":cc[!] [nr]
 ":[count]cn[ext][!]
 ":[count]cN[ext][!]
