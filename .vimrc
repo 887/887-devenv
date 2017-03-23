@@ -369,6 +369,11 @@ command W :w
 command Wa :wa
 command WA :wa
 command Q :q
+command Qa :qa
+command QA :qa
+command Q1 :q!
+command Qa1 :qa!
+command QA1 :qa!
 
 "Keybindings:
 "Disable ExMode
