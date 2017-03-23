@@ -315,8 +315,22 @@ nnoremap <silent> <F8> :nohlsearch<CR>:echo<CR>
 set pastetoggle=g<F9>
 
 "vim-airline:
+":h airline
+
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 1
+"show buffer number in tabline for easier switching
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
+"let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#switch_buffers_and_tabs = 0
+let g:airline#extensions#tabline#show_tab_nr = 1
+"rename label for buffers (default: 'buffers') (c)
+let g:airline#extensions#tabline#buffers_label = 'b'
+"rename label for tabs (default: 'tabs') (c)
+let g:airline#extensions#tabline#tabs_label = 't'
+
+
 "this makes vim-airline allways visible. very usefull
 set laststatus=2
 "sticking with syntastic instead of neomake works better
@@ -740,8 +754,5 @@ imap <expr><M-j>
             \ pumvisible() ? "\<C-n>" :
             \ ""
 
-":h airline
-"show buffer number in tabline for easier switching
-let g:airline#extensions#tabline#buffer_idx_mode = 1
 
 
