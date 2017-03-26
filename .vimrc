@@ -374,6 +374,7 @@ command QA :qa
 command Q1 :q!
 command Qa1 :qa!
 command QA1 :qa!
+map q: :q
 
 "Keybindings:
 "Disable ExMode
