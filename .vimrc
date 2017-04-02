@@ -212,9 +212,9 @@ set confirm
 " Better command-line completion (visual autocomplete for command menu)
 set wildmenu
 "redraw only when we need to
-set lazyredraw
+"set lazyredraw
 " highlight matching [{()}]
-set showmatch
+"set showmatch
 
 "Show partial commands in the last line of the screen (right side, annoying, off)
 "set showcmd
