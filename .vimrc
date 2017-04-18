@@ -26,19 +26,34 @@ Plug 'scrooloose/syntastic' ", { 'tag': '3.6.0' }
 "no need, neonvim has :man command build in, its enough
 "Plug 'powerman/vim-plugin-viewdoc'
 "Plug 'rust-lang/rust.vim', { 'commit': '2946a05c94c8ab8e047abdce3c775c48d734ee17' }
-Plug 'rust-lang/rust.vim'
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 "Plug 'xolox/vim-misc'
 "Plug 'xolox/vim-easytags'
 Plug 'tpope/vim-repeat'
 Plug 'svermeulen/vim-easyclip'
 function! DoRemote(arg)
-    UpdateRemotePlugins
+    "only when really needed:
+    "UpdateRemotePlugins
 endfunction
 if has("nvim")
     Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+    Plug 'autozimu/LanguageClient-neovim', { 'for': 'rust', 'do': function('DoRemote')}
+
+    "for rls support:
+    "rustup default nightly
+    "rustup update nightly
+    "rustup component add rls
+    "rustup component add rust-analysis
+    "rustup component add rust-src
+    let g:LanguageClient_serverCommands = {
+                \ 'rust': [$HOME . '/.cargo/bin/rls'],
+                \ }
+    " Automatically start language servers.
+    let g:LanguageClient_autoStart = 1
 else
     Plug 'Shougo/neocomplete.vim'
 endif
+Plug 'Shougo/echodoc.vim'
 
 "vim-ctrlspace is a big addon that allows perfect buffer/tab management and is the basis for a
 "perfect running vim-airline pluing. In short: you can't live without it!!
@@ -59,16 +74,16 @@ Plug 'christoomey/vim-sort-motion'
 "Plug 'michaeljsmith/vim-indent-object'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'sjl/badwolf'
-Plug 'racer-rust/vim-racer'
+Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 Plug 'ctrlpvim/ctrlp.vim'
 "Plug 'shougo/unite.vim'
-Plug 'dan-t/rusty-tags'
+Plug 'dan-t/rusty-tags', { 'for': 'rust' }
 Plug 'Raimondi/delimitMate'
-Plug 'timonv/vim-cargo'
-Plug '887/cargo.vim'
+Plug 'timonv/vim-cargo', { 'for': 'rust' }
+Plug '887/cargo.vim', { 'for': 'rust' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'chaoren/vim-wordmotion'
@@ -429,6 +444,13 @@ au FileType rust nmap gd <Plug>(rust-def)
 au FileType rust nmap gs <Plug>(rust-def-split)
 au FileType rust nmap gx <Plug>(rust-def-vertical)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
+"Rust mappings for rls (rust language server)
+if has("nvim")
+    au FileType rust nnoremap <silent> gF :call LanguageClient_textDocument_hover()<CR>
+    au FileType rust nnoremap <silent> gD :call LanguageClient_textDocument_definition()<CR>
+    "note: gR is usally visual replace mode, something i do not use
+    au FileType rust nnoremap <silent> gR :call LanguageClient_textDocument_rename()<CR>
+endif
 
 "insert mode mappings.. these are considered ineffective but are really helpfull sometimes:
 imap <M-h> 		<Left>
@@ -512,10 +534,12 @@ nmap <c-m><c-m> <Plug>MoveMotionLinePlug
 "http://vimawesome.com/plugin/easymotion
 "<Leader><Leader>w/b/e -> magic
 "
-"http://vimawesome.com/plugin/surround-vim
+"https://github.com/tpope/vim-surround
 "s = sorround key motion.. so ysiw = yank sorround in word ] = [word]
-"cs -> magic, eg 'Hello world!' -> cs'<q> -> <q>Hello world!</q>
+"or change sorrundings with cs for example:
+"-> 'Hello world!' -> cs'<q> -> <q>Hello world!</q>
 "-> To go full circle, press cst" to get -> "Hello world!"
+"for change in visual mode use captial -> v S" -> "Hello world"
 "
 "http://vimawesome.com/plugin/vim-signature
 "vim mark sign jumping and viewing on the left
