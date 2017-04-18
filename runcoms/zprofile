@@ -75,6 +75,7 @@ TMPPREFIX="${TMPDIR%/}/zsh"
 
 export PATH="$HOME/.cargo/bin:$PATH"
 export CARGO_HOME="$HOME/.cargo"
-export RUST_SRC_PATH="$HOME/rustc-nightly/src"
+#export RUST_SRC_PATH="$HOME/rustc-nightly/src"
+export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 #off!
 export RUST_BACKTRACE=0
