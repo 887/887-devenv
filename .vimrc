@@ -785,5 +785,8 @@ imap <expr><M-j>
             \ pumvisible() ? "\<C-n>" :
             \ ""
 
-
-
+"Default shortcuts i allways forget:
+"vim increment:
+"C-a
+"vim decrement:
+"C-x
