@@ -31,13 +31,20 @@ Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 "Plug 'xolox/vim-easytags'
 Plug 'tpope/vim-repeat'
 Plug 'svermeulen/vim-easyclip'
-function! DoRemote(arg)
+"function! DoRemote(arg)
     "only when really needed:
     "UpdateRemotePlugins
-endfunction
+"endfunction
 if has("nvim")
-    Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
-    Plug 'autozimu/LanguageClient-neovim', { 'for': 'rust', 'do': function('DoRemote')}
+    Plug 'Shougo/deoplete.nvim' ", { 'do': function('DoRemote') }
+    "deoplete has this new preview window feture.. i don't like it!
+    "disable preview completly
+    set completeopt-=preview
+    "just close preview after completion
+    "autocmd CompleteDone * pclose!
+
+    "RLS destoys everything at the moment due to overriding the racer completion options
+    "Plug 'autozimu/LanguageClient-neovim', { 'for': 'rust' } ", 'do': function('DoRemote')}
 
     "for rls support:
     "rustup default nightly
@@ -53,11 +60,14 @@ if has("nvim")
 else
     Plug 'Shougo/neocomplete.vim'
 endif
-Plug 'Shougo/echodoc.vim'
 
 "vim-ctrlspace is a big addon that allows perfect buffer/tab management and is the basis for a
 "perfect running vim-airline pluing. In short: you can't live without it!!
 Plug 'vim-ctrlspace/vim-ctrlspace'
+
+"this shows the function parameters in the statusline!
+Plug 'Shougo/echodoc.vim'
+autocmd VimEnter * call echodoc#enable() "has to be enabled on vim enter
 
 Plug 'qpkorr/vim-bufkill'
 "complete from tmux panes
@@ -226,6 +236,9 @@ set clipboard=unnamedplus
 set confirm
 " Better command-line completion (visual autocomplete for command menu)
 set wildmenu
+"
+"dont show mode information in the last line(its in vim-airline anyway)
+set noshowmode
 "redraw only when we need to
 "set lazyredraw
 " highlight matching [{()}]
@@ -411,6 +424,10 @@ nnoremap <C-L> :nohl<CR><C-L>
 nnoremap <silent> gt :bn<CR>
 nnoremap <silent> gT :bp<CR>
 "no we need to rebind the tab buttons -> they are on ctrl-g + t/T http://vim.wikia.com/wiki/Using_tab_pages
+"tab next is on: <CG>t
+"tab prev is on: <CG>T
+"tab new/new tab has no hotkey but has the commmand :tabnew
+"
 "this uses vim-buffkill to keep windows intact: https://github.com/qpkorr/vim-bufkill
 nnoremap gq :BD<CR>
 "these all point pressing gt with alt results in the buffexplorer window:
@@ -444,6 +461,7 @@ au FileType rust nmap gd <Plug>(rust-def)
 au FileType rust nmap gs <Plug>(rust-def-split)
 au FileType rust nmap gx <Plug>(rust-def-vertical)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
+
 "Rust mappings for rls (rust language server)
 if has("nvim")
     au FileType rust nnoremap <silent> gF :call LanguageClient_textDocument_hover()<CR>
@@ -769,6 +787,15 @@ else
     "my rusty-tags.vi size was             1459153
     let neocomplete#tag#cache_limit_size = 5000000
 endif
+
+"Rust Tags + compile + Syntax checker options
+autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/,$RUST_SRC_PATH/rusty-tags.vi
+autocmd BufWrite *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&"
+autocmd BufRead,BufNewFile Cargo.toml,Cargo.lock,*.rs,*.rust compiler cargo
+"https://github.com/rust-lang/rust.vim/issues/118
+"autocmd FileType rust let g:syntastic_rust_checkers = ['rustc']
+autocmd FileType rust let g:syntastic_rust_checkers = ['cargo']
+
 
 "NeoSnippet:
 "SuperTab like snippets behavior.
