@@ -33,7 +33,7 @@ Plug 'tpope/vim-repeat'
 Plug 'svermeulen/vim-easyclip'
 function! DoRemote(arg)
     "only when really needed:
-    UpdateRemotePlugins
+    "UpdateRemotePlugins
 endfunction
 if has("nvim")
     Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
