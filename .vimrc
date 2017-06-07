@@ -224,10 +224,10 @@ set dir=~/tmp
 "90% of the time i use vim to develop software and safe like every 30 seconds, same with configfiles
 "swapfiles are usefull under certain conditions.. But i can live without them so:
 set noswapfile
-set textwidth=99
+au FileType rust,rs set textwidth=99
 "Make the 100th column stand out (100v = 100th column)
 highlight ColorColumn ctermbg=blue
-call matchadd('colorcolumn', '\%100v', 100)
+au FileType rust,rs call matchadd('colorcolumn', '\%100v', 100)
 set hlsearch
 "set clipboard to system clipboard: https://github.com/svermeulen/vim-easyclip
 "requires the 'xclip' package, otherwise easyclip complaints on start
