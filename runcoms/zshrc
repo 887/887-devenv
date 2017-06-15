@@ -65,5 +65,10 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 alias vim="nvim"
 alias nvim="/usr/bin/nvim -O"
 
-export PATH=$PATH:/home/laragana/.gem/ruby/2.3.0/bin
+
+#THE PATH CHANGES AND THESE SETTINGS ARE DONE IN .bash_profile
+#export PATH="$HOME/.cargo/bin:$HOME/.gem/ruby/2.3.0/bin:$HOME/.cabal/bin:$PATH"
+#export CARGO_HOME="$HOME/.cargo"
+#export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+#export RUST_BACKTRACE=0
 
