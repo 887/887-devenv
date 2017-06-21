@@ -791,7 +791,7 @@ endif
 "Rust Tags + compile + Syntax checker options
 autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/,$RUST_SRC_PATH/rusty-tags.vi
 autocmd BufWrite *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&"
-autocmd BufRead,BufNewFile Cargo.toml,Cargo.lock,*.rs,*.rust compiler cargo
+autocmd BufRead,BufNewFile *.rs,*.rust compiler cargo
 "https://github.com/rust-lang/rust.vim/issues/118
 "autocmd FileType rust let g:syntastic_rust_checkers = ['rustc']
 autocmd FileType rust let g:syntastic_rust_checkers = ['cargo']
