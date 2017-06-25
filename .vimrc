@@ -100,6 +100,7 @@ Plug 'chaoren/vim-wordmotion'
 "Plug 'vim-scripts/EasyClipRing.vim'
 "Plug 'severin-lemaignan/vim-minimap'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
 Plug 'airblade/vim-gitgutter'
 Plug 'easymotion/vim-easymotion'
 Plug 'godlygeek/tabular'
@@ -287,8 +288,10 @@ au BufRead,BufNewFile *.conf setf dosini
 au FileType \* let b:delimitMate_autoclose = 1
 
 " If using html auto complete (complete closing tag)
-au FileType xml,html,xhtml let b:delimitMate_matchpairs = "(:),[:],{:}"
-au FileType rust,rs let b:delimitMate_matchpairs = "(:),[:],{:}"
+"au FileType xml,html,xhtml let b:delimitMate_matchpairs = "(:),[:],{:}"
+"au FileType rust,rs let b:delimitMate_matchpairs = "(:),[:],{:}"
+au FileType rust,rs let b:delimitMate_matchpairs = "[:],{:}"
+
 "this needs to be set as the system/terminal font
 "gnome-terminal: edit -> profile preferences -> general -> text appearance -> custom font -> seach
 "for this: (but also leave it as a setting here)
