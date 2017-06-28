@@ -627,6 +627,9 @@ let g:grepper.quickfix = 1
 let g:grepper.open = 1
 let g:grepper.switch = 1
 let g:grepper.highlight = 1
+
+"rg (rg = <leader>rg
+"note the following has mouse support:
 "vimgrep uses the qucikfix window that and thus useses the "help quickfix" commands these are:
 "You can use :.cc to jump to the error under the cursor.
 ":cc[!] [nr]
@@ -636,6 +639,14 @@ let g:grepper.highlight = 1
 "current window:
 ":ll[!] [nr]
 ":[count]lne[xt][!]	Same as ":cnext", except the location list for the
+
+"Location-List navigation is essentially the same but with ll
+":ll (re)open location list
+":.ll = under cursor
+":ln(ext)
+":lp(previous)
+":ll[!] [number]
+":..and it also works with :3ln etc
 
 "cgdb shortcuts:
 "`F5'Send a run command to GDB.
@@ -820,3 +831,5 @@ imap <expr><M-j>
 "C-a
 "vim decrement:
 "C-x
+":Errors -> show location list with all errors, use :.ll to go to the location under cursor or use
+"the mouse.. or use :ln(ext) or lp(previous) etc, see location list explanation up above
