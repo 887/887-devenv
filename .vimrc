@@ -618,6 +618,7 @@ endif
 "https://github.com/mhinz/vim-grepper/wiki/example-configurations-and-mappings
 nnoremap <leader>gr :Grepper -tool rg<cr>
 nnoremap <leader>rg :Grepper -tool rg<cr>
+nnoremap grg :Grepper -tool rg<cr>
 let g:grepper = {}
 let g:grepper.tools = ['rg']
 let g:grepper.next_tool = '<tab>'
@@ -639,6 +640,8 @@ let g:grepper.highlight = 1
 "current window:
 ":ll[!] [nr]
 ":[count]lne[xt][!]	Same as ":cnext", except the location list for the
+":copen open location list
+":close close location list
 
 "Location-List navigation is essentially the same but with ll
 ":ll (re)open location list
@@ -647,6 +650,8 @@ let g:grepper.highlight = 1
 ":lp(previous)
 ":ll[!] [number]
 ":..and it also works with :3ln etc
+":lopen open location list
+":lclose close location list
 
 "cgdb shortcuts:
 "`F5'Send a run command to GDB.
