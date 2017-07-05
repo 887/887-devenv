@@ -633,7 +633,7 @@ let g:grepper.highlight = 1
 "note the following has mouse support:
 "vimgrep uses the qucikfix window that and thus useses the "help quickfix" commands these are:
 "You can use :.cc to jump to the error under the cursor.
-":cc[!] [nr]
+":cc[!] [nr] <- must first call CC!!!!!!
 ":[count]cn[ext][!]
 ":[count]cN[ext][!]
 ":[count]cp[revious][!]
@@ -836,5 +836,9 @@ imap <expr><M-j>
 "C-a
 "vim decrement:
 "C-x
-":Errors -> show location list with all errors, use :.ll to go to the location under cursor or use
-"the mouse.. or use :ln(ext) or lp(previous) etc, see location list explanation up above
+":Errors -> show location list with for errors/warnings.
+"Doubleclick on entry with the mouse to access it
+"To access with keyboard first use :ll to activate it then you can use:
+":.ll to go to the location under cursor
+":ln(ext) or lp(previous) etc, see cc list explanation up above
+"ERROS USES THE LOCATION LIST, RIPGREP USES THE CC ((C/Q)UICK CORRECTION)
