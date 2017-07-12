@@ -91,7 +91,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'ctrlpvim/ctrlp.vim'
 "Plug 'shougo/unite.vim'
 Plug 'dan-t/rusty-tags', { 'for': 'rust' }
-Plug 'Raimondi/delimitMate'
+"Plug 'Raimondi/delimitMate'
 Plug 'timonv/vim-cargo', { 'for': 'rust' }
 Plug '887/cargo.vim', { 'for': 'rust' }
 Plug 'scrooloose/nerdcommenter'
@@ -285,12 +285,13 @@ au BufRead,BufNewFile *.md set filetype=mkd
 au BufRead,BufNewFile *.conf setf dosini
 
 " Delimitmate
-au FileType \* let b:delimitMate_autoclose = 1
+"au FileType \* let b:delimitMate_autoclose = 0
+"au FileType rust,rs let b:delimitMate_autoclose = 0
 
 " If using html auto complete (complete closing tag)
 "au FileType xml,html,xhtml let b:delimitMate_matchpairs = "(:),[:],{:}"
 "au FileType rust,rs let b:delimitMate_matchpairs = "(:),[:],{:}"
-au FileType rust,rs let b:delimitMate_matchpairs = "[:],{:}"
+"au FileType rust,rs let b:delimitMate_matchpairs = "[:],{:}"
 
 "this needs to be set as the system/terminal font
 "gnome-terminal: edit -> profile preferences -> general -> text appearance -> custom font -> seach
