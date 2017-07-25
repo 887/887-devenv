@@ -30,6 +30,9 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+autoload -Uz promptinit
+promptinit
+prompt damoekri
 
 source ~/zsh-history-substring-search.zsh
 # OPTION 1: for most systems
