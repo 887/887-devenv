@@ -1,5 +1,6 @@
 "This .vimrc is  nevoim compatible and can be used in both
 "neovim needs python*-support (installed seperatley) -> :help nvim-python
+"
 "on arch its in the community repo ->
 "sudo pacman community/python-nvim
 "sudo pacman community/python2-nvim
@@ -44,19 +45,23 @@ if has("nvim")
     "autocmd CompleteDone * pclose!
 
     "RLS destoys everything at the moment due to overriding the racer completion options
-    "Plug 'autozimu/LanguageClient-neovim', { 'for': 'rust' } ", 'do': function('DoRemote')}
+    "if executable("rls")
+        "Plug 'autozimu/LanguageClient-neovim', { 'for': 'rust' } ", 'do': function('DoRemote')}
 
-    "for rls support:
-    "rustup default nightly
-    "rustup update nightly
-    "rustup component add rls
-    "rustup component add rust-analysis
-    "rustup component add rust-src
-    let g:LanguageClient_serverCommands = {
-                \ 'rust': [$HOME . '/.cargo/bin/rls'],
-                \ }
-    " Automatically start language servers.
-    let g:LanguageClient_autoStart = 1
+        ""for rls support:
+        ""rustup default nightly
+        ""rustup update nightly
+        ""rustup component add rls
+        ""rustup component add rust-analysis
+        ""rustup component add rust-src
+
+        "let g:LanguageClient_serverCommands = {
+            "\ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+            "\ }
+
+        "" Automatically start language servers.
+        "let g:LanguageClient_autoStart = 1
+    "endif
 else
     Plug 'Shougo/neocomplete.vim'
 endif
