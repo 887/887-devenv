@@ -45,23 +45,23 @@ if has("nvim")
     "autocmd CompleteDone * pclose!
 
     "RLS destoys everything at the moment due to overriding the racer completion options
-    "if executable("rls")
-        "Plug 'autozimu/LanguageClient-neovim', { 'for': 'rust' } ", 'do': function('DoRemote')}
+    if executable("rls")
+        Plug 'autozimu/LanguageClient-neovim', { 'for': 'rust' } ", 'do': function('DoRemote')}
 
-        ""for rls support:
-        ""rustup default nightly
-        ""rustup update nightly
-        ""rustup component add rls
-        ""rustup component add rust-analysis
-        ""rustup component add rust-src
+        "for rls support:
+        "rustup default nightly
+        "rustup update nightly
+        "rustup component add rls
+        "rustup component add rust-analysis
+        "rustup component add rust-src
 
-        "let g:LanguageClient_serverCommands = {
-            "\ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-            "\ }
+        let g:LanguageClient_serverCommands = {
+            \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+            \ }
 
-        "" Automatically start language servers.
-        "let g:LanguageClient_autoStart = 1
-    "endif
+        " Automatically start language servers.
+        let g:LanguageClient_autoStart = 1
+    endif
 else
     Plug 'Shougo/neocomplete.vim'
 endif
