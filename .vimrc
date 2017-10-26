@@ -132,8 +132,8 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'terryma/vim-expand-region'
 Plug 'tpope/vim-obsession'
 
-if executable("lldb") && has("nvim")
-    Plug 'critiqjo/lldb.nvim'
+if executable("lldbaaaa") && has("nvim")
+    Plug 'dbgx/lldb.nvim'
 else
     Plug 'vim-scripts/Conque-GDB'
 endif
@@ -671,7 +671,7 @@ let g:grepper.highlight = 1
 "`I'Puts the user into "TTY mode".
 
 "this is the lldb/gdb switch, both should roughly have the same keybindings:
-if executable("lldb") && has("nvim")
+if executable("lldbaaaa") && has("nvim")
     "lldb has a bug with rust, its cool but for now i have to switch to conquegdb
     "https://github.com/rust-lang/rust/issues/33062
 
@@ -712,7 +712,7 @@ else
     "executable you can change the value of |g:ConqueGdb_GdbExe|. By default this
     "option is:
     "let g:ConqueGdb_GdbExe = ''
-    let g:ConqueGdb_GdbExe = $HOME . '/.cargo/bin/rust-gdb'
+    "let g:ConqueGdb_GdbExe = $HOME . '/.cargo/bin/rust-gdb'
 
     "When Conque GDB splits the GDB CLI window to open source files it will by
     "defaut split the window such that the source code will appear above the GDB
