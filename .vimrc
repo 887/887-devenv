@@ -46,7 +46,7 @@ if has("nvim")
 
     "RLS destoys everything at the moment due to overriding the racer completion options
     if executable("rls")
-        Plug 'autozimu/LanguageClient-neovim', { 'for': 'rust' } ", 'do': function('DoRemote')}
+        Plug 'autozimu/LanguageClient-neovim', { 'for': 'rust' }
 
         "for rls support:
         "rustup default nightly
@@ -59,20 +59,59 @@ if has("nvim")
             \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
             \ }
 
+        function! LoadConfig()
+            "let config = json_decode(system("cat settings.json"))
+            let config = json_decode('{"unstable_features":true}')
+            call LanguageClient_notify('workspace/didChangeConfiguration', { 'settings': config })
+        endfunction
+
+        augroup JSON_Config
+            autocmd!
+            autocmd User LanguageClientStarted call LoadConfig()
+        augroup END
+
         " Automatically start language servers.
         let g:LanguageClient_autoStart = 1
+
+        "Rust mappings for rls (rust language server)
+        au FileType rust nnoremap <silent> gF :call LanguageClient_textDocument_hover()<CR>
+        au FileType rust nnoremap <silent> gD :call LanguageClient_textDocument_definition()<CR>
+        "note: gR is usally visual replace mode, something i do not use
+        au FileType rust nnoremap <silent> gR :call LanguageClient_textDocument_rename()<CR>
     endif
 else
+    "neocomplete plugin for regular vim
     Plug 'Shougo/neocomplete.vim'
+
+    if executable("rls")
+        Plug 'prabirshrestha/async.vim'
+        Plug 'prabirshrestha/vim-lsp'
+        Plug 'prabirshrestha/asyncomplete.vim'
+        Plug 'prabirshrestha/asyncomplete-lsp.vim'
+        if executable('rls')
+            au User lsp_setup call lsp#register_server({
+                        \ 'name': 'rls',
+                        \ 'cmd': {server_info->['rustup', 'run', 'nightly', 'rls']},
+                        \ 'whitelist': ['rust'],
+                        \ })
+        endif
+        let g:lsp_async_completion = 1
+
+        "Rust mappings for rls (rust language server)
+        au FileType rust nnoremap <silent> gF :LspHover<CR>
+        au FileType rust nnoremap <silent> gD :LspDefinition<CR>
+        "note: gR is usally visual replace mode, something i do not use
+        au FileType rust nnoremap <silent> gR :LspRename<CR>
+    endif
 endif
 
 "vim-ctrlspace is a big addon that allows perfect buffer/tab management and is the basis for a
 "perfect running vim-airline pluing. In short: you can't live without it!!
 Plug 'vim-ctrlspace/vim-ctrlspace'
 
-"this shows the function parameters in the statusline!
-Plug 'Shougo/echodoc.vim'
-autocmd VimEnter * call echodoc#enable() "has to be enabled on vim enter
+""this shows the function parameters in the statusline!
+"Plug 'Shougo/echodoc.vim'
+"autocmd VimEnter * call echodoc#enable() "has to be enabled on vim enter
 
 Plug 'qpkorr/vim-bufkill'
 "complete from tmux panes
@@ -288,6 +327,7 @@ au BufRead,BufNewFile *.html set filetype=html
 au BufRead,BufNewFile *.js set filetype=javascript
 au BufRead,BufNewFile *.md set filetype=mkd
 au BufRead,BufNewFile *.conf setf dosini
+au BufRead,BufNewFile *.glade set filetype=xml
 
 " Delimitmate
 "au FileType \* let b:delimitMate_autoclose = 0
@@ -470,14 +510,6 @@ au FileType rust nmap gd <Plug>(rust-def)
 au FileType rust nmap gs <Plug>(rust-def-split)
 au FileType rust nmap gx <Plug>(rust-def-vertical)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
-
-"Rust mappings for rls (rust language server)
-if has("nvim")
-    au FileType rust nnoremap <silent> gF :call LanguageClient_textDocument_hover()<CR>
-    au FileType rust nnoremap <silent> gD :call LanguageClient_textDocument_definition()<CR>
-    "note: gR is usally visual replace mode, something i do not use
-    au FileType rust nnoremap <silent> gR :call LanguageClient_textDocument_rename()<CR>
-endif
 
 "insert mode mappings.. these are considered ineffective but are really helpfull sometimes:
 imap <M-h> 		<Left>
