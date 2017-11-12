@@ -37,14 +37,19 @@ Plug 'svermeulen/vim-easyclip'
     "UpdateRemotePlugins
 "endfunction
 if has("nvim")
-    Plug 'Shougo/deoplete.nvim' ", { 'do': function('DoRemote') }
+    Plug 'Shougo/deoplete.nvim'
     "deoplete has this new preview window feture.. i don't like it!
     "disable preview completly
     set completeopt-=preview
     "just close preview after completion
     "autocmd CompleteDone * pclose!
 
-    "RLS destoys everything at the moment due to overriding the racer completion options
+    "Vim-Script completions!
+    Plug 'Shougo/neco-vim', { 'for': 'vim' }
+
+    "C#-Script completions!
+    Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': 'cd server && xbuild' }
+
     if executable("rls")
         Plug 'autozimu/LanguageClient-neovim', { 'for': 'rust' }
 
