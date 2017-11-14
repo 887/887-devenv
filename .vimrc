@@ -36,6 +36,7 @@ Plug 'svermeulen/vim-easyclip'
     "only when really needed:
     "UpdateRemotePlugins
 "endfunction
+
 if has("nvim")
     Plug 'Shougo/deoplete.nvim'
     "deoplete has this new preview window feture.. i don't like it!
@@ -50,19 +51,25 @@ if has("nvim")
     "C#-Script completions!
     Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': 'cd server && xbuild' }
 
-    if executable("rls")
+else
+    "neocomplete plugin for regular vim
+    Plug 'Shougo/neocomplete.vim'
+endif
+
+if executable("rls")
+    "for rls support:
+    "rustup default nightly
+    "rustup update nightly
+    "rustup component add rls
+    "rustup component add rust-analysis
+    "rustup component add rust-src
+
+    if has("nvim")
         Plug 'autozimu/LanguageClient-neovim', { 'for': 'rust' }
 
-        "for rls support:
-        "rustup default nightly
-        "rustup update nightly
-        "rustup component add rls
-        "rustup component add rust-analysis
-        "rustup component add rust-src
-
         let g:LanguageClient_serverCommands = {
-            \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-            \ }
+                    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+                    \ }
 
         function! LoadConfig()
             "let config = json_decode(system("cat settings.json"))
@@ -79,36 +86,50 @@ if has("nvim")
         let g:LanguageClient_autoStart = 1
 
         "Rust mappings for rls (rust language server)
-        au FileType rust nnoremap <silent> gF :call LanguageClient_textDocument_hover()<CR>
-        au FileType rust nnoremap <silent> gD :call LanguageClient_textDocument_definition()<CR>
+        au FileType rust nnoremap <silent> gD :call LanguageClient_textDocument_hover()<CR>
+        au FileType rust nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
         "note: gR is usally visual replace mode, something i do not use
         au FileType rust nnoremap <silent> gR :call LanguageClient_textDocument_rename()<CR>
-    endif
-else
-    "neocomplete plugin for regular vim
-    Plug 'Shougo/neocomplete.vim'
 
-    if executable("rls")
+    else
         Plug 'prabirshrestha/async.vim'
         Plug 'prabirshrestha/vim-lsp'
         Plug 'prabirshrestha/asyncomplete.vim'
         Plug 'prabirshrestha/asyncomplete-lsp.vim'
-        if executable('rls')
-            au User lsp_setup call lsp#register_server({
-                        \ 'name': 'rls',
-                        \ 'cmd': {server_info->['rustup', 'run', 'nightly', 'rls']},
-                        \ 'whitelist': ['rust'],
-                        \ })
-        endif
+        au User lsp_setup call lsp#register_server({
+                    \ 'name': 'rls',
+                    \ 'cmd': {server_info->['rustup', 'run', 'nightly', 'rls']},
+                    \ 'whitelist': ['rust'],
+                    \ })
         let g:lsp_async_completion = 1
 
         "Rust mappings for rls (rust language server)
-        au FileType rust nnoremap <silent> gF :LspHover<CR>
-        au FileType rust nnoremap <silent> gD :LspDefinition<CR>
+        au FileType rust nnoremap <silent> gD :LspHover<CR>
+        au FileType rust nnoremap <silent> gd :LspDefinition<CR>
         "note: gR is usally visual replace mode, something i do not use
         au FileType rust nnoremap <silent> gR :LspRename<CR>
     endif
+else
+    "if no rls available use racer directly
+    Plug 'racer-rust/vim-racer', { 'for': 'rust' }
+
+    "PluginSettings:
+    "experimental rust racer features:
+    let g:racer_insert_paren = 1
+    let g:racer_experimental_completer = 1
+    let g:rustfmt_fail_silently=1
+    "let g:rustfmt_autosave = 1
+    "let g:ycm_rust_src_path = '/usr/src/rust/src'
+    "vim has build in formating on the '=' key
+    let g:ycm_rust_src_path = $RUST_SRC_PATH
+
+    "Rust Mappings for vim-racer
+    au FileType rust nmap gd <Plug>(rust-def)
+    au FileType rust nmap gs <Plug>(rust-def-split)
+    au FileType rust nmap gx <Plug>(rust-def-vertical)
+    au FileType rust nmap gD <Plug>(rust-doc)
 endif
+
 
 "vim-ctrlspace is a big addon that allows perfect buffer/tab management and is the basis for a
 "perfect running vim-airline pluing. In short: you can't live without it!!
@@ -122,9 +143,9 @@ Plug 'qpkorr/vim-bufkill'
 "complete from tmux panes
 Plug 'wellle/tmux-complete.vim'
 Plug 'Shougo/neoinclude.vim'
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'honza/vim-snippets'
+Plug 'Shougo/neosnippet.vim', { 'for': 'rust' }
+Plug 'Shougo/neosnippet-snippets', { 'for': 'rust' }
+Plug 'honza/vim-snippets', { 'for': 'rust' }
 Plug 'scrooloose/nerdtree'
 Plug 'tomtom/tcomment_vim'
 Plug 'wellle/targets.vim'
@@ -133,7 +154,6 @@ Plug 'christoomey/vim-sort-motion'
 "Plug 'michaeljsmith/vim-indent-object'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'sjl/badwolf'
-Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
@@ -190,15 +210,6 @@ call plug#end()
 filetype plugin on
 filetype plugin indent on    " required
 
-"PluginSettings:
-"experimental rust racer features:
-let g:racer_insert_paren = 1
-let g:racer_experimental_completer = 1
-let g:rustfmt_fail_silently=1
-"let g:rustfmt_autosave = 1
-"let g:ycm_rust_src_path = '/usr/src/rust/src'
-"vim has build in formating on the '=' key
-let g:ycm_rust_src_path = $RUST_SRC_PATH
 "tabar setup for rust:
 let g:tagbar_type_rust = {
             \ 'ctagstype' : 'rust',
@@ -509,12 +520,6 @@ nnoremap <silent> g6 :b 6<CR>
 nnoremap <silent> g7 :b 7<CR>
 nnoremap <silent> g8 :b 8<CR>
 nnoremap <silent> g9 :b 9<CR>
-
-"Rust Mappings for vim-racer
-au FileType rust nmap gd <Plug>(rust-def)
-au FileType rust nmap gs <Plug>(rust-def-split)
-au FileType rust nmap gx <Plug>(rust-def-vertical)
-au FileType rust nmap <leader>gd <Plug>(rust-doc)
 
 "insert mode mappings.. these are considered ineffective but are really helpfull sometimes:
 imap <M-h> 		<Left>
@@ -861,7 +866,7 @@ autocmd FileType rust let g:syntastic_rust_checkers = ['cargo']
 
 "NeoSnippet:
 "SuperTab like snippets behavior.
-imap <expr><TAB>
+au FileType rust,rs imap <expr><TAB>
             \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" :
             \ pumvisible() ? "\<Space>" :
             \ "\<TAB>"
