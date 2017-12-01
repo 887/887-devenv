@@ -492,6 +492,8 @@ nnoremap <silent> gT :bp<CR>
 "tab next is on: <CG>t
 "tab prev is on: <CG>T
 "tab new/new tab has no hotkey but has the commmand :tabnew
+"closing the last window in a tab jumps to another tab and kills its window layout!!
+"use tabclose #tabid from an active tab instead!
 "
 "this uses vim-buffkill to keep windows intact: https://github.com/qpkorr/vim-bufkill
 nnoremap gq :BD<CR>
