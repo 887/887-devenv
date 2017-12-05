@@ -1,4 +1,6 @@
 "This .vimrc is  nevoim compatible and can be used in both
+"nnoremap <silent> <c-g>1 :b 1<CR>
+"nnoremap <silent> <c-g>1 :b 1<CR>
 "neovim needs python*-support (installed seperatley) -> :help nvim-python
 "
 "on arch its in the community repo ->
@@ -133,7 +135,8 @@ endif
 
 "vim-ctrlspace is a big addon that allows perfect buffer/tab management and is the basis for a
 "perfect running vim-airline pluing. In short: you can't live without it!!
-Plug 'vim-ctrlspace/vim-ctrlspace'
+"Plug 'vim-ctrlspace/vim-ctrlspace'
+"or not.. Too many problems right now.
 
 ""this shows the function parameters in the statusline!
 "Plug 'Shougo/echodoc.vim'
@@ -411,19 +414,22 @@ set pastetoggle=g<F9>
 ":h airline
 
 let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#show_tabs = 0
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#show_tabs = 0
+let g:airline#extensions#tabline#show_buffers = 1
+let g:airline#extensions#tabline#show_tab_nr = 1
 "let g:airline#extensions#tabline#tab_min_count = 2
-"let g:airline#extensions#tabline#show_buffers = 1
 "show buffer number in tabline for easier switching
-let g:airline#extensions#tabline#buffer_nr_show = 1
+"let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
 "let g:airline#extensions#tabline#show_buffers = 1
-let g:airline#extensions#tabline#switch_buffers_and_tabs = 0
+"let g:airline#extensions#tabline#switch_buffers_and_tabs = 0
 "rename label for buffers (default: 'buffers') (c)
 let g:airline#extensions#tabline#buffers_label = 'b'
 "rename label for tabs (default: 'tabs') (c)
 let g:airline#extensions#tabline#tabs_label = 't'
-
+let g:airline#extensions#tabline#fnametruncate = 16
+let g:airline#extensions#tabline#fnamecollapse = 2
 
 "this makes vim-airline allways visible. very usefull
 set laststatus=2
@@ -501,27 +507,42 @@ nnoremap gq :BD<CR>
 nnoremap <silent> <m-g><m-t> :BufExplorer<CR>
 nnoremap <silent> g<m-t> :BufExplorer<CR>
 nnoremap <silent> <m-g>t :BufExplorer<CR>
+"
 "tabs aren't buffers but we should map these anyway
 nnoremap <silent> <c-g>t :tabnext<CR>
 nnoremap <silent> <c-g>T :tabprevious<CR>
-nnoremap <silent> <c-g>1 :b 1<CR>
-nnoremap <silent> <c-g>2 :b 2<CR>
-nnoremap <silent> <c-g>3 :b 3<CR>
-nnoremap <silent> <c-g>4 :b 4<CR>
-nnoremap <silent> <c-g>5 :b 5<CR>
-nnoremap <silent> <c-g>6 :b 6<CR>
-nnoremap <silent> <c-g>7 :b 7<CR>
-nnoremap <silent> <c-g>8 :b 8<CR>
-nnoremap <silent> <c-g>9 :b 9<CR>
-nnoremap <silent> g1 :b 1<CR>
-nnoremap <silent> g2 :b 2<CR>
-nnoremap <silent> g3 :b 3<CR>
-nnoremap <silent> g4 :b 4<CR>
-nnoremap <silent> g5 :b 5<CR>
-nnoremap <silent> g6 :b 6<CR>
-nnoremap <silent> g7 :b 7<CR>
-nnoremap <silent> g8 :b 8<CR>
-nnoremap <silent> g9 :b 9<CR>
+
+nnoremap <silent> <c-g>1 1gt<CR>
+nnoremap <silent> <c-g>2 2gt<CR>
+nnoremap <silent> <c-g>3 3gt<CR>
+nnoremap <silent> <c-g>4 4gt<CR>
+nnoremap <silent> <c-g>5 5gt<CR>
+nnoremap <silent> <c-g>6 6gt<CR>
+nnoremap <silent> <c-g>7 7gt<CR>
+nnoremap <silent> <c-g>8 8gt<CR>
+nnoremap <silent> <c-g>9 9gt<CR>
+"
+"nnoremap <silent> g1 :b 1<CR>
+"nnoremap <silent> g2 :b 2<CR>
+"nnoremap <silent> g3 :b 3<CR>
+"nnoremap <silent> g4 :b 4<CR>
+"nnoremap <silent> g5 :b 5<CR>
+"nnoremap <silent> g6 :b 6<CR>
+"nnoremap <silent> g7 :b 7<CR>
+"nnoremap <silent> g8 :b 8<CR>
+"nnoremap <silent> g9 :b 9<CR>
+
+nmap <silent> gt <Plug>AirlineSelectNextTab
+nmap <silent> gT <Plug>AirlineSelectPrevTab
+nmap <silent> g1 <Plug>AirlineSelectTab1
+nmap <silent> g2 <Plug>AirlineSelectTab2
+nmap <silent> g3 <Plug>AirlineSelectTab3
+nmap <silent> g4 <Plug>AirlineSelectTab4
+nmap <silent> g5 <Plug>AirlineSelectTab5
+nmap <silent> g6 <Plug>AirlineSelectTab6
+nmap <silent> g7 <Plug>AirlineSelectTab7
+nmap <silent> g8 <Plug>AirlineSelectTab8
+nmap <silent> g9 <Plug>AirlineSelectTab9
 
 "insert mode mappings.. these are considered ineffective but are really helpfull sometimes:
 imap <M-h> 		<Left>
