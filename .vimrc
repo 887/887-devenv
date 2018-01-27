@@ -69,12 +69,36 @@ if executable("rls")
     if has("nvim")
         Plug 'autozimu/LanguageClient-neovim', { 'for': 'rust' }
 
-        let g:LanguageClient_serverCommands = {
-                    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+        " Plug 'autozimu/LanguageClient-neovim', {
+        "             \ 'for': 'rust',
+        "             \ 'branch': 'next',
+        "             \ 'do': 'bash install.sh',
+        "             \ }
+
+        Plug 'autozimu/LanguageClient-neovim', {
+                    \ 'branch': 'next',
+                    \ 'do': 'bash install.sh',
                     \ }
 
+        " let g:LanguageClient_serverCommands = {
+        "             \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+        "             \ 'javascript': ['javascript-typescript-stdio'],
+        "             \ 'javascript.jsx': ['javascript-typescript-stdio'],
+        "             \ }
+
+        let g:LanguageClient_serverCommands = {
+                    \ 'rust': ['rustup', 'run', 'nightly-2018-01-21', 'rls'],
+                    \ 'javascript': ['javascript-typescript-stdio'],
+                    \ 'javascript.jsx': ['javascript-typescript-stdio'],
+                    \ }
+
+        " let g:LanguageClient_serverCommands = {
+        "             \ 'rust': ['rustup', 'run', 'nightly-2018-01-26', 'rls'],
+        "             \ 'javascript': ['javascript-typescript-stdio'],
+        "             \ 'javascript.jsx': ['javascript-typescript-stdio'],
+        "             \ }
+
         function! LoadConfig()
-            "let config = json_decode(system("cat settings.json"))
             let config = json_decode('{"unstable_features":true}')
             call LanguageClient_notify('workspace/didChangeConfiguration', { 'settings': config })
         endfunction
