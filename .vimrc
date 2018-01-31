@@ -43,7 +43,8 @@ if has("nvim")
     Plug 'Shougo/deoplete.nvim'
     "deoplete has this new preview window feture.. i don't like it!
     "disable preview completly
-    set completeopt-=preview
+    " set completeopt-=preview
+
     "just close preview after completion
     "autocmd CompleteDone * pclose!
 
@@ -90,15 +91,15 @@ if executable("rls")
         "             \ 'javascript.jsx': ['javascript-typescript-stdio'],
         "             \ }
 
-        function! LoadConfig()
-            let config = json_decode('{"unstable_features":true}')
-            call LanguageClient_notify('workspace/didChangeConfiguration', { 'settings': config })
-        endfunction
-
-        augroup JSON_Config
-            autocmd!
-            autocmd User LanguageClientStarted call LoadConfig()
-        augroup END
+        " function! LoadConfig()
+        "     let config = json_decode('{"unstable_features":true}')
+        "     call LanguageClient_notify('workspace/didChangeConfiguration', { 'settings': config })
+        " endfunction
+        "
+        " augroup JSON_Config
+        "     autocmd!
+        "     autocmd User LanguageClientStarted call LoadConfig()
+        " augroup END
 
         " Automatically start language servers.
         let g:LanguageClient_autoStart = 1
@@ -134,7 +135,7 @@ else
     "PluginSettings:
     "experimental rust racer features:
     let g:racer_insert_paren = 1
-    let g:racer_experimental_completer = 1
+    " let g:racer_experimental_completer = 1
     let g:rustfmt_fail_silently=1
     "let g:rustfmt_autosave = 1
     "let g:ycm_rust_src_path = '/usr/src/rust/src'
@@ -877,9 +878,25 @@ map g<M-/> <Plug>(incsearch-easymotion-stay)
 "This is an option from an other plugin that does nothing if you don't have it http://www.vim.org/scripts/script.php?script_id=1879
 "let g:acp_enableAtStartup = 0
 if has("nvim")
+    " call deoplete#custom#source('buffer',
+    "             \ 'min_pattern_length', 1)
+    " call deoplete#custom#source('_',
+    "             \ 'min_pattern_length', 1)
+    " call deoplete#custom#source('rust',
+    "             \ 'min_pattern_length', 1)
+    " call deoplete#custom#source('_', 'matchers', ['matcher_head'])
+
     let g:deoplete#enable_at_startup = 1
     let g:deoplete#enable_smart_case = 1
-    let g:deoplete#sources#syntax#min_keyword_length = 1
+    " let g:deoplete#auto_complete_start_length = 1
+    " let g:deoplete#auto_completion_start_length = 1
+
+    " let g:deoplete#sources#min_keyword_length = 1
+    " let g:deoplete#sources#min_pattern_length = 1
+    " let g:deoplete#sources#syntax#min_keyword_length = 1
+    " let g:deoplete#sources#syntax#min_pattern_length = 1
+    " let g:deoplete#sources#rust#min_keyword_length = 1
+    " let g:deoplete#sources#rust#min_pattern_length = 1
     "You probably need to increase the size limit on deoplete#tag#cache_limit_size. The default is 500000 which is ~500KiB. Add another zero to it to make it ~5MiB:
     "default:                           500000
     "my rusty-tags.vi size was          1459153
@@ -888,6 +905,7 @@ else
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
     let g:neocomplete#sources#syntax#min_keyword_length = 1
+    let g:neocomplete#sources#syntax#min_pattern_length = 1
     "You probably need to increase the size limit on deoplete#tag#cache_limit_size. The default is 500000 which is ~500KiB. Add another zero to it to make it ~5MiB:
     "default:                              500000
     "my rusty-tags.vi size was             1459153
