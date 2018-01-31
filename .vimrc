@@ -67,7 +67,16 @@ if executable("rls")
     "rustup component add rust-src
 
     if has("nvim")
-        Plug 'autozimu/LanguageClient-neovim', { 'for': 'rust' }
+        Plug 'autozimu/LanguageClient-neovim', {
+                    \ 'branch': 'next',
+                    \ 'do': 'bash install.sh',
+                    \ }
+
+        let g:LanguageClient_serverCommands = {
+                    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+                    \ 'javascript': ['javascript-typescript-stdio'],
+                    \ 'javascript.jsx': ['javascript-typescript-stdio'],
+                    \ }
 
         " Plug 'autozimu/LanguageClient-neovim', {
         "             \ 'for': 'rust',
@@ -75,25 +84,8 @@ if executable("rls")
         "             \ 'do': 'bash install.sh',
         "             \ }
 
-        Plug 'autozimu/LanguageClient-neovim', {
-                    \ 'branch': 'next',
-                    \ 'do': 'bash install.sh',
-                    \ }
-
-        " let g:LanguageClient_serverCommands = {
-        "             \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-        "             \ 'javascript': ['javascript-typescript-stdio'],
-        "             \ 'javascript.jsx': ['javascript-typescript-stdio'],
-        "             \ }
-
-        let g:LanguageClient_serverCommands = {
-                    \ 'rust': ['rustup', 'run', 'nightly-2018-01-21', 'rls'],
-                    \ 'javascript': ['javascript-typescript-stdio'],
-                    \ 'javascript.jsx': ['javascript-typescript-stdio'],
-                    \ }
-
-        " let g:LanguageClient_serverCommands = {
-        "             \ 'rust': ['rustup', 'run', 'nightly-2018-01-26', 'rls'],
+        " Plug 'autozimu/LanguageClient-neovim', {
+        "             \ 'rust': ['rustup', 'run', 'nightly-2018-01-21', 'rls'],
         "             \ 'javascript': ['javascript-typescript-stdio'],
         "             \ 'javascript.jsx': ['javascript-typescript-stdio'],
         "             \ }
