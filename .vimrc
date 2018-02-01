@@ -40,13 +40,19 @@ Plug 'svermeulen/vim-easyclip'
 "endfunction
 
 if has("nvim")
-    Plug 'Shougo/deoplete.nvim'
-    "deoplete has this new preview window feture.. i don't like it!
-    "disable preview completly
-    " set completeopt-=preview
+    "2018-01-31: switched from deoplete to nvim completion manager:
+    Plug 'roxma/nvim-completion-manager'
 
-    "just close preview after completion
-    "autocmd CompleteDone * pclose!
+    " <deoplete>
+    " Plug 'Shougo/deoplete.nvim'
+    " "deoplete has this new preview window feture.. i don't like it!
+    " "disable preview completely:
+    " "set completeopt-=preview
+    "
+    " "just close preview after completion
+    " "autocmd CompleteDone * pclose!
+    " </deoplete>
+
 
     "Vim-Script completions!
     Plug 'Shougo/neco-vim', { 'for': 'vim' }
@@ -267,9 +273,7 @@ endif
 "Syntax Highlighting:
 syntax enable
 colorscheme badwolf
-"omni completion disabled (slows down vim), neocomplete/deoplete with ctags work better anyway
-"http://vim.wikia.com/wiki/Omni_completion
-"set omnifunc=syntaxcomplete#Complete
+
 set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
 "enable mouse support
@@ -878,29 +882,37 @@ map g<M-/> <Plug>(incsearch-easymotion-stay)
 "This is an option from an other plugin that does nothing if you don't have it http://www.vim.org/scripts/script.php?script_id=1879
 "let g:acp_enableAtStartup = 0
 if has("nvim")
-    " call deoplete#custom#source('buffer',
-    "             \ 'min_pattern_length', 1)
-    " call deoplete#custom#source('_',
-    "             \ 'min_pattern_length', 1)
-    " call deoplete#custom#source('rust',
-    "             \ 'min_pattern_length', 1)
-    " call deoplete#custom#source('_', 'matchers', ['matcher_head'])
+    " here are options integrated from https://github.com/roxma/nvim-completion-manager
+    " help: nvim-completion-manager
+    " they are copied localy here, so thats a nice list https://github.com/roxma/nvim-completion-manager/blob/master/plugin/cm.vim
 
-    let g:deoplete#enable_at_startup = 1
-    let g:deoplete#enable_smart_case = 1
-    " let g:deoplete#auto_complete_start_length = 1
-    " let g:deoplete#auto_completion_start_length = 1
+    " g:cm_refresh_length Default: `[[1,4],[7,3]]`
+    " The default value means that sources with priority
+    " between 1 and 6 will have the value of 4, and sources
+    " with priority >= 7 will have the value of 3.
 
-    " let g:deoplete#sources#min_keyword_length = 1
-    " let g:deoplete#sources#min_pattern_length = 1
-    " let g:deoplete#sources#syntax#min_keyword_length = 1
-    " let g:deoplete#sources#syntax#min_pattern_length = 1
-    " let g:deoplete#sources#rust#min_keyword_length = 1
-    " let g:deoplete#sources#rust#min_pattern_length = 1
-    "You probably need to increase the size limit on deoplete#tag#cache_limit_size. The default is 500000 which is ~500KiB. Add another zero to it to make it ~5MiB:
-    "default:                           500000
-    "my rusty-tags.vi size was          1459153
-    let deoplete#tag#cache_limit_size = 50000000
+    " assumption by me, 887 - this will trigger it at 1 character!:
+    let g:cm_refresh_length = [[1,1],[7,3]]
+
+
+    "Deoplete options, if i am ever switching back:
+    " <deoplete>
+    " " call deoplete#custom#source('buffer',
+    " "             \ 'min_pattern_length', 1)
+    " " call deoplete#custom#source('_',
+    " "             \ 'min_pattern_length', 1)
+    " " call deoplete#custom#source('rust',
+    " "             \ 'min_pattern_length', 1)
+    " " call deoplete#custom#source('_', 'matchers', ['matcher_head'])
+    "
+    " let g:deoplete#enable_at_startup = 1
+    " let g:deoplete#enable_smart_case = 1
+    "
+    " "You probably need to increase the size limit on deoplete#tag#cache_limit_size. The default is 500000 which is ~500KiB. Add another zero to it to make it ~5MiB:
+    " "default:                           500000
+    " "my rusty-tags.vi size was          1459153
+    " let deoplete#tag#cache_limit_size = 50000000
+    " <deoplete>
 else
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
