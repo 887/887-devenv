@@ -494,6 +494,7 @@ command QA :qa
 command Q1 :q!
 command Qa1 :qa!
 command QA1 :qa!
+command Err :Errors
 map q: :q
 
 "Keybindings:
