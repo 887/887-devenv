@@ -929,6 +929,10 @@ endif
 autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/,$RUST_SRC_PATH/rusty-tags.vi
 autocmd BufWrite *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&"
 autocmd BufRead,BufNewFile *.rs,*.rust compiler cargo
+
+"auto genate tags for all the other languages
+au BufWritePost *.py,*.c,*.cpp,*.h silent! !eval 'ctags -R -o newtags; mv newtags tags' &
+
 "https://github.com/rust-lang/rust.vim/issues/118
 "autocmd FileType rust let g:syntastic_rust_checkers = ['rustc']
 autocmd FileType rust let g:syntastic_rust_checkers = ['cargo']
