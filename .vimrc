@@ -25,7 +25,8 @@ filetype off                  " required
 call plug#begin('~/.vim/plugged')
 " ============ /vim-plug ===========
 
-Plug 'scrooloose/syntastic' ", { 'tag': '3.6.0' }
+" Plug 'scrooloose/syntastic' ", { 'tag': '3.6.0' }
+Plug 'vim-syntastic/syntastic'
 "no need, neonvim has :man command build in, its enough
 "Plug 'powerman/vim-plugin-viewdoc'
 "Plug 'rust-lang/rust.vim', { 'commit': '2946a05c94c8ab8e047abdce3c775c48d734ee17' }
@@ -188,7 +189,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'dan-t/rusty-tags', { 'for': 'rust' }
 "Plug 'Raimondi/delimitMate'
 Plug 'timonv/vim-cargo', { 'for': 'rust' }
-Plug '887/cargo.vim', { 'for': 'rust' }
+" Plug '887/cargo.vim', { 'for': 'rust' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'chaoren/vim-wordmotion'
@@ -299,6 +300,9 @@ set shiftwidth=4
 set incsearch
 set ignorecase
 set smartcase
+
+"set switch to buffer for quickfix window
+set switchbuf=useopen
 
 " check file change every 4(=checktime) seconds ('CursorHold') and reload the buffer upon detecting change
 set autoread
@@ -928,7 +932,7 @@ endif
 "Rust Tags + compile + Syntax checker options
 autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/,$RUST_SRC_PATH/rusty-tags.vi
 autocmd BufWrite *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&"
-autocmd BufRead,BufNewFile *.rs,*.rust compiler cargo
+" autocmd BufRead,BufNewFile *.rs,*.rust compiler cargo
 
 "auto genate tags for all the other languages
 au BufWritePost *.py,*.c,*.cpp,*.h silent! !eval 'ctags -R -o newtags; mv newtags tags' &
