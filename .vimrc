@@ -511,6 +511,11 @@ nmap <m-y> :%y+<CR>
 " Reselect visual block after in/dedent so we can in/dedent more
 vnoremap < <gv
 vnoremap > >gv
+
+"comment/uncomment with tcomment via gc/gu
+    " vmap gc g>
+vmap gu g<
+
 "bw: go s->type->and its placed everywhere though like with I
 "go up/down 3 lines instead of 1 when scrolling
 nnoremap <C-e> 3<C-e>
@@ -968,3 +973,11 @@ imap <expr><M-j>
 ":.ll to go to the location under cursor
 ":ln(ext) or lp(previous) etc, see cc list explanation up above
 "ERROS USES THE LOCATION LIST, RIPGREP USES THE CC ((C/Q)UICK CORRECTION)
+"
+"tcomment https://github.com/tomtom/tcomment_vim
+":help tcomment
+"
+"nerdcommenter
+":help NERDCommenter
+
+
