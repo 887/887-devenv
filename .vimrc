@@ -26,8 +26,8 @@ call plug#begin('~/.vim/plugged')
 " ============ /vim-plug ===========
 
 " Plug 'scrooloose/syntastic' ", { 'tag': '3.6.0' }
-" Plug 'vim-syntastic/syntastic'
-Plug 'neomake/neomake'
+Plug 'vim-syntastic/syntastic'
+" Plug 'neomake/neomake'
 
 "no need, neonvim has :man command build in, its enough
 "Plug 'powerman/vim-plugin-viewdoc'
@@ -462,29 +462,30 @@ let g:airline#extensions#tabline#fnamecollapse = 2
 set laststatus=2
 
 " let g:LanguageClient_diagnosticsList = "Quickfix"
-" let g:LanguageClient_diagnosticsList = "Location"
+let g:LanguageClient_diagnosticsList = "Location"
 
 " ### 2018 ###
-" let g:airline#extensions#syntastic#enabled = 1
-" let g:syntastic_always_populate_loc_list = 0
-" let g:syntastic_auto_loc_list = 0
+let g:airline#extensions#syntastic#enabled = 1
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
 
-let g:airline#extensions#neomake#enabled = 1
-let g:neomake_place_signs = 0
-
-function! MyOnBattery()
-    if has("/sys/class/power_supply/AC/online")
-        return readfile('/sys/class/power_supply/AC/online') == ['0']
-    else
-        return 1 == 0
-    endif
-endfunction
-
-if MyOnBattery()
-    call neomake#configure#automake('w')
-else
-    call neomake#configure#automake('nw', 1000)
-endif
+" let g:airline#extensions#neomake#enabled = 1
+" let g:neomake_place_signs = 0
+"
+" function! MyOnBattery()
+"     if has("/sys/class/power_supply/AC/online")
+"         return readfile('/sys/class/power_supply/AC/online') == ['0']
+"     else
+"         return 1 == 0
+"     endif
+" endfunction
+"
+" if MyOnBattery()
+"     call neomake#configure#automake('w')
+" else
+"     call neomake#configure#automake('nw', 1000)
+" endif
 
 " ### /2018 ###
 
@@ -526,7 +527,7 @@ command Q1 :q!
 command Qa1 :qa!
 command QA1 :qa!
 " command Err :Errors
-command Err :copen
+command Err :lopen
 command ErrLocation :lopen
 command ErrQuickfix :copen
 
