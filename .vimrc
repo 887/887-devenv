@@ -472,9 +472,6 @@ set laststatus=2
 let g:airline#extensions#neomake#enabled = 1
 let g:neomake_place_signs = 0
 
-
-let g:neomake#statusline#get = ""
-
 function! MyOnBattery()
     if has("/sys/class/power_supply/AC/online")
         return readfile('/sys/class/power_supply/AC/online') == ['0']
