@@ -26,7 +26,9 @@ call plug#begin('~/.vim/plugged')
 " ============ /vim-plug ===========
 
 " Plug 'scrooloose/syntastic' ", { 'tag': '3.6.0' }
-Plug 'vim-syntastic/syntastic'
+" Plug 'vim-syntastic/syntastic'
+Plug 'neomake/neomake'
+
 "no need, neonvim has :man command build in, its enough
 "Plug 'powerman/vim-plugin-viewdoc'
 "Plug 'rust-lang/rust.vim', { 'commit': '2946a05c94c8ab8e047abdce3c775c48d734ee17' }
@@ -458,9 +460,37 @@ let g:airline#extensions#tabline#fnamecollapse = 2
 
 "this makes vim-airline allways visible. very usefull
 set laststatus=2
-"sticking with syntastic instead of neomake works better
-""autocmd! BufWritePost * Neomake
-let g:airline#extensions#syntastic#enabled = 1
+
+" let g:LanguageClient_diagnosticsList = "Quickfix"
+" let g:LanguageClient_diagnosticsList = "Location"
+
+" ### 2018 ###
+" let g:airline#extensions#syntastic#enabled = 1
+" let g:syntastic_always_populate_loc_list = 0
+" let g:syntastic_auto_loc_list = 0
+
+let g:airline#extensions#neomake#enabled = 1
+let g:neomake_place_signs = 0
+
+
+let g:neomake#statusline#get = ""
+
+function! MyOnBattery()
+    if has("/sys/class/power_supply/AC/online")
+        return readfile('/sys/class/power_supply/AC/online') == ['0']
+    else
+        return 1 == 0
+    endif
+endfunction
+
+if MyOnBattery()
+    call neomake#configure#automake('w')
+else
+    call neomake#configure#automake('nw', 1000)
+endif
+
+" ### /2018 ###
+
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#whitespace#trailing_format = 't[%s]'
 
@@ -498,7 +528,11 @@ command QA :qa
 command Q1 :q!
 command Qa1 :qa!
 command QA1 :qa!
-command Err :Errors
+" command Err :Errors
+command Err :copen
+command ErrLocation :lopen
+command ErrQuickfix :copen
+
 map q: :q
 
 "Keybindings:
