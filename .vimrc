@@ -280,7 +280,7 @@ colorscheme badwolf
 set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
 "enable mouse support
-" set mouse=a
+set mouse=a
 "line numbers!
 set number
 set relativenumber
