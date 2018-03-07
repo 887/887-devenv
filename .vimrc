@@ -25,149 +25,45 @@ filetype off                  " required
 call plug#begin('~/.vim/plugged')
 " ============ /vim-plug ===========
 
-" Plug 'scrooloose/syntastic' ", { 'tag': '3.6.0' }
-" Plug 'vim-syntastic/syntastic'
 Plug 'w0rp/ale'
-" Plug 'neomake/neomake'
+Plug 'autozimu/LanguageClient-neovim', {
+            \ 'branch': 'next',
+            \ 'do': 'bash install.sh',
+            \ }
 
-"no need, neonvim has :man command build in, its enough
-"Plug 'powerman/vim-plugin-viewdoc'
-"Plug 'rust-lang/rust.vim', { 'commit': '2946a05c94c8ab8e047abdce3c775c48d734ee17' }
+let g:LanguageClient_serverCommands = {
+            \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+            \ 'javascript': ['javascript-typescript-stdio'],
+            \ 'javascript.jsx': ['javascript-typescript-stdio'],
+            \ }
+
+"Rust mappings for rls (rust language server)
+au FileType rust,js nnoremap <silent> gk :call LanguageClient_textDocument_hover()<CR>
+au FileType rust,js nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+" gr is replace-in-direction(jk) usually, thats why its gR.
+au FileType rust,js nmap <silent> gR :call LanguageClient_textDocument_rename()<CR>
+au FileType rust,js nnoremap <silent> gl :LanguageClient_textDocument_references()<CR>
+
+" Automatically start language servers.
+let g:LanguageClient_autoStart = 1
+
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-"Plug 'xolox/vim-misc'
-"Plug 'xolox/vim-easytags'
 Plug 'tpope/vim-repeat'
 Plug 'svermeulen/vim-easyclip'
-"function! DoRemote(arg)
-    "only when really needed:
-    "UpdateRemotePlugins
-"endfunction
 
 if has("nvim")
     "2018-01-31: switched from deoplete to nvim completion manager:
     Plug 'roxma/nvim-completion-manager'
-
-    " <deoplete>
-    " Plug 'Shougo/deoplete.nvim'
-    " "deoplete has this new preview window feture.. i don't like it!
-    " "disable preview completely:
-    " "set completeopt-=preview
-    "
-    " "just close preview after completion
-    " "autocmd CompleteDone * pclose!
-    " </deoplete>
-
 
     "Vim-Script completions!
     Plug 'Shougo/neco-vim', { 'for': 'vim' }
 
     "C#-Script completions!
     Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': 'cd server && xbuild' }
-
 else
     "neocomplete plugin for regular vim
     Plug 'Shougo/neocomplete.vim'
 endif
-
-" if executable("rls")
-"     "for rls support:
-"     "rustup default nightly
-"     "rustup update nightly
-"     "rustup component add rls
-"     "rustup component add rust-analysis
-"     "rustup component add rust-src
-"
-"     if has("nvim")
-"         Plug 'autozimu/LanguageClient-neovim', {
-"                     \ 'branch': 'next',
-"                     \ 'do': 'bash install.sh',
-"                     \ }
-"
-"         let g:LanguageClient_serverCommands = {
-"                     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-"                     \ 'javascript': ['javascript-typescript-stdio'],
-"                     \ 'javascript.jsx': ['javascript-typescript-stdio'],
-"                     \ }
-"
-"         " Plug 'autozimu/LanguageClient-neovim', {
-"         "             \ 'for': 'rust',
-"         "             \ 'branch': 'next',
-"         "             \ 'do': 'bash install.sh',
-"         "             \ }
-"
-"         " Plug 'autozimu/LanguageClient-neovim', {
-"         "             \ 'rust': ['rustup', 'run', 'nightly-2018-01-21', 'rls'],
-"         "             \ 'javascript': ['javascript-typescript-stdio'],
-"         "             \ 'javascript.jsx': ['javascript-typescript-stdio'],
-"         "             \ }
-"
-"         " function! LoadConfig()
-"         "     let config = json_decode('{"unstable_features":true}')
-"         "     call LanguageClient_notify('workspace/didChangeConfiguration', { 'settings': config })
-"         " endfunction
-"         "
-"         " augroup JSON_Config
-"         "     autocmd!
-"         "     autocmd User LanguageClientStarted call LoadConfig()
-"         " augroup END
-"
-"         " Automatically start language servers.
-"         let g:LanguageClient_autoStart = 1
-"
-"         "Rust mappings for rls (rust language server)
-"         au FileType rust nnoremap <silent> gD :call LanguageClient_textDocument_hover()<CR>
-"         au FileType rust nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-"         "note: gR is usally visual replace mode, something i do not use
-"         au FileType rust nnoremap <silent> gR :call LanguageClient_textDocument_rename()<CR>
-"
-"     else
-"         Plug 'prabirshrestha/async.vim'
-"         Plug 'prabirshrestha/vim-lsp'
-"         Plug 'prabirshrestha/asyncomplete.vim'
-"         Plug 'prabirshrestha/asyncomplete-lsp.vim'
-"         au User lsp_setup call lsp#register_server({
-"                     \ 'name': 'rls',
-"                     \ 'cmd': {server_info->['rustup', 'run', 'nightly', 'rls']},
-"                     \ 'whitelist': ['rust'],
-"                     \ })
-"         let g:lsp_async_completion = 1
-"
-"         "Rust mappings for rls (rust language server)
-"         au FileType rust nnoremap <silent> gD :LspHover<CR>
-"         au FileType rust nnoremap <silent> gd :LspDefinition<CR>
-"         "note: gR is usally visual replace mode, something i do not use
-"         au FileType rust nnoremap <silent> gR :LspRename<CR>
-"     endif
-" else
-"     "if no rls available use racer directly
-"     Plug 'racer-rust/vim-racer', { 'for': 'rust' }
-"
-"     "PluginSettings:
-"     "experimental rust racer features:
-"     let g:racer_insert_paren = 1
-"     " let g:racer_experimental_completer = 1
-"     let g:rustfmt_fail_silently=1
-"     "let g:rustfmt_autosave = 1
-"     "let g:ycm_rust_src_path = '/usr/src/rust/src'
-"     "vim has build in formating on the '=' key
-"     let g:ycm_rust_src_path = $RUST_SRC_PATH
-"
-"     "Rust Mappings for vim-racer
-"     au FileType rust nmap gd <Plug>(rust-def)
-"     au FileType rust nmap gs <Plug>(rust-def-split)
-"     au FileType rust nmap gx <Plug>(rust-def-vertical)
-"     au FileType rust nmap gD <Plug>(rust-doc)
-" endif
-"
-
-"vim-ctrlspace is a big addon that allows perfect buffer/tab management and is the basis for a
-"perfect running vim-airline pluing. In short: you can't live without it!!
-"Plug 'vim-ctrlspace/vim-ctrlspace'
-"or not.. Too many problems right now.
-
-""this shows the function parameters in the statusline!
-"Plug 'Shougo/echodoc.vim'
-"autocmd VimEnter * call echodoc#enable() "has to be enabled on vim enter
 
 Plug 'qpkorr/vim-bufkill'
 "complete from tmux panes
@@ -181,23 +77,17 @@ Plug 'tomtom/tcomment_vim'
 Plug 'wellle/targets.vim'
 Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'christoomey/vim-sort-motion'
-"Plug 'michaeljsmith/vim-indent-object'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'sjl/badwolf'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 Plug 'ctrlpvim/ctrlp.vim'
-"Plug 'shougo/unite.vim'
 Plug 'dan-t/rusty-tags', { 'for': 'rust' }
-"Plug 'Raimondi/delimitMate'
 Plug 'timonv/vim-cargo', { 'for': 'rust' }
-" Plug '887/cargo.vim', { 'for': 'rust' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'chaoren/vim-wordmotion'
-"Plug 'vim-scripts/EasyClipRing.vim'
-"Plug 'severin-lemaignan/vim-minimap'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'airblade/vim-gitgutter'
@@ -209,8 +99,6 @@ Plug 'kshenoy/vim-signature'
 Plug 'mbbill/undotree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'mileszs/ack.vim'
-"packer -S the_silver_searcher for ag plugin
-"Plug 'rking/ag.vim'
 Plug 'mhinz/vim-grepper'
 Plug 'Chun-Yang/vim-action-ag'
 Plug 'majutsushi/tagbar'
@@ -220,12 +108,11 @@ Plug 'airblade/vim-rooter'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-easymotion.vim'
 Plug 'djoshea/vim-autoread'
-"see description in .tmux.conf for colors before starting Vim
 Plug 'edkolev/tmuxline.vim'
-"lldb disabled for now, gdb works better
 Plug 'terryma/vim-expand-region'
 Plug 'tpope/vim-obsession'
 
+"lldb disabled for now, gdb works better
 if executable("lldbaaaa") && has("nvim")
     Plug 'dbgx/lldb.nvim'
 else
@@ -462,43 +349,22 @@ let g:airline#extensions#tabline#fnamecollapse = 2
 "this makes vim-airline allways visible. very usefull
 set laststatus=2
 
-" let g:LanguageClient_diagnosticsList = "Quickfix"
-let g:LanguageClient_diagnosticsList = "Location"
-
-" ### 2018 ###
 let g:airline#extensions#ale#enabled = 1
 " let g:ale_set_loclist = 0
 " let g:ale_set_quickfix = 1
 
 if executable("rls")
+    "     "for rls support:
+    "     "rustup default nightly
+    "     "rustup update nightly
+    "     "rustup component add rls-preview
+    "     "rustup component add rust-analysis
+    "     "rustup component add rust-src
+
     let g:ale_linters = {'rust': ['rls']} "(see :help ale-integration-rust for configuration instructions
 else
     let g:ale_linters = {'rust': ['cargo']} "(see :help ale-integration-rust for configuration instructions
 endif
-
-" let g:airline#extensions#syntastic#enabled = 1
-" let g:syntastic_always_populate_loc_list = 0
-" let g:syntastic_auto_loc_list = 0
-" let g:syntastic_check_on_open = 0
-
-" let g:airline#extensions#neomake#enabled = 1
-" let g:neomake_place_signs = 0
-"
-" function! MyOnBattery()
-"     if has("/sys/class/power_supply/AC/online")
-"         return readfile('/sys/class/power_supply/AC/online') == ['0']
-"     else
-"         return 1 == 0
-"     endif
-" endfunction
-"
-" if MyOnBattery()
-"     call neomake#configure#automake('w')
-" else
-"     call neomake#configure#automake('nw', 1000)
-" endif
-
-" ### /2018 ###
 
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#whitespace#trailing_format = 't[%s]'
@@ -1027,4 +893,5 @@ imap <expr><M-j>
 "nerdcommenter
 ":help NERDCommenter
 
-
+"Help for Item unde cursor!!!
+"K yes, upercas K !!!!
