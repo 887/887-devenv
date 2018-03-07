@@ -349,6 +349,12 @@ let g:airline#extensions#tabline#fnamecollapse = 2
 "this makes vim-airline allways visible. very usefull
 set laststatus=2
 
+"let g:LanguageClient_diagnosticsList = "Quickfix"
+"let g:LanguageClient_diagnosticsList = "Location"
+"let g:LanguageClient_diagnosticsList = ""
+"we allready get diagnostics through the ale plugin, so no need here
+let g:LanguageClient_diagnosticsEnable = 0
+
 let g:airline#extensions#ale#enabled = 1
 " let g:ale_set_loclist = 0
 " let g:ale_set_quickfix = 1
@@ -893,5 +899,5 @@ imap <expr><M-j>
 "nerdcommenter
 ":help NERDCommenter
 
-"Help for Item unde cursor!!!
-"K yes, upercas K !!!!
+"Help for Item under cursor!!!
+"K yes, upercase K !!!!
