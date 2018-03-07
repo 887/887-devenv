@@ -26,7 +26,8 @@ call plug#begin('~/.vim/plugged')
 " ============ /vim-plug ===========
 
 " Plug 'scrooloose/syntastic' ", { 'tag': '3.6.0' }
-Plug 'vim-syntastic/syntastic'
+" Plug 'vim-syntastic/syntastic'
+Plug 'w0rp/ale'
 " Plug 'neomake/neomake'
 
 "no need, neonvim has :man command build in, its enough
@@ -68,96 +69,96 @@ else
     Plug 'Shougo/neocomplete.vim'
 endif
 
-if executable("rls")
-    "for rls support:
-    "rustup default nightly
-    "rustup update nightly
-    "rustup component add rls
-    "rustup component add rust-analysis
-    "rustup component add rust-src
-
-    if has("nvim")
-        Plug 'autozimu/LanguageClient-neovim', {
-                    \ 'branch': 'next',
-                    \ 'do': 'bash install.sh',
-                    \ }
-
-        let g:LanguageClient_serverCommands = {
-                    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-                    \ 'javascript': ['javascript-typescript-stdio'],
-                    \ 'javascript.jsx': ['javascript-typescript-stdio'],
-                    \ }
-
-        " Plug 'autozimu/LanguageClient-neovim', {
-        "             \ 'for': 'rust',
-        "             \ 'branch': 'next',
-        "             \ 'do': 'bash install.sh',
-        "             \ }
-
-        " Plug 'autozimu/LanguageClient-neovim', {
-        "             \ 'rust': ['rustup', 'run', 'nightly-2018-01-21', 'rls'],
-        "             \ 'javascript': ['javascript-typescript-stdio'],
-        "             \ 'javascript.jsx': ['javascript-typescript-stdio'],
-        "             \ }
-
-        " function! LoadConfig()
-        "     let config = json_decode('{"unstable_features":true}')
-        "     call LanguageClient_notify('workspace/didChangeConfiguration', { 'settings': config })
-        " endfunction
-        "
-        " augroup JSON_Config
-        "     autocmd!
-        "     autocmd User LanguageClientStarted call LoadConfig()
-        " augroup END
-
-        " Automatically start language servers.
-        let g:LanguageClient_autoStart = 1
-
-        "Rust mappings for rls (rust language server)
-        au FileType rust nnoremap <silent> gD :call LanguageClient_textDocument_hover()<CR>
-        au FileType rust nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-        "note: gR is usally visual replace mode, something i do not use
-        au FileType rust nnoremap <silent> gR :call LanguageClient_textDocument_rename()<CR>
-
-    else
-        Plug 'prabirshrestha/async.vim'
-        Plug 'prabirshrestha/vim-lsp'
-        Plug 'prabirshrestha/asyncomplete.vim'
-        Plug 'prabirshrestha/asyncomplete-lsp.vim'
-        au User lsp_setup call lsp#register_server({
-                    \ 'name': 'rls',
-                    \ 'cmd': {server_info->['rustup', 'run', 'nightly', 'rls']},
-                    \ 'whitelist': ['rust'],
-                    \ })
-        let g:lsp_async_completion = 1
-
-        "Rust mappings for rls (rust language server)
-        au FileType rust nnoremap <silent> gD :LspHover<CR>
-        au FileType rust nnoremap <silent> gd :LspDefinition<CR>
-        "note: gR is usally visual replace mode, something i do not use
-        au FileType rust nnoremap <silent> gR :LspRename<CR>
-    endif
-else
-    "if no rls available use racer directly
-    Plug 'racer-rust/vim-racer', { 'for': 'rust' }
-
-    "PluginSettings:
-    "experimental rust racer features:
-    let g:racer_insert_paren = 1
-    " let g:racer_experimental_completer = 1
-    let g:rustfmt_fail_silently=1
-    "let g:rustfmt_autosave = 1
-    "let g:ycm_rust_src_path = '/usr/src/rust/src'
-    "vim has build in formating on the '=' key
-    let g:ycm_rust_src_path = $RUST_SRC_PATH
-
-    "Rust Mappings for vim-racer
-    au FileType rust nmap gd <Plug>(rust-def)
-    au FileType rust nmap gs <Plug>(rust-def-split)
-    au FileType rust nmap gx <Plug>(rust-def-vertical)
-    au FileType rust nmap gD <Plug>(rust-doc)
-endif
-
+" if executable("rls")
+"     "for rls support:
+"     "rustup default nightly
+"     "rustup update nightly
+"     "rustup component add rls
+"     "rustup component add rust-analysis
+"     "rustup component add rust-src
+"
+"     if has("nvim")
+"         Plug 'autozimu/LanguageClient-neovim', {
+"                     \ 'branch': 'next',
+"                     \ 'do': 'bash install.sh',
+"                     \ }
+"
+"         let g:LanguageClient_serverCommands = {
+"                     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+"                     \ 'javascript': ['javascript-typescript-stdio'],
+"                     \ 'javascript.jsx': ['javascript-typescript-stdio'],
+"                     \ }
+"
+"         " Plug 'autozimu/LanguageClient-neovim', {
+"         "             \ 'for': 'rust',
+"         "             \ 'branch': 'next',
+"         "             \ 'do': 'bash install.sh',
+"         "             \ }
+"
+"         " Plug 'autozimu/LanguageClient-neovim', {
+"         "             \ 'rust': ['rustup', 'run', 'nightly-2018-01-21', 'rls'],
+"         "             \ 'javascript': ['javascript-typescript-stdio'],
+"         "             \ 'javascript.jsx': ['javascript-typescript-stdio'],
+"         "             \ }
+"
+"         " function! LoadConfig()
+"         "     let config = json_decode('{"unstable_features":true}')
+"         "     call LanguageClient_notify('workspace/didChangeConfiguration', { 'settings': config })
+"         " endfunction
+"         "
+"         " augroup JSON_Config
+"         "     autocmd!
+"         "     autocmd User LanguageClientStarted call LoadConfig()
+"         " augroup END
+"
+"         " Automatically start language servers.
+"         let g:LanguageClient_autoStart = 1
+"
+"         "Rust mappings for rls (rust language server)
+"         au FileType rust nnoremap <silent> gD :call LanguageClient_textDocument_hover()<CR>
+"         au FileType rust nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+"         "note: gR is usally visual replace mode, something i do not use
+"         au FileType rust nnoremap <silent> gR :call LanguageClient_textDocument_rename()<CR>
+"
+"     else
+"         Plug 'prabirshrestha/async.vim'
+"         Plug 'prabirshrestha/vim-lsp'
+"         Plug 'prabirshrestha/asyncomplete.vim'
+"         Plug 'prabirshrestha/asyncomplete-lsp.vim'
+"         au User lsp_setup call lsp#register_server({
+"                     \ 'name': 'rls',
+"                     \ 'cmd': {server_info->['rustup', 'run', 'nightly', 'rls']},
+"                     \ 'whitelist': ['rust'],
+"                     \ })
+"         let g:lsp_async_completion = 1
+"
+"         "Rust mappings for rls (rust language server)
+"         au FileType rust nnoremap <silent> gD :LspHover<CR>
+"         au FileType rust nnoremap <silent> gd :LspDefinition<CR>
+"         "note: gR is usally visual replace mode, something i do not use
+"         au FileType rust nnoremap <silent> gR :LspRename<CR>
+"     endif
+" else
+"     "if no rls available use racer directly
+"     Plug 'racer-rust/vim-racer', { 'for': 'rust' }
+"
+"     "PluginSettings:
+"     "experimental rust racer features:
+"     let g:racer_insert_paren = 1
+"     " let g:racer_experimental_completer = 1
+"     let g:rustfmt_fail_silently=1
+"     "let g:rustfmt_autosave = 1
+"     "let g:ycm_rust_src_path = '/usr/src/rust/src'
+"     "vim has build in formating on the '=' key
+"     let g:ycm_rust_src_path = $RUST_SRC_PATH
+"
+"     "Rust Mappings for vim-racer
+"     au FileType rust nmap gd <Plug>(rust-def)
+"     au FileType rust nmap gs <Plug>(rust-def-split)
+"     au FileType rust nmap gx <Plug>(rust-def-vertical)
+"     au FileType rust nmap gD <Plug>(rust-doc)
+" endif
+"
 
 "vim-ctrlspace is a big addon that allows perfect buffer/tab management and is the basis for a
 "perfect running vim-airline pluing. In short: you can't live without it!!
@@ -465,10 +466,20 @@ set laststatus=2
 let g:LanguageClient_diagnosticsList = "Location"
 
 " ### 2018 ###
-let g:airline#extensions#syntastic#enabled = 1
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 0
+let g:airline#extensions#ale#enabled = 1
+" let g:ale_set_loclist = 0
+" let g:ale_set_quickfix = 1
+
+if executable("rls")
+    let g:ale_linters = {'rust': ['rls']} "(see :help ale-integration-rust for configuration instructions
+else
+    let g:ale_linters = {'rust': ['cargo']} "(see :help ale-integration-rust for configuration instructions
+endif
+
+" let g:airline#extensions#syntastic#enabled = 1
+" let g:syntastic_always_populate_loc_list = 0
+" let g:syntastic_auto_loc_list = 0
+" let g:syntastic_check_on_open = 0
 
 " let g:airline#extensions#neomake#enabled = 1
 " let g:neomake_place_signs = 0
@@ -700,7 +711,11 @@ nmap <c-m><c-m> <Plug>MoveMotionLinePlug
 "vim mark sign jumping and viewing on the left
 "
 "https://github.com/kshenoy/vim-signature/issues/106
+"https://github.com/neovim/neovim/issues/4288
 "hide all markers bug
+"this is not a bug but expected behavior!
+"after clearing marks run :wshada!
+"
 "
 " mx           Toggle mark 'x' and display it in the leftmost column
 " dmx          Remove mark 'x' where x is a-zA-Z
