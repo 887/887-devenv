@@ -42,6 +42,7 @@ au FileType rust,js nnoremap <silent> gk :call LanguageClient_textDocument_hover
 au FileType rust,js nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 " gr is replace-in-direction(jk) usually, thats why its gR.
 au FileType rust,js nmap <silent> gR :call LanguageClient_textDocument_rename()<CR>
+au FileType rust,js nmap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 au FileType rust,js nnoremap <silent> gl :LanguageClient_textDocument_references()<CR>
 
 " Automatically start language servers.
@@ -314,15 +315,15 @@ nnoremap    <F4>    :UndotreeToggle<cr>
 nmap <silent> <F6> :TagbarToggle<CR>:echo<CR>
 "new cifforig command to diff current buffer to last safe! this is usefull for diffing .vimrc
 "changes etc.
-command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis | %foldopen!
-nmap <silent> <F7> :DiffOrig<CR>:echo<CR>
+" command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis | %foldopen!
+" nmap <silent> <F7> :DiffOrig<CR>:echo<CR>
 "save with shift-f7
-nmap <silent> g<F7> :w<CR>
+" nmap <silent> g<F7> :w<CR>
 " Press g,F8 to toggle highlighting on/off, and show current value.
-noremap <silent> g<F8> :set hlsearch! hlsearch?<CR>:echo<CR>
+" noremap <silent> g<F8> :set hlsearch! hlsearch?<CR>:echo<CR>
 "hit f8 to hide current search till next time
 "disabled in favour of ctrl-l
-nnoremap <silent> <F8> :nohlsearch<CR>:echo<CR>
+" nnoremap <silent> <F8> :nohlsearch<CR>:echo<CR>
 " Use <F11> to toggle between 'paste' and 'nopaste' -intendation
 set pastetoggle=g<F9>
 
@@ -710,12 +711,12 @@ if executable("lldbaaaa") && has("nvim")
     nnoremap <F11> :LL step<CR>
     "Do a source level single step over in the currently selected thread.
     nnoremap <F10> :LL next<CR>
-    nnoremap g<F1> :LLsession new<CR>
-    nnoremap <F1> :LLmode debug<CR>
-    nnoremap <F2> :LLmode code<CR>
+    nnoremap <F1> :LLsession new<CR>
+    nnoremap <F7> :LLmode debug<CR>
+    nnoremap g<F7> :LLmode code<CR>
     nnoremap <F5> :LL continue<CR>
     nnoremap g<F10> :LL process interrupt<CR>
-    nnoremap gp :LL print <C-R>=expand('<cword>')<CR>
+    nnoremap <F8> :LL print <C-R>=expand('<cword>')<CR>
     vnoremap g<F12> :<C-U>LL print <C-R>=lldb#util#get_selection()<CR><CR>
 else
     "Conque terminal -> Conque gdb
@@ -752,7 +753,7 @@ else
     "This mapping is used to issue the print GDB command, to print value of the
     "identifier under the cursor. By default it is:
     "let g:ConqueGdb_Print = g:ConqueGdb_Leader . 'p'
-    let g:ConqueGdb_Print = '<F2>'
+    let g:ConqueGdb_Print = '<F8>'
     "Mapping to issue the finish command. Default:
     "let g:ConqueGdb_Finish = g:ConqueGdb_Leader . 'f' /step out (of current function)
     let g:ConqueGdb_Finish = 'g'.'<F11>'
