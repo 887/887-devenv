@@ -903,3 +903,12 @@ imap <expr><M-j>
 
 "Help for Item under cursor!!!
 "K yes, upercase K !!!!
+"
+"Help for Regex replace:
+":s/searchterm/replaceterm/options
+"s = substitute!!!!
+"otions = i for ignore
+"example:
+"s/foo/bar/i
+"replace foo FOO fOo with bar
+"
