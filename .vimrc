@@ -912,3 +912,16 @@ imap <expr><M-j>
 "s/foo/bar/i
 "replace foo FOO fOo with bar
 "
+
+
+"Vim 8.1 (and maybe neovim too?) have support for terminal debugging now!)
+"https://github.com/vim/vim/blob/master/runtime/pack/dist/opt/termdebug/plugin/termdebug.vim
+"its described in the release notes
+"https://www.vim.org/vim-8.1-released.php
+"https://github.com/vim/vim/issues?q=is%3Aissue+terminal+debugger+is%3Aclosed
+"this loads the optional package (THERE ARE A LOT MORE NOONE TOLD ME ABOUT IN
+"THE GIT REPO)
+packadd termdebug
+"start it with :Termdebug
+"
+
