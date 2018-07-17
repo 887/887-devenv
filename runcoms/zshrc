@@ -13,8 +13,8 @@ fi
 # Customize to your needs...
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=1000000
+SAVEHIST=1000000
 unsetopt beep
 
 #https://dougblack.io/words/zsh-vi-mode.html
