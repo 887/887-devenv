@@ -8,7 +8,7 @@
 "sudo pacman community/python2-nvim
 
 "ctags setup for any language:
-"put section from this Wiki in your ~/ctags file
+"put section from this Wiki in your ~/.ctags file
 "https://github.com/majutsushi/tagbar/wiki#rust
 
 "Plugins:
@@ -860,8 +860,18 @@ autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/,$RUST_SRC_PATH/rusty-tags.
 autocmd BufWrite *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&"
 " autocmd BufRead,BufNewFile *.rs,*.rust compiler cargo
 
+function! CreateMyCtags()
+    if !filereadable(".ctagscompletlyignore")
+        if filereadable(".ctagsignore")
+            !eval 'ctags -R --exclude=@.ctagsignore -o newtags; mv newtags tags' &
+        else
+            !eval 'ctags -R -o newtags; mv newtags tags' &
+        endif
+    endif
+endfunction
+"
 "auto genate tags for all the other languages
-au BufWritePost *.py,*.c,*.cpp,*.h silent! !eval 'ctags -R -o newtags; mv newtags tags' &
+au BufWritePost *.py,*.c,*.cpp,*.h silent! :call CreateMyCtags()
 
 "https://github.com/rust-lang/rust.vim/issues/118
 "autocmd FileType rust let g:syntastic_rust_checkers = ['rustc']

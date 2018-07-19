@@ -24,7 +24,13 @@ ln -sf ~/devenv/.gvimrc ~/.gvimrc
 ln -sf ~/devenv/.tmux.conf ~/.tmux.conf
 ln -sf ~/devenv/.gitconfig ~/.gitconfig
 ln -sf ~/devenv/.ctags ~/.ctags
+ln -sf ~/devenv/.ctagsignore ~/.ctagsignore
+ln -sf ~/devenv/.ctagscompletlyignore ~/.ctagscompletlyignore
 ln -sf ~/devenv/zsh-history-substring-search.zsh ~/zsh-history-substring-search.zsh
+
+mkdir -p ~/workspace
+ln -sf ~/devenv/.ctags ~/workspace/.ctags
+ln -sf ~/devenv/.ctagsignore ~/workspace/.ctagsignore
 
 #install zprezto before this
 ln -sf ~/devenv/runcoms/zprofile ~/.zprezto/runcoms/zprofile
