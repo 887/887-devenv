@@ -90,7 +90,7 @@ function quick_find () {
     dir=$(find $PWD -not -path '*/\.*' -type d -maxdepth 2 | fzf)
     if [ ! -z "$dir" ]; then
         zle kill-buffer
-        LBUFFER="cd $dir && ls"
+        LBUFFER="cd '$dir' && ls"
     fi
     # dir=$(find $PWD ~ -not -path '*/\.*' -type d -maxdepth 1 | fzf)
     # LBUFFER="$dir"
