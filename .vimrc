@@ -1,22 +1,19 @@
 "This .vimrc is  nevoim compatible and can be used in both
-"nnoremap <silent> <c-g>1 :b 1<CR>
-"nnoremap <silent> <c-g>1 :b 1<CR>
-"neovim needs python*-support (installed seperatley) -> :help nvim-python
 "
+"neovim needs python*-support (installed seperatley) -> :help nvim-python
 "on arch its in the community repo ->
 "sudo pacman community/python-nvim
-"sudo pacman community/python2-nvim
 
-"ctags setup for any language:
+"enable ctags for more languages:
 "put section from this Wiki in your ~/.ctags file
 "https://github.com/majutsushi/tagbar/wiki#rust
 
 "Plugins:
 set shell=bash
 if !has("nvim")
-    set nocompatible              " be iMproved, required
+    set nocompatible " be iMproved, required
 endif
-filetype off                  " required
+filetype off " required
 
 ":PlugUpdate -> update and install plugins!
 ":PlugUpgrade -> upgrade 'junegunn/vim-plug' itself
@@ -54,25 +51,108 @@ Plug 'svermeulen/vim-easyclip'
 
 if has("nvim")
     "2018-01-31: switched from deoplete to nvim completion manager:
-    Plug 'roxma/nvim-completion-manager'
+    "Plug 'roxma/nvim-completion-manager'
 
-    "Vim-Script completions!
-    Plug 'Shougo/neco-vim', { 'for': 'vim' }
+    "2018-08-07-: upgrade from nvim-completion-manager to new ncm2
+    "https://github.com/ncm2/ncm2
 
-    "C#-Script completions!
-    Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': 'cd server && xbuild' }
+    Plug 'ncm2/ncm2'
+    Plug 'roxma/nvim-yarp'
+
+    Plug 'ncm2/ncm2-bufword'
+    Plug 'ncm2/ncm2-tmux'
+    Plug 'ncm2/ncm2-path'
+
+    " enable ncm2 for all buffers
+    autocmd BufEnter * call ncm2#enable_for_buffer()
+
+    " IMPORTANT: :help Ncm2PopupOpen for more information
+    set completeopt=noinsert,menuone,noselect
+    set shortmess+=c
+
+    Plug 'ncm2/ncm2-ultisnips'
+    Plug 'SirVer/ultisnips'
+
+    " When the <Enter> key is pressed while the popup menu is visible, it only
+    " hides the menu. Use this mapping to close the menu and also start a new
+    " line.
+    inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+
+    "ultisnips
+    "https://github.com/ncm2/ncm2-ultisnips
+
+    " Press enter key to trigger snippet expansion
+    " The parameters are the same as `:help feedkeys()`
+    " inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+
+    " c-j c-k for moving in snippet
+    " let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
+    let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
+    let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
+    let g:UltiSnipsRemoveSelectModeMappings = 0
+
+    " TAB EXTENSION, YEAAAH! https://github.com/ncm2/ncm2-ultisnips/issues/6
+    " UltiSnips+NCM function parameter expansion
+
+    " We don't really want UltiSnips to map these two, but there's no option for
+    " that so just make it map them to a <Plug> key.
+    let g:UltiSnipsExpandTrigger       = "<Plug>(ultisnips_expand_or_jump)"
+    let g:UltiSnipsJumpForwardTrigger  = "<Plug>(ultisnips_expand_or_jump)"
+    " Let UltiSnips bind the jump backward trigger as there's nothing special
+    " about it.
+    let g:UltiSnipsJumpBackwardTrigger = "<S-Tab>"
+
+    " Try expanding snippet or jumping with UltiSnips and return <Tab> if nothing
+    " worked.
+    function! UltiSnipsExpandOrJumpOrTab()
+        call UltiSnips#ExpandSnippetOrJump()
+        if g:ulti_expand_or_jump_res > 0
+            return ""
+        else
+            return "\<Tab>"
+        endif
+    endfunction
+
+    " First try expanding with ncm2_ultisnips. This does both LSP snippets and
+    " normal snippets when there's a completion popup visible.
+    inoremap <silent> <expr> <Tab> ncm2_ultisnips#expand_or("\<Plug>(ultisnips_try_expand)")
+
+    " If that failed, try the UltiSnips expand or jump function. This handles
+    " short snippets when the completion popup isn't visible yet as well as
+    " jumping forward from the insert mode. Writes <Tab> if there is no special
+    " action taken.
+    inoremap <silent> <Plug>(ultisnips_try_expand) <C-R>=UltiSnipsExpandOrJumpOrTab()<CR>
+
+    " Select mode mapping for jumping forward with <Tab>.
+    snoremap <silent> <Tab> <Esc>:call UltiSnips#ExpandSnippetOrJump()<cr>
+    "/ultisnips
 else
     "neocomplete plugin for regular vim
     Plug 'Shougo/neocomplete.vim'
+    Plug 'Shougo/neoinclude.vim'
+
+    let g:neosnippet#enable_snipmate_compatibility = 1
+    let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
+
+    "tons of snippers
+    Plug 'Shougo/neosnippet.vim'
+    Plug 'Shougo/neosnippet-snippets'
+
+    "complete from tmux panes
+    Plug 'wellle/tmux-complete.vim'
+
+    "SuperTab like snippets behavior.
+    au FileType * imap <expr><TAB>
+                \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" :
+                \ pumvisible() ? "\<Space>" :
+                \ "\<TAB>"
 endif
 
 Plug 'qpkorr/vim-bufkill'
-"complete from tmux panes
-Plug 'wellle/tmux-complete.vim'
-Plug 'Shougo/neoinclude.vim'
-Plug 'Shougo/neosnippet.vim', { 'for': 'rust' }
-Plug 'Shougo/neosnippet-snippets', { 'for': 'rust' }
-Plug 'honza/vim-snippets', { 'for': 'rust' }
+"Vim-Script completions and snippets!
+Plug 'Shougo/neco-vim', { 'for': 'vim' }
+"even more snippers, for every language
+Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree'
 Plug 'tomtom/tcomment_vim'
 Plug 'wellle/targets.vim'
@@ -113,12 +193,16 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'terryma/vim-expand-region'
 Plug 'tpope/vim-obsession'
 
+"C# completions!
+Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': 'cd server && xbuild' }
+
+"vim has the termdebug package now, neovim is working on it, diabled both
 "lldb disabled for now, gdb works better
-if executable("lldbaaaa") && has("nvim")
-    Plug 'dbgx/lldb.nvim'
-else
-    Plug 'vim-scripts/Conque-GDB'
-endif
+" if executable("lldb") && has("nvim")
+"     Plug 'dbgx/lldb.nvim'
+" else
+"     Plug 'vim-scripts/Conque-GDB'
+" endif
 
 " ============ vim -plug ===========
 " Add plugins to &runtimepath
@@ -155,8 +239,6 @@ endfun
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 "only root manually
 let g:rooter_manual_only = 1
-let g:neosnippet#enable_snipmate_compatibility = 1
-let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
 " For conceal markers.
 if has('conceal')
     set conceallevel=2 concealcursor=niv
@@ -178,7 +260,8 @@ set relativenumber
 set hidden
 "display special chars for spaces and tabs to visualize them better
 set list
-set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+"set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+set listchars=tab:>-,trail:~,extends:>,precedes:<
 "let vim do the indenting most of the time
 set autoindent
 "load filetype-specific indent files
@@ -676,118 +759,6 @@ let g:grepper.highlight = 1
 ":lopen open location list
 ":lclose close location list
 
-"cgdb shortcuts:
-"`F5'Send a run command to GDB.
-"`F6'Send a continue command to GDB.
-"`F7'Send a finish command to GDB.
-"`F8'Send a next command to GDB.
-"`F10'Send a step command to GDB.
-"`spacebar'Sets a breakpoint at the current line number.
-"`t'Sets a temporary breakpoint at the current line number.
-"`i'Puts the user into "GDB mode".
-"`I'Puts the user into "TTY mode".
-
-"this is the lldb/gdb switch, both should roughly have the same keybindings:
-if executable("lldbaaaa") && has("nvim")
-    "lldb has a bug with rust, its cool but for now i have to switch to conquegdb
-    "https://github.com/rust-lang/rust/issues/33062
-
-    "i want f8 - f12 to be my debugging keys. Cant live without them
-    "F11 is fullscreen though
-    "lldb neovim debugger - main reason for neovim
-    "go g->F1 to create a profile, then just y. If you did n then:
-    ":CargoBuild
-    ":LL run
-    "return to normal with F2
-
-    "there also is conque gdb that is the same thing just with gdb
-    "here is a complete keymap for both: http://lldb.llvm.org/lldb-gdb.html
-    "
-    nmap <M-b> <Plug>LLBreakSwitch
-    nmap <F9> <Plug>LLBreakSwitch
-    vmap <F12> <Plug>LLStdInSelected
-    nnoremap <F12> :LLstdin<CR>
-    "Do a source level single step(in) in the currently selected thread.
-    nnoremap <F11> :LL step<CR>
-    "Do a source level single step over in the currently selected thread.
-    nnoremap <F10> :LL next<CR>
-    nnoremap <F1> :LLsession new<CR>
-    nnoremap <F7> :LLmode debug<CR>
-    nnoremap g<F7> :LLmode code<CR>
-    nnoremap <F5> :LL continue<CR>
-    nnoremap g<F10> :LL process interrupt<CR>
-    nnoremap <F8> :LL print <C-R>=expand('<cword>')<CR>
-    vnoremap g<F12> :<C-U>LL print <C-R>=lldb#util#get_selection()<CR><CR>
-else
-    "Conque terminal -> Conque gdb
-    "find help for it here
-    ":help conque-gdb
-
-    "If the |ConqueGdb| commands can't find GDB in the system path, then you might
-    "need to specify the path to the GDB executable manually. However on Windows
-    "Conque will also look for GDB in C:\MinGW\bin. To define the path to the GDB
-    "executable you can change the value of |g:ConqueGdb_GdbExe|. By default this
-    "option is:
-    "let g:ConqueGdb_GdbExe = ''
-    "let g:ConqueGdb_GdbExe = $HOME . '/.cargo/bin/rust-gdb'
-
-    "When Conque GDB splits the GDB CLI window to open source files it will by
-    "defaut split the window such that the source code will appear above the GDB
-    "CLI window. You can change the value of |g:ConqueGdb_SrcSplit| to 'above',
-    "'below', 'left' or 'right' if you want Conque GDB to split the GDB window
-    "such that the source code will spilt above, below, left or right to the
-    "GDB CLI window.
-    "let g:ConqueGdb_SrcSplit = 'above'
-
-    "up-down to scroll through history -> this means that commands issued via shortcuts. all inserted command in the conque terminal window should still work
-    let g:ConqueGdb_SaveHistory = 0
-    "This option specifies which keyboard key is used as prefix for the Conque GDBkeyboard mappings described below. By default it is:
-    "let g:ConqueGdb_Leader = '<Leader>'
-    "let g:ConqueGdb_Leader = '<F2>'
-    "This option defines the keyboard mapping used to issue the GDB command run from any buffer. By default this is:
-    "let g:ConqueGdb_Run = g:ConqueGdb_Leader . 'r' /run and re-run
-    let g:ConqueGdb_Run = 'g'.'<F5>'
-    "This option defines the mapping used to issue the continue command. This is by default:
-    "let g:ConqueGdb_Continue = g:ConqueGdb_Leader . 'c'
-    let g:ConqueGdb_Continue = '<F5>'
-    "This mapping is used to issue the print GDB command, to print value of the
-    "identifier under the cursor. By default it is:
-    "let g:ConqueGdb_Print = g:ConqueGdb_Leader . 'p'
-    let g:ConqueGdb_Print = '<F8>'
-    "Mapping to issue the finish command. Default:
-    "let g:ConqueGdb_Finish = g:ConqueGdb_Leader . 'f' /step out (of current function)
-    let g:ConqueGdb_Finish = 'g'.'<F11>'
-    "Mapping to issue GDB command next. Default: /step over
-    "let g:ConqueGdb_Next = g:ConqueGdb_Leader . 'n'
-    let g:ConqueGdb_Next = '<F10>'
-    "Mapping to send the step command to GDB. Default: /step in
-    "let g:ConqueGdb_Step = g:ConqueGdb_Leader . 's'
-    let g:ConqueGdb_Step = '<F11>'
-    "Mapping to execute the backtrace command. By default it is:
-    "let g:ConqueGdb_Backtrace = g:ConqueGdb_Leader . 't'
-    let g:ConqueGdb_Backtrace = 'g'.'<F10>'
-    "This mapping is only supported on Unix having GDB 7.0+ with full python
-    "support. See |conque-gdb-unix-requirements|. By default this mapping is:
-    "let g:ConqueGdb_ToggleBreak = g:ConqueGdb_Leader . 'b'
-    let g:ConqueGdb_ToggleBreak = '<F9>'
-    "You might want to be able answer GDB confirmations (say y or n) without
-    "having to go to the Conque GDB window. You can use the |ConqueGdbCommand|
-    "command to achieve this:
-    "this is also the way to do custom mappings:
-    "nnoremap <silent> <F12>y :ConqueGdbCommand y<CR>
-    "nnoremap <silent> <F12>n :ConqueGdbCommand n<CR>
-    "ok new plan lets just type :ConqueGdbCommand when pressing F12 so we need only issue our
-    "command and enter
-    ":help key-notation
-    "start: (append name of the executable by hand!)
-    nnoremap g<F1> :ConqueGdb target/debug/
-    "end:
-    nnoremap <Leader><F1> :ConqueGdbCommand quit
-    "issue any command .. tui enable and the threaviews do NOT work in conque.. debug the assembly Standalone if needed(ctrl-x crl-a, ctrl-x ctrl-1/2/3..)
-    "helpfull 'break foo' -> break on function foo();   break main.rs:6 -> break on line 6 in main.rs . ':Man gdb' or google are your firend!
-    nnoremap <F12> :ConqueGdbCommand<Space>
-endif
-
 "Easymotion:
 "easier smart case easymotion
 let g:EasyMotion_smartcase = 1
@@ -810,8 +781,6 @@ map <M-?> <Plug>(incsearch-easymotion-?)
 map g<M-/> <Plug>(incsearch-easymotion-stay)
 
 "vim autocomplete:
-"This is an option from an other plugin that does nothing if you don't have it http://www.vim.org/scripts/script.php?script_id=1879
-"let g:acp_enableAtStartup = 0
 if has("nvim")
     " here are options integrated from https://github.com/roxma/nvim-completion-manager
     " help: nvim-completion-manager
@@ -823,27 +792,11 @@ if has("nvim")
     " with priority >= 7 will have the value of 3.
 
     " assumption by me, 887 - this will trigger it at 1 character!:
-    let g:cm_refresh_length = [[1,1],[7,3]]
+    " let g:cm_refresh_length = [[1,1],[7,3]]
 
-
-    "Deoplete options, if i am ever switching back:
-    " <deoplete>
-    " " call deoplete#custom#source('buffer',
-    " "             \ 'min_pattern_length', 1)
-    " " call deoplete#custom#source('_',
-    " "             \ 'min_pattern_length', 1)
-    " " call deoplete#custom#source('rust',
-    " "             \ 'min_pattern_length', 1)
-    " " call deoplete#custom#source('_', 'matchers', ['matcher_head'])
-    "
-    " let g:deoplete#enable_at_startup = 1
-    " let g:deoplete#enable_smart_case = 1
-    "
-    " "You probably need to increase the size limit on deoplete#tag#cache_limit_size. The default is 500000 which is ~500KiB. Add another zero to it to make it ~5MiB:
-    " "default:                           500000
-    " "my rusty-tags.vi size was          1459153
-    " let deoplete#tag#cache_limit_size = 50000000
-    " <deoplete>
+    " now offical with ncm2 see help ncm2 :)
+    " let g:ncm2#complete_length = [[1,1],[7,3]]
+    let g:ncm2#complete_length = [[1,1]]
 else
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
@@ -877,14 +830,6 @@ au BufWritePost *.py,*.c,*.cpp,*.h silent! :call CreateMyCtags()
 "autocmd FileType rust let g:syntastic_rust_checkers = ['rustc']
 autocmd FileType rust let g:syntastic_rust_checkers = ['cargo']
 
-
-"NeoSnippet:
-"SuperTab like snippets behavior.
-au FileType rust,rs imap <expr><TAB>
-            \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" :
-            \ pumvisible() ? "\<Space>" :
-            \ "\<TAB>"
-
 "don't leave line just go next and prev here
 imap <expr><M-k>
             \ pumvisible() ? "\<C-p>" :
@@ -892,6 +837,7 @@ imap <expr><M-k>
 imap <expr><M-j>
             \ pumvisible() ? "\<C-n>" :
             \ ""
+
 
 "Default shortcuts i allways forget:
 "vim increment:
@@ -922,16 +868,38 @@ imap <expr><M-j>
 "s/foo/bar/i
 "replace foo FOO fOo with bar
 "
+if filereadable("debuggers.vim")
+    so debuggers.vim
+endif
 
-
-"Vim 8.1 (and maybe neovim too?) have support for terminal debugging now!)
+"Vim 8.1 has support for terminal debugging now
 "https://github.com/vim/vim/blob/master/runtime/pack/dist/opt/termdebug/plugin/termdebug.vim
 "its described in the release notes
 "https://www.vim.org/vim-8.1-released.php
 "https://github.com/vim/vim/issues?q=is%3Aissue+terminal+debugger+is%3Aclosed
 "this loads the optional package (THERE ARE A LOT MORE NOONE TOLD ME ABOUT IN
 "THE GIT REPO)
+"
+"(and maybe neovim soon too)
+"https://github.com/neovim/neovim/pull/8364
+
 packadd termdebug
 "start it with :Termdebug
 "
+"cgdb external debugger, must first be installed
+"cgdb shortcuts:
+"`F5'Send a run command to GDB.
+"`F6'Send a continue command to GDB.
+"`F7'Send a finish command to GDB.
+"`F8'Send a next command to GDB.
+"`F10'Send a step command to GDB.
+"`spacebar'Sets a breakpoint at the current line number.
+"`t'Sets a temporary breakpoint at the current line number.
+"`i'Puts the user into "GDB mode".
+"`I'Puts the user into "TTY mode".
+
+"other working debuggers
+"https://github.com/cs01/gdbgui/
+"https://wiki.eclipse.org/CDT/StandaloneDebugger
+"http://gede.acidron.com/
 

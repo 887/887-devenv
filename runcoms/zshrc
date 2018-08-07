@@ -23,8 +23,15 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+#https://github.com/bhilburn/powerlevel9k#prompt-customization
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir rbenv vcs)
+#POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
+
 #prompt damoekri
-prompt sorin
+#prompt sorin
+#prompt powerline
+prompt powerlevel9k
 
 source ~/zsh-history-substring-search.zsh
 # OPTION 1: for most systems
