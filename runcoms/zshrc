@@ -23,8 +23,12 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+#https://github.com/bhilburn/powerlevel9k/wiki/Stylizing-Your-Prompt
+POWERLEVEL9K_COLOR_SCHEME='light'
+
 #https://github.com/bhilburn/powerlevel9k#prompt-customization
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir rbenv vcs)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir rbenv vcs)
+#POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir rbenv vcs)
 #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
 
