@@ -25,10 +25,13 @@ compinit
 
 #https://github.com/bhilburn/powerlevel9k/wiki/Stylizing-Your-Prompt
 POWERLEVEL9K_COLOR_SCHEME='light'
+POWERLEVEL9K_VI_MODE_INSERT_BACKGROUND='green'
+POWERLEVEL9K_VI_MODE_NORMAL_BACKGROUND='green'
+POWERLEVEL9K_VI_MODE_INSERT_FOREGROUND='teal'
 
 #https://github.com/bhilburn/powerlevel9k#prompt-customization
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir rbenv vcs)
 #POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir rbenv vcs)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(vi_mode dir rbenv vcs)
 #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
 
