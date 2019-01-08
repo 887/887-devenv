@@ -182,7 +182,8 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'mileszs/ack.vim'
 Plug 'mhinz/vim-grepper'
 Plug 'Chun-Yang/vim-action-ag'
-Plug 'majutsushi/tagbar'
+"as of 2019 throws horrible errors in combination with rust
+"Plug 'majutsushi/tagbar'
 Plug 'milkypostman/vim-togglelist'
 Plug 'cespare/vim-toml'
 Plug 'airblade/vim-rooter'
@@ -194,7 +195,7 @@ Plug 'terryma/vim-expand-region'
 Plug 'tpope/vim-obsession'
 
 "C# completions!
-Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': 'cd server && xbuild' }
+"Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': 'cd server && xbuild' }
 
 "vim has the termdebug package now, neovim is working on it, diabled both
 "lldb disabled for now, gdb works better
@@ -212,20 +213,20 @@ call plug#end()
 filetype plugin on
 filetype plugin indent on    " required
 
-"tabar setup for rust:
-let g:tagbar_type_rust = {
-            \ 'ctagstype' : 'rust',
-            \ 'kinds' : [
-            \'T:types,type definitions',
-            \'f:functions,function definitions',
-            \'g:enum,enumeration names',
-            \'s:structure names',
-            \'m:modules,module names',
-            \'c:consts,static constants',
-            \'t:traits,traits',
-            \'i:impls,trait implementations',
-            \]
-            \}
+"tagbar setup for rust:
+" let g:tagbar_type_rust = {
+"             \ 'ctagstype' : 'rust',
+"             \ 'kinds' : [
+"             \'T:types,type definitions',
+"             \'f:functions,function definitions',
+"             \'g:enum,enumeration names',
+"             \'s:structure names',
+"             \'m:modules,module names',
+"             \'c:consts,static constants',
+"             \'t:traits',
+"             \'i:impls,trait implementations',
+"             \]
+"             \}
 "ctrlp remapped to alt
 let g:ctrlp_map = '<m-p>'
 "auto remove trailing spaces on save.. oh the lifetime i have spend
@@ -394,8 +395,10 @@ nmap <silent> <F3> :NERDTreeToggle<CR>
 nmap <silent> g<F3> :NERDTreeFind<CR>
 "undotree:
 nnoremap    <F4>    :UndotreeToggle<cr>
-"tabgar:
-nmap <silent> <F6> :TagbarToggle<CR>:echo<CR>
+
+"tagbar:
+"nmap <silent> <F6> :TagbarToggle<CR>:echo<CR>
+
 "new cifforig command to diff current buffer to last safe! this is usefull for diffing .vimrc
 "changes etc.
 " command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis | %foldopen!
