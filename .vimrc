@@ -23,27 +23,6 @@ call plug#begin('~/.vim/plugged')
 " ============ /vim-plug ===========
 
 Plug 'w0rp/ale'
-Plug 'autozimu/LanguageClient-neovim', {
-            \ 'branch': 'next',
-            \ 'do': 'bash install.sh',
-            \ }
-
-let g:LanguageClient_serverCommands = {
-            \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-            \ 'javascript': ['javascript-typescript-stdio'],
-            \ 'javascript.jsx': ['javascript-typescript-stdio'],
-            \ }
-
-"Rust mappings for rls (rust language server)
-au FileType rust,js nnoremap <silent> gk :call LanguageClient_textDocument_hover()<CR>
-au FileType rust,js nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-" gr is replace-in-direction(jk) usually, thats why its gR.
-au FileType rust,js nmap <silent> gR :call LanguageClient_textDocument_rename()<CR>
-au FileType rust,js nmap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-au FileType rust,js nnoremap <silent> gl :LanguageClient_textDocument_references()<CR>
-
-" Automatically start language servers.
-let g:LanguageClient_autoStart = 1
 
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'tpope/vim-repeat'
@@ -72,6 +51,9 @@ if has("nvim")
 
     Plug 'ncm2/ncm2-ultisnips'
     Plug 'SirVer/ultisnips'
+
+    " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+    inoremap <c-c> <ESC>
 
     " When the <Enter> key is pressed while the popup menu is visible, it only
     " hides the menu. Use this mapping to close the menu and also start a new
@@ -126,6 +108,79 @@ if has("nvim")
     " Select mode mapping for jumping forward with <Tab>.
     snoremap <silent> <Tab> <Esc>:call UltiSnips#ExpandSnippetOrJump()<cr>
     "/ultisnips
+
+    Plug 'prabirshrestha/async.vim'
+    Plug 'prabirshrestha/vim-lsp'
+    Plug 'ncm2/ncm2-vim-lsp'"
+
+    let g:lsp_diagnostics_enabled = 0         " disable diagnostics support
+    let g:lsp_signs_enabled = 1         " enable signs
+    let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+
+    "python
+    if executable('pyls')
+        " pip install python-language-server
+        au User lsp_setup call lsp#register_server({
+                    \ 'name': 'pyls',
+                    \ 'cmd': {server_info->['pyls']},
+                    \ 'whitelist': ['python'],
+                    \ })
+    endif
+    "typescript+javascript
+    if executable('typescript-language-server')
+        au User lsp_setup call lsp#register_server({
+                    \ 'name': 'typescript-language-server',
+                    \ 'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+                    \ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
+                    \ 'whitelist': ['typescript', 'javascript', 'javascript.jsx']
+                    \ })
+    endif
+    "rust
+    if executable('rls')
+        "use rls as linter for ale when present
+        let g:ale_linters = {'rust': ['rls']}
+
+        au User lsp_setup call lsp#register_server({
+                    \ 'name': 'rls',
+                    \ 'cmd': {server_info->['rustup', 'run', 'nightly', 'rls']},
+                    \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'Cargo.toml'))},
+                    \ 'whitelist': ['rust'],
+                    \ })
+    endif
+    "go
+    if executable('go-langserver')
+        au User lsp_setup call lsp#register_server({
+                    \ 'name': 'go-langserver',
+                    \ 'cmd': {server_info->['go-langserver', '-gocodecompletion']},
+                    \ 'whitelist': ['go'],
+                    \ })
+    endif
+
+    " https://github.com/prabirshrestha/vim-lsp
+    " Command 	Description
+    " :LspCodeAction 	Gets a list of possible commands that can be applied to a file so it can be fixed (quick fix)
+    " :LspDefinition 	Go to definition
+    " :LspDocumentDiagnostics 	Get current document diagnostics information
+    " :LspDocumentFormat 	Format entire document
+    " :LspDocumentRangeFormat 	Format document selection
+    " :LspDocumentSymbol 	Show document symbols
+    " :LspHover 	Show hover information
+    " :LspImplementation 	Show implementation of interface
+    " :LspNextError 	jump to next error
+    " :LspPreviousError 	jump to previous error
+    " :LspReferences 	Find references
+    " :LspRename 	Rename symbol
+    " :LspStatus 	Show the status of the language server
+    " :LspTypeDefinition 	Go to type definition
+    " :LspWorkspaceSymbol 	Search/Show workspace symbol
+
+    au FileType rust,js nnoremap <silent> gk :LspHover<CR>
+    au FileType rust,js nnoremap <silent> gd :LspDefinition<CR>
+    " gr is replace-in-direction(jk) usually, thats why its gR.
+    au FileType rust,js nmap <silent> gR :LspRename<CR>
+    au FileType rust,js nmap <silent> <F2> :LspRename<CR>
+    au FileType rust,js nnoremap <silent> gl :LspReferences<CR>
+
 else
     "neocomplete plugin for regular vim
     Plug 'Shougo/neocomplete.vim'
@@ -146,6 +201,34 @@ else
                 \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" :
                 \ pumvisible() ? "\<Space>" :
                 \ "\<TAB>"
+
+    Plug 'autozimu/LanguageClient-neovim', {
+                \ 'branch': 'next',
+                \ 'do': 'bash install.sh',
+                \ }
+
+    let g:LanguageClient_serverCommands = {
+                \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+                \ 'javascript': ['javascript-typescript-stdio'],
+                \ 'javascript.jsx': ['javascript-typescript-stdio'],
+                \ }
+
+    "Rust mappings for rls (rust language server)
+    au FileType rust,js nnoremap <silent> gk :call LanguageClient_textDocument_hover()<CR>
+    au FileType rust,js nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+    " gr is replace-in-direction(jk) usually, thats why its gR.
+    au FileType rust,js nmap <silent> gR :call LanguageClient_textDocument_rename()<CR>
+    au FileType rust,js nmap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+    au FileType rust,js nnoremap <silent> gl :LanguageClient_textDocument_references()<CR>
+
+    " Automatically start language servers.
+    let g:LanguageClient_autoStart = 1
+
+    "let g:LanguageClient_diagnosticsList = "Quickfix"
+    "let g:LanguageClient_diagnosticsList = "Location"
+    "let g:LanguageClient_diagnosticsList = ""
+    "we allready get diagnostics through the ale plugin, so no need here
+    let g:LanguageClient_diagnosticsEnable = 0
 endif
 
 Plug 'qpkorr/vim-bufkill'
@@ -182,7 +265,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'mileszs/ack.vim'
 Plug 'mhinz/vim-grepper'
 Plug 'Chun-Yang/vim-action-ag'
-Plug 'majutsushi/tagbar'
+"Plug 'majutsushi/tagbar'
 Plug 'milkypostman/vim-togglelist'
 Plug 'cespare/vim-toml'
 Plug 'airblade/vim-rooter'
@@ -194,7 +277,7 @@ Plug 'terryma/vim-expand-region'
 Plug 'tpope/vim-obsession'
 
 "C# completions!
-Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': 'cd server && xbuild' }
+"Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': 'cd server && xbuild' }
 
 "vim has the termdebug package now, neovim is working on it, diabled both
 "lldb disabled for now, gdb works better
@@ -212,20 +295,21 @@ call plug#end()
 filetype plugin on
 filetype plugin indent on    " required
 
-"tabar setup for rust:
-let g:tagbar_type_rust = {
-            \ 'ctagstype' : 'rust',
-            \ 'kinds' : [
-            \'T:types,type definitions',
-            \'f:functions,function definitions',
-            \'g:enum,enumeration names',
-            \'s:structure names',
-            \'m:modules,module names',
-            \'c:consts,static constants',
-            \'t:traits,traits',
-            \'i:impls,trait implementations',
-            \]
-            \}
+"tagbar setup for rust:
+" let g:tagbar_type_rust = {
+"             \ 'ctagstype' : 'rust',
+"             \ 'kinds' : [
+"             \'T:types,type definitions',
+"             \'f:functions,function definitions',
+"             \'g:enum,enumeration names',
+"             \'s:structure names',
+"             \'m:modules,module names',
+"             \'c:consts,static constants',
+"             \'t:traits',
+"             \'i:impls,trait implementations',
+"             \]
+"             \}
+
 "ctrlp remapped to alt
 let g:ctrlp_map = '<m-p>'
 "auto remove trailing spaces on save.. oh the lifetime i have spend
@@ -394,8 +478,10 @@ nmap <silent> <F3> :NERDTreeToggle<CR>
 nmap <silent> g<F3> :NERDTreeFind<CR>
 "undotree:
 nnoremap    <F4>    :UndotreeToggle<cr>
+"
 "tabgar:
-nmap <silent> <F6> :TagbarToggle<CR>:echo<CR>
+"nmap <silent> <F6> :TagbarToggle<CR>:echo<CR>
+"
 "new cifforig command to diff current buffer to last safe! this is usefull for diffing .vimrc
 "changes etc.
 " command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis | %foldopen!
@@ -433,12 +519,6 @@ let g:airline#extensions#tabline#fnamecollapse = 2
 
 "this makes vim-airline allways visible. very usefull
 set laststatus=2
-
-"let g:LanguageClient_diagnosticsList = "Quickfix"
-"let g:LanguageClient_diagnosticsList = "Location"
-"let g:LanguageClient_diagnosticsList = ""
-"we allready get diagnostics through the ale plugin, so no need here
-let g:LanguageClient_diagnosticsEnable = 0
 
 let g:airline#extensions#ale#enabled = 1
 " let g:ale_set_loclist = 0
