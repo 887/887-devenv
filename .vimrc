@@ -29,6 +29,8 @@ Plug 'autozimu/LanguageClient-neovim', {
             \ }
 
 let g:LanguageClient_serverCommands = {
+            \ 'cpp': ['ccls', '--log-file=/tmp/cq.log'],
+            \ 'c': ['ccls', '--log-file=/tmp/cq.log'],
             \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
             \ 'javascript': ['javascript-typescript-stdio'],
             \ 'javascript.jsx': ['javascript-typescript-stdio'],
