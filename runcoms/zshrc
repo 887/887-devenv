@@ -94,6 +94,14 @@ export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 #off!
 export RUST_BACKTRACE=0
 
+export CPATH=$CPATH:/usr/include/gtk-3.0
+export CPATH=$CPATH:/usr/include/glib-2.0/
+export CPATH=$CPATH:/usr/include/gdk-pixbuf-2.0/
+export CPATH=$CPATH:/lib64/glib-2.0/include/
+export CPATH=$CPATH:/usr/include/pango-1.0/
+export CPATH=$CPATH:/usr/lib64/gtk-3.0/3.0.0/
+export CPATH=$CPATH:/usr/include/atk-1.0/
+export CPATH=$CPATH:/usr/include/cairo/
 
 export EDITOR='vim'
 export VISUAL='vim'
@@ -115,4 +123,7 @@ function quick_find () {
 
 zle -N quick_find_widget quick_find           # define a widget for the func above
 bindkey "^p" quick_find_widget     # remap ^i to the widget -> func
+
+
+
 
