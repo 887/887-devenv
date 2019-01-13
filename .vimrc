@@ -37,12 +37,12 @@ let g:LanguageClient_serverCommands = {
             \ }
 
 "Rust mappings for rls (rust language server)
-au FileType rust,js nnoremap <silent> gk :call LanguageClient_textDocument_hover()<CR>
-au FileType rust,js nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+au FileType rust,js,c,cpp nnoremap <silent> gk :call LanguageClient_textDocument_hover()<CR>
+au FileType rust,js,c,cpp nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 " gr is replace-in-direction(jk) usually, thats why its gR.
-au FileType rust,js nmap <silent> gR :call LanguageClient_textDocument_rename()<CR>
-au FileType rust,js nmap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-au FileType rust,js nnoremap <silent> gl :LanguageClient_textDocument_references()<CR>
+au FileType rust,js,c,cpp nmap <silent> gR :call LanguageClient_textDocument_rename()<CR>
+au FileType rust,js,c,cpp nmap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+au FileType rust,js,c,cpp nnoremap <silent> gl :LanguageClient_textDocument_references()<CR>
 
 " Automatically start language servers.
 let g:LanguageClient_autoStart = 1
