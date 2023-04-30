@@ -7,3 +7,5 @@
     tool = meld
 [diff]
     tool = meld
+[safe]
+	directory = /opt/flutter

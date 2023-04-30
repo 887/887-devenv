@@ -40,7 +40,7 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
 #prompt damoekri
 #prompt sorin
 #prompt powerline
-prompt powerlevel9k
+#prompt powerlevel9k
 
 source ~/zsh-history-substring-search.zsh
 # OPTION 1: for most systems

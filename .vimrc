@@ -23,6 +23,7 @@ call plug#begin('~/.vim/plugged')
 " ============ /vim-plug ===========
 
 Plug 'w0rp/ale'
+Plug 'neovim/nvim-lspconfig'
 Plug 'autozimu/LanguageClient-neovim', {
             \ 'branch': 'next',
             \ 'do': 'bash install.sh',
@@ -31,7 +32,7 @@ Plug 'autozimu/LanguageClient-neovim', {
 let g:LanguageClient_serverCommands = {
             \ 'cpp': ['ccls', '--log-file=/tmp/cq.log'],
             \ 'c': ['ccls', '--log-file=/tmp/cq.log'],
-            \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+            \ 'rust': ['rustup', 'run', 'nightly', 'rust-analyzer'],
             \ 'javascript': ['javascript-typescript-stdio'],
             \ 'javascript.jsx': ['javascript-typescript-stdio'],
             \ }
