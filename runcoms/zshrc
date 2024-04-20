@@ -106,8 +106,8 @@ export CPATH=$CPATH:/usr/lib64/gtk-3.0/3.0.0/
 export CPATH=$CPATH:/usr/include/atk-1.0/
 export CPATH=$CPATH:/usr/include/cairo/
 
-export EDITOR='vim'
-export VISUAL='vim'
+export EDITOR='nvim'
+export VISUAL='nvim'
 export PAGER='less'
 
 # open fzf window with dirs and cd into it
