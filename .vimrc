@@ -278,6 +278,7 @@ set shiftwidth=4
 set incsearch
 set ignorecase
 set smartcase
+set scrolloff=5
 
 "set switch to buffer for quickfix window
 set switchbuf=useopen
