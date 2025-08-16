@@ -415,7 +415,7 @@ nnoremap    <F4>    :UndotreeToggle<cr>
 "disabled in favour of ctrl-l
 " nnoremap <silent> <F8> :nohlsearch<CR>:echo<CR>
 " Use <F11> to toggle between 'paste' and 'nopaste' -intendation
-set pastetoggle=g<F9>
+" set pastetoggle=g<F9>
 
 "vim-airline:
 ":h airline
@@ -890,7 +890,7 @@ endif
 "(and maybe neovim soon too)
 "https://github.com/neovim/neovim/pull/8364
 
-packadd termdebug
+" packadd termdebug
 "start it with :Termdebug
 "
 "cgdb external debugger, must first be installed
