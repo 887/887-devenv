@@ -1,5 +1,9 @@
 export LANG="en_US.UTF-8"
 
+# Don't add interactive -i to cp/mv/rm/ln (Prezto utility module's "safe-ops").
+# Must be set before Prezto's utility module loads.
+zstyle ':prezto:module:utility' safe-ops 'no'
+
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -78,8 +82,9 @@ fi
 #git clone git://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-alias vim="nvim"
+alias vim="/usr/bin/nvim -O"
 alias nvim="/usr/bin/nvim -O"
+alias nano="/usr/bin/nvim -O"
 
 #THE PATH/ENV CHANGES AND THESE SETTINGS ARE DONE IN
 #for bash:.bash_profile
@@ -132,6 +137,22 @@ function quick_find () {
 zle -N quick_find_widget quick_find           # define a widget for the func above
 bindkey "^p" quick_find_widget     # remap ^i to the widget -> func
 
-
-
-
+# function ranger_launch () {
+#     # Default fallback config
+#     local config_path="$HOME/.config/ranger/rc.conf"
+#
+#     # Detect terminal emulator
+#     if [[ "$TERM" == "xterm-kitty" ]] || [[ -n "$WEZTERM_CONFIG_FILE" ]]; then
+#         config_path="$HOME/.config/ranger/rc_kitty.conf"
+#     elif [[ -n "$KONSOLE_VERSION" ]]; then
+#         config_path="$HOME/.config/ranger/rc_konsole.conf"
+#     fi
+#
+#     # Launch ranger with the chosen config
+#     ranger --config "$config_path" "$@"
+#
+#     echo "launched ranger with config: $config_path"
+# }
+# alias ranger='ranger_launch'
+#
+#
