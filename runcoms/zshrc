@@ -1,8 +1,10 @@
 export LANG="en_US.UTF-8"
 
-# Don't add interactive -i to cp/mv/rm/ln (Prezto utility module's "safe-ops").
-# Must be set before Prezto's utility module loads.
-zstyle ':prezto:module:utility' safe-ops 'no'
+# Disable Prezto safe-ops (interactive -i on cp/mv/rm/ln) ONLY for Claude
+# shells: an -i y/n prompt has no TTY answer and hangs the agent. Humans keep
+# the -i overwrite/delete safety (Prezto's default when this is left unset, via
+# its `zstyle -T` test). Must be set before Prezto's utility module loads.
+[[ -n "$CLAUDECODE" ]] && zstyle ':prezto:module:utility' safe-ops 'no'
 
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
@@ -156,3 +158,11 @@ bindkey "^p" quick_find_widget     # remap ^i to the widget -> func
 # alias ranger='ranger_launch'
 #
 #
+
+# Scope noclobber to interactive human shells only.
+# Claude Code exports CLAUDECODE=1 into its Bash-tool shell; agents write
+# scratch files constantly and `> existing` under noclobber fails silently
+# and leaves the agent reading STALE output (the trap that wedged cat for
+# 34 min). Humans keep noclobber's overwrite protection; Claude does not.
+# Runs last so it overrides whatever (prezto/plugins) set noclobber earlier.
+[[ -n "$CLAUDECODE" ]] && setopt clobber
