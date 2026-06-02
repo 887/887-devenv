@@ -9,3 +9,18 @@
 if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
+
+# sccache: shared compilation cache (rustc wrapper). Speeds cold rebuilds and
+# fresh `jj workspace add` fan-out by replaying cached dep/crate objects.
+# Partners with `incremental = false` in the repo's Cargo.toml — sccache
+# no-ops if incremental is on. Cache lives on /media/games (plenty free),
+# NOT ~/.cache, to keep build bytes off the encrypted /home volume (same
+# reason poly's repo lives at /media/games). Wired via env, NOT a tracked
+# .cargo/config.toml, so CI/clones without sccache installed still build.
+# Lives in zshenv (not zshrc) so non-interactive shells — including Claude's
+# agent build shells and any cargo a script invokes — also hit the cache.
+if (( $+commands[sccache] )); then
+  export RUSTC_WRAPPER=sccache
+  export SCCACHE_DIR=/media/games/sccache-cache
+  export SCCACHE_CACHE_SIZE=50G
+fi

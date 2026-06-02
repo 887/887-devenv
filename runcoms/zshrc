@@ -166,3 +166,7 @@ bindkey "^p" quick_find_widget     # remap ^i to the widget -> func
 # 34 min). Humans keep noclobber's overwrite protection; Claude does not.
 # Runs last so it overrides whatever (prezto/plugins) set noclobber earlier.
 [[ -n "$CLAUDECODE" ]] && setopt clobber
+
+# NOTE: sccache env vars live in zshenv, NOT here. zshrc is sourced only by
+# interactive shells; Claude's non-interactive build shells read zshenv, so
+# the rustc-wrapper must be there for agent fan-out builds to hit the cache.
